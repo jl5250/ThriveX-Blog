@@ -1,7 +1,7 @@
 # 使用官方的Node.js镜像作为基础镜像
 FROM node:20-alpine
 
-# # 设置工作目录
+# 设置工作目录
 WORKDIR /thrive
 
 # 配置 npm 镜像源
