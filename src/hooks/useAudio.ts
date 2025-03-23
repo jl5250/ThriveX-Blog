@@ -31,7 +31,7 @@ export interface IAudio {
 let volumeCache = 0
 let isJingyin = false
 export default function useAudio(): IAudio {
-  const { duration, playingMusicList, currentMusic, currentTime } = useMusicStore()
+  const { duration, dailyMusicList, currentMusic, currentTime } = useMusicStore()
   // 是否播放音乐
   const [isMusic, setIsMusic] = useState(false)
   //获取audio元素
@@ -66,8 +66,6 @@ export default function useAudio(): IAudio {
     }
     isJingyin = !isJingyin
   }
-  
-  const [bufferPercent, setBufferPercent] = useState(0)
 
   const audioTimeUpdate = (e: any, fn?: (e: any) => void) => {
     // if (audioRef.current) {
@@ -89,8 +87,8 @@ export default function useAudio(): IAudio {
 
   const switchMusic = (type: 'pre' | 'next', order: Order = 'cycle') => {
     // 如果有歌曲就执行
-    if (playingMusicList.length) {
-      let currentIndex = playingMusicList.findIndex((item) => item === currentMusic)
+    if (dailyMusicList.length) {
+      let currentIndex = dailyMusicList.findIndex((item) => item === currentMusic)
       let Music: MusicListItem | null = null
 
       switch (order) {
@@ -98,17 +96,17 @@ export default function useAudio(): IAudio {
           currentIndex += type === 'pre' ? -1 : 1
           //循环播放
           currentIndex =
-            currentIndex < 0 ? playingMusicList.length - 1 : currentIndex % playingMusicList.length
+            currentIndex < 0 ? dailyMusicList.length - 1 : currentIndex % dailyMusicList.length
           break
         }
         case 'single': {
           break
         }
         case 'random': {
-          currentIndex = Math.floor(Math.random() * (playingMusicList.length + 1))
+          currentIndex = Math.floor(Math.random() * (dailyMusicList.length + 1))
         }
       }
-      Music = playingMusicList[currentIndex]
+      Music = dailyMusicList[currentIndex]
       // 改变当前音乐
       useSwitchCurrentMusic(Music)
       // 根据当前状态判断是否要播放

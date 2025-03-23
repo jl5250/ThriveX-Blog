@@ -54,6 +54,15 @@ export function parseLyric(lyric: string): lyricItem[] {
  * @param url 图片url
  * @returns 指定大小的图片的url
  */
-export const imgUrl = (size: number, url?: string) => (url ? `${url}?param=${size}y${size}` : img)
+export const imgUrl = (size: number, url?: string) => {
+  if (!url) return img
+
+  if (url.includes('https')) {
+    return `${url}?param=${size}y${size}`
+  } else {
+    url = url.replace(/http/, 'https')
+    return `${url}?param=${size}y${size}`
+  }
+}
 
 export { dayFormat }

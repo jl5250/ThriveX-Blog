@@ -11,7 +11,7 @@ const config: Config = {
   theme: {
     extend: {
       backgroundImage: {
-        'hero-pattern': "url('@/assets/image/pan.png')"
+        'hero-pattern': `url('/pan.png')`
       },
       screens: {
         xs: '400px'
@@ -22,16 +22,10 @@ const config: Config = {
         'black-b': '#2c333e'
       },
       transitionDuration: {
-        DEFAULT: '300ms', // 添加默认过渡时间为0.3秒
-        MUSIC: '500ms' // 添加音乐组件过渡时间为0.5秒
-      },
-      transitionBehavior: {
-        allowDiscrete: true
+        DEFAULT: '300ms' // 添加默认过渡时间为0.3秒
       },
       animation: {
-        cycle: 'cycle infinite 10s linear',
-        fadeOut: 'fadeout 0.3s',
-        fadeIn: 'fadeIn forwards'
+        cycle: 'cycle infinite 10s linear'
       },
       animationPlayState: {
         paused: 'paused',
@@ -42,22 +36,6 @@ const config: Config = {
           '0%': { transform: 'rotate(0)' },
           '100%': {
             transform: 'rotate(360deg)'
-          }
-        },
-        fadeOut: {
-          '0%': {
-            opacity: '1',
-            display: 'block'
-          },
-          '100%': {
-            opacity: '0',
-            display: 'block'
-          }
-        },
-        fadeIn: {
-          '100%': {
-            opacity: '1',
-            display: 'block'
           }
         }
       }

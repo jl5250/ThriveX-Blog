@@ -20,7 +20,6 @@ import MusicLyric from './component/musicLyric'
 import { formatTime } from '@/utils/dayFormat'
 import { useState } from 'react'
 import MusicRecords from './component/musicRecords'
-import useHover from '@heroui/react/'
 
 export default function MusicTools() {
   // 是否展开card
@@ -114,7 +113,7 @@ export default function MusicTools() {
 
         {/* 音乐信息组件 */}
         <CardFooter
-          className={`grid grid-cols-6 md:grid-cols-12 items-center justify-center w-full md:w-full h-[600px] transition-all duration-MUSIC ease-in-out transform ${
+          className={`grid grid-cols-6 md:grid-cols-12 items-center justify-center w-full md:w-full h-[600px] transition-all duration-500 ease-in-out transform ${
             isExpanded ? 'gap-4 md:gap-20' : 'gap-6 md:gap-2'
           }`}
         >
