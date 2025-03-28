@@ -5,8 +5,14 @@ import { MusicListItem } from '@/types/app/music'
 interface initialMusic {
   // 每日推荐音乐列表
   dailyMusicList: MusicListItem[]
-  // 正在播放音乐列表
-  playingMusicList: MusicListItem[]
+  // 飙升榜音乐列表
+  surgeMusicList: MusicListItem[]
+  // 新歌榜音乐列表
+  newMusicList: MusicListItem[]
+  // 原创榜音乐列表
+  originalMusicList: MusicListItem[]
+  // 热歌榜音乐列表
+  hotMusicList: MusicListItem[]
   // 当前音乐信息
   currentMusic: MusicListItem
   // 当前音乐的歌词
@@ -23,8 +29,10 @@ interface initialMusic {
 export const initialCurrentMusic = { initFlag: true }
 const initialState: initialMusic = {
   dailyMusicList: [],
-  //JSON.parse(localStorage.getItem('music_storage') || '[]').playingMusicList
-  playingMusicList: [],
+  surgeMusicList: [],
+  newMusicList: [],
+  originalMusicList: [],
+  hotMusicList: [],
   currentMusic: initialCurrentMusic,
   currentLyric: '',
   duration: 0,
@@ -36,9 +44,17 @@ interface musicState {
   dailyMusicList: MusicListItem[]
   changeDailyMusicList: (status: MusicListItem[]) => void
 
-  playingMusicList: MusicListItem[]
-  pushPlayingMusicList: (status: MusicListItem) => void
-  removeFromPlayingMusicList: (status: MusicListItem[]) => void
+  surgeMusicList: MusicListItem[]
+  changeSurgeMusicList: (status: MusicListItem[]) => void
+
+  newMusicList: MusicListItem[]
+  changeNewMusicList: (status: MusicListItem[]) => void
+
+  originalMusicList: MusicListItem[]
+  changeOriginalMusicList: (status: MusicListItem[]) => void
+
+  hotMusicList: MusicListItem[]
+  changeHotMusicList: (status: MusicListItem[]) => void
 
   currentMusic: MusicListItem
   changeCurrentMusic: (status: MusicListItem) => void
@@ -57,16 +73,18 @@ interface musicState {
 }
 export default create(
   persist<musicState>(
-    (set, get) => ({
+    (set) => ({
       ...initialState,
 
       changeDailyMusicList: (status) => set({ dailyMusicList: status }),
 
-      pushPlayingMusicList: (status) =>
-        set({ playingMusicList: [...get().playingMusicList, status] }),
+      changeSurgeMusicList: (status) => set({ surgeMusicList: status }),
 
-      removeFromPlayingMusicList: (status) =>
-        set({ playingMusicList: status.filter((item) => !status.includes(item)) }),
+      changeNewMusicList: (status) => set({ newMusicList: status }),
+
+      changeOriginalMusicList: (status) => set({ originalMusicList: status }),
+
+      changeHotMusicList: (status) => set({ hotMusicList: status }),
 
       changeCurrentMusic: (status) => set({ currentMusic: status }),
 
@@ -76,7 +94,7 @@ export default create(
 
       changeCurrentTime: (status) => set({ currentTime: status }),
 
-      changeCurrentLyricIndex: (status) => set({ currentLyricIndex: status }),
+      changeCurrentLyricIndex: (status) => set({ currentLyricIndex: status })
     }),
     {
       name: 'music_storage',

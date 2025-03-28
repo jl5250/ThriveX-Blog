@@ -54,14 +54,14 @@ export function parseLyric(lyric: string): lyricItem[] {
  * @param url 图片url
  * @returns 指定大小的图片的url
  */
-export const imgUrl = (size: number, url?: string) => {
-  if (!url) return img
+export const imgUrl = (wSize: number, hSize: number, url?: string) => {
+  if (!url) return
 
   if (url.includes('https')) {
-    return `${url}?param=${size}y${size}`
+    return `${url}?param=${wSize}y${hSize}`
   } else {
     url = url.replace(/http/, 'https')
-    return `${url}?param=${size}y${size}`
+    return `${url}?param=${wSize}y${hSize}`
   }
 }
 

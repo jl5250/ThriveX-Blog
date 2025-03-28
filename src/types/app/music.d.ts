@@ -27,6 +27,7 @@ export interface MusicList {
   fromCache?: boolean
   recommend?: MusicDetail[]
   orderSongs?: number
+  songs?: MusicListItem[]
 }
 
 export interface MusicLyric {

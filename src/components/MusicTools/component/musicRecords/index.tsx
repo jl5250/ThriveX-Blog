@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { Dispatch, SetStateAction } from 'react'
 import { imgUrl } from '@/utils'
 import { IMusicInfo } from '@/hooks/useMusic'
+import img from '@/assets/image/bg-page.jpg'
 
 export default function MusicRecords(props: {
   active: boolean
@@ -30,7 +31,7 @@ export default function MusicRecords(props: {
         <Image
           width={54}
           height={54}
-          src={imgUrl(54, al?.picUrl)}
+          src={imgUrl(140, 140, al?.picUrl) ?? img}
           alt="图片"
           className="rounded-full object-cover h-full w-full"
         />

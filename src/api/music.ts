@@ -13,7 +13,7 @@ export const getLyric = async (id: number) => {
 
 // 根据id获取音乐信息
 export const getMusic = async (ids: number) => {
-  return await musicRequest<MusicList>('GET', `/song/url/id=${ids}`)
+  return await musicRequest<MusicList>('GET', `/song/url?id=${ids}`)
 }
 
 // 搜索音乐
@@ -29,11 +29,12 @@ export const search = async (keywords: string, offset = 0, limit = 30) => {
 
 //根据歌单id获取歌单详情
 export const getPlayListDetail = async (id: number) => {
-  return await musicRequest<MusicList>('GET', '/playlist/detail', {
-    params: {
-      id
-    }
-  })
+  return await musicRequest<MusicList>('GET', `/playlist/detail?id=${id}`)
+}
+
+//根据歌单id获取歌单所有歌曲
+export const getPlayListTrack = async (id: number) => {
+  return await musicRequest<MusicList>('GET', `/playlist/track/all?id=${id}&limit=30`)
 }
 
 //根据trackIds获取所有的音乐信息

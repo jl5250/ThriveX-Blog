@@ -11,7 +11,7 @@ import {
   FaPlay,
   FaBarsStaggered
 } from 'react-icons/fa6'
-import { Card, CardFooter, Button, Slider } from '@heroui/react'
+import { Card, CardFooter, Button, Slider, Image } from '@heroui/react'
 import useMusicInfo from '@/hooks/useMusic'
 import useLyric from '@/hooks/useLyric'
 import useAudio from '@/hooks/useAudio'
@@ -20,6 +20,7 @@ import MusicLyric from './component/musicLyric'
 import { formatTime } from '@/utils/dayFormat'
 import { useState } from 'react'
 import MusicRecords from './component/musicRecords'
+import { imgUrl } from '@/utils'
 
 export default function MusicTools() {
   // 是否展开card
@@ -55,6 +56,7 @@ export default function MusicTools() {
   // const VolumeSlider = getImpVolumeSlider(audioInfo)
 
   const iconSize = 20
+  const { al } = musicInfo
 
   // 判断音量图标
   const VolumeIcon = () => {
@@ -96,12 +98,16 @@ export default function MusicTools() {
       <Card
         isBlurred
         isFooterBlurred
-        shadow="sm"
-        className={`fixed top-[68%] left-[1%] border-none bg-contain bg-background/60 dark:bg-default-100/50 z-[998] ${
+        shadow="lg"
+        className={`fixed top-[68%] left-[1%] border-none z-[998] bg-white/40 ${
           active
             ? 'translate-x-0 translate-y-0 scale-100 opacity-100'
             : 'translate-x-[-500px] translate-y-[500px] scale-0 opacity-0'
-        } ${isExpanded ? 'md:w-[80vw] md:h-[80vh] md:top-[8%]' : 'w-[300px] h-[260px] md:w-[700px] md:h-[200px]'}`}
+        } ${
+          isExpanded
+            ? 'md:w-[70vw] md:h-[80vh] md:top-[8%]'
+            : 'w-[300px] h-[260px] md:w-[700px] md:h-[200px]'
+        }`}
       >
         {/* 音乐歌单组件 */}
         <CardHeader
@@ -110,10 +116,15 @@ export default function MusicTools() {
           audioInfo={audioInfo}
           isExpanded={isExpanded}
         />
-
+        <Image
+          removeWrapper
+          src={imgUrl(1236, 794, al?.picUrl)}
+          alt="图片"
+          className="z-0 w-full h-full object-cover"
+        />
         {/* 音乐信息组件 */}
         <CardFooter
-          className={`grid grid-cols-6 md:grid-cols-12 items-center justify-center w-full md:w-full h-[600px] transition-all duration-500 ease-in-out transform ${
+          className={`absolute z-10 bottom-0 grid grid-cols-6 md:grid-cols-12 items-center justify-center w-full h-[200px] transition-all duration-500 ease-in-out transform ${
             isExpanded ? 'gap-4 md:gap-20' : 'gap-6 md:gap-2'
           }`}
         >

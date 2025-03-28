@@ -45,6 +45,7 @@ export default function useAudio(): IAudio {
     }
   }, [volume])
 
+  // 当前播放状态
   const switchMusicStaus = () => {
     if (audioRef.current) {
       isMusic ? audioRef.current.pause() : audioRef.current.play()

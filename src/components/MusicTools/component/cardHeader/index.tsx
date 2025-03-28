@@ -2,6 +2,7 @@
 
 import { Card, CardBody, CardHeader, Tabs, Tab } from '@heroui/react'
 import CardRecommend from '../cardRecommend'
+import DisCover from '../disCover'
 import { ILyric } from '@/hooks/useLyric'
 import { IMusicInfo } from '@/hooks/useMusic'
 import { IAudio } from '@/hooks/useAudio'
@@ -21,36 +22,38 @@ export default function MusicHeader(props: {
       content: <CardRecommend audioInfo={audioInfo} />
     },
     {
-      title: '正在播放',
-      content: '敬请期待。。。'
+      title: '飙升榜',
+      content: <DisCover id={19723756} type="surge" audioInfo={audioInfo} />
     },
-
     {
-      title: '我的歌单',
-      content: '敬请期待。。。'
+      title: '新歌榜',
+      content: <DisCover id={3779629} type="new" audioInfo={audioInfo} />
+    },
+    {
+      title: '原创榜',
+      content: <DisCover id={2884035} type="original" audioInfo={audioInfo} />
+    },
+    {
+      title: '热歌榜',
+      content: <DisCover id={3778678} type="hot" audioInfo={audioInfo} />
     }
   ]
 
   return (
-    <CardHeader className={`grid-cols-6 gap-4 ${isExpanded ? 'hidden md:grid' : 'hidden'}`}>
-      <Tabs
-        className="col-start-1 col-end-3 md:col-start-2 md:col-end-4 "
-        aria-label="Dynamic tabs"
-        items={tabs}
-        isVertical
-      >
+    <CardHeader className={`absolute ${isExpanded ? 'hidden md:flex' : 'hidden'} flex-row`}>
+      <Tabs aria-label="Dynamic tabs" items={tabs} color="primary" isVertical variant="solid">
         {(item) => (
           <Tab key={item.title} title={item.title}>
-            <Card>
-              <CardBody>{item.content}</CardBody>
-            </Card>
+            {item.content}
           </Tab>
         )}
       </Tabs>
-      <div className="flex flex-col items-center col-start-5 w-[450px] h-[560px]">
-        {/* 歌词 */}
-        <MusicLyric leading={10} musicInfo={musicInfo} lyricInfo={lyricInfo} />
-      </div>
+      <Card className="w-[450px] h-[500px] bg-white/60 dark:bg-black/60">
+        <CardBody className="flex flex-col items-center">
+          {/* 歌词 */}
+          <MusicLyric leading={10} musicInfo={musicInfo} lyricInfo={lyricInfo} />
+        </CardBody>
+      </Card>
     </CardHeader>
   )
 }
