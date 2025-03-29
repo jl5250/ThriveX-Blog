@@ -14,13 +14,13 @@ import InfoTwo from './component/InfoTwo'
 export default () => {
   const data: MyData = {
     info: {
-      name: "Liu YuYang",
+      name: "Loong",
       avatar: 'https://q.qlogo.cn/g?b=qq&nk=3311118881&s=640',
       profession: "一名Web全栈开发工程师",
       introduction: "我从小就对计算机编程技术有着无穷的兴趣，所以我的梦想是做一名技术顶尖的 架构师，因此我一直在朝着这个方向去努力、去坚持 直到梦想成真！",
     },
     infoTwo: {
-      author: '宇阳',
+      author: 'loong',
       avatar_url: 'https://q.qlogo.cn/g?b=qq&nk=3311118881&s=640',
       left_tags: [
         '🤖️ 数码科技爱好者',
