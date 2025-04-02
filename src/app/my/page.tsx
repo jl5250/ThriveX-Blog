@@ -73,7 +73,7 @@ export default () => {
     ],
     goals: [
       {
-        status: 1,
+        status: 3,
         value: "1、涨薪2k！！！"
       },
       {

@@ -21,7 +21,7 @@ export default ({ data }: Props) => {
     return (
         <>
             <div data-aos="zoom-in" className="w-full md:w-5/12 flex flex-col mt-52 md:mt-0">
-                <div className="text-center text-xl mb-8">2024年度目标</div>
+                <div className="text-center text-xl mb-8">2025年度目标</div>
 
                 <div className="flex flex-col space-y-2">
                     {data?.map((item, index) => (

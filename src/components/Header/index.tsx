@@ -20,8 +20,8 @@ import { useConfigStore } from '@/stores'
 import { Theme, Web } from '@/types/app/project'
 
 const Header = () => {
-  // 是否暗黑模式
-  const { isDark, setIsDark, web, setWeb, theme, setTheme } = useConfigStore()
+    // 是否暗黑模式
+    const { isDark, setIsDark, setWeb, theme, setTheme } = useConfigStore()
 
   // 获取项目配置
   const getConfigData = async () => {
@@ -175,17 +175,16 @@ const Header = () => {
                 )
             )}
 
-            {/* 扩展页面 */}
-            <li className="group/one relative">
-              <Link
-                href=""
-                className={`flex items-center p-5 text-[15px] group-hover/one:!text-primary transition-colors ${
-                  isPathSty || isScrolled ? 'text-[#333] dark:text-white' : 'text-white'
-                }`}
-              >
-                🧩 扩展页面
-                <Show is={true} children={<IoIosArrowDown className="ml-2" />} />
-              </Link>
+                        <li className="group/one relative">
+                            <Link
+                                href=""
+                                className={`flex items-center p-5 text-[15px] group-hover/one:!text-primary transition-colors ${isPathSty || isScrolled ? 'text-[#333] dark:text-white' : 'text-white'}`}
+                            >
+                                🧩 探索
+                                <Show is={true} children={(
+                                    <IoIosArrowDown className="ml-2" />
+                                )} />
+                            </Link>
 
               <Show
                 is={true}

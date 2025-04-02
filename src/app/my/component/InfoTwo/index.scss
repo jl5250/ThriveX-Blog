@@ -96,12 +96,10 @@
     outline: none;
     border-radius: 2em;
     background: rgb(255,255,255);
-    border: none;
-    box-shadow: 0 0 0 3px inset rgba(255,255,255,.2);
+    // border: none;
     color: rgba(81, 87, 90, 1);
     transition: 0.3s;
     overflow: hidden;
-    // position: absolute;
 }
 
 .trigger,

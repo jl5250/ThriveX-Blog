@@ -62,7 +62,7 @@ export default ({ data, className }: { data: SwiperType[], className?: string })
                     <div key={index} className={`absolute top-0 left-0 w-full h-full ${index === current ? 'opacity-100' : 'opacity-0'} transition-opacity duration-500`}>
                         <img key={index} src={item.image} alt={item.title} className="w-full h-full object-cover" />
 
-                        <div className="flex flex-col absolute bottom-7 left-5 z-50 gap-2 animation_bottom">
+                        <div className="flex flex-col absolute bottom-7 left-5 z-10 gap-2 animation_bottom">
                             <h2 className="text-white text-xl lg:text-2xl font-bold text_shadow">{item.title}</h2>
                             <Button color="primary" variant="shadow" endContent={<BiChevronRight className="text-2xl" />} className="!w-28 mt-2 hover:translate-x-2 transition-transform" onPress={() => window.open(item.url, "_blank")}>立刻围观</Button>
                         </div>

@@ -34,9 +34,9 @@ export default ({ data }: { data: InfoTwo }) => {
             </div>
 
             <div className="about-me-2 flex flex-col">
-                <button className="trigger">{data.author}</button>
+                <button className="trigger dark:bg-black-b !border dark:border-[#4e5969] dark:text-white">{data.author}</button>
 
-                <Link href={data.know_me} target='_blank' className='text-xs text-[#2764b2]'>去了解我</Link>
+                <Link href={data.know_me} target='_blank' className='text-xs text-[#2764b2] mt-3'>去了解我</Link>
             </div>
         </section>
     )
