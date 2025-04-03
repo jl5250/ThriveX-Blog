@@ -18,9 +18,12 @@ const breakpointColumnsObj = {
 
 export default function MapContainer() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const [isDismissable, setIsDismissable] = useState(true); // 默认允许关闭
+    const [isDismissable, setIsDismissable] = useState(true);
     const [list, setList] = useState<Footprint[]>([])
-    
+    const [data, setData] = useState<Footprint>({} as Footprint);
+    let map: any = null;
+    let infoWindow: any = null;
+
     const getFootprintList = async () => {
         const { data } = (await getFootprintListAPI()) || { data: [] as Footprint[] }
         setList(data)
@@ -29,9 +32,6 @@ export default function MapContainer() {
     useEffect(() => {
         getFootprintList()
     }, [])
-
-    const [data, setData] = useState<Footprint>({} as Footprint);
-    let map: any = null;
 
     useEffect(() => {
         if (!list.length) return
@@ -44,43 +44,129 @@ export default function MapContainer() {
             };
 
             AMapLoader.load({
-                key: process.env.NEXT_PUBLIC_GAODE_KEY_CODE!, // 申请好的Web端开发者Key，首次调用 load 时必填
+                key: process.env.NEXT_PUBLIC_GAODE_KEY_CODE!,
                 version: "2.0",
-                plugins: ["AMap.Scale", "AMap.Marker"],
+                plugins: ["AMap.Scale", "AMap.Marker", "AMap.InfoWindow"],
             })
                 .then((AMap) => {
                     map = new AMap.Map("container", {
-                        // 地图样式
                         mapStyle: "amap://styles/grey",
-                        viewMode: "3D", // 是否为3D地图模式
+                        viewMode: "3D",
                         zoom: 4.8,
-                        center: [105.625368, 37.746599], // 初始化地图中心点位置
+                        center: [105.625368, 37.746599],
+                    });
+
+                    // 创建信息窗体
+                    infoWindow = new AMap.InfoWindow({
+                        offset: new AMap.Pixel(0, -30),
+                        autoMove: true,
+                        anchor: 'bottom-center',
+                        isCustom: true, // 使用自定义窗体
+                    });
+
+                    // 点击地图任意位置时关闭信息窗体
+                    map.on("click", () => {
+                        infoWindow.close();
                     });
 
                     // 遍历 locations 数组，创建标记
                     list?.forEach((data) => {
                         const marker = new AMap.Marker({
-                            position: data?.position.split(","), // 标记位置
-                            map: map, // 将标记添加到地图
+                            position: data?.position.split(","),
+                            map: map,
+                            content: `
+                            <div style="display: flex; justify-content: center; align-items: center; background-color: #fff; width: 35px; height: 35px; border-radius: 50%; overflow: hidden; box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.4); animation: pulse 2s infinite;">
+                                <img src="${data?.images[0]}" alt="" style="width: 90%; height: 90%; border-radius: 50%;">
+                            </div>
+                            <style>
+                                @keyframes pulse {
+                                    0% {
+                                        box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.4);
+                                    }
+                                    50% {
+                                        box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.7);
+                                    }
+                                    100% {
+                                        box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.4);
+                                    }
+                                }
+                            </style>
+                            `
                         });
 
-                        // 点击标记时，设置选中的位置，并打开 Modal
+                        // 点击标记时，显示信息窗体并定位到该位置
                         marker.on("click", () => {
-                            onOpen();
+                            const content = `
+                                <div style="border-radius: 12px; overflow: hidden; width: 240px; margin-top: 25px; margin-left: 20px;">
+                                    <div style="position: relative; width: 100%; padding-bottom: 100%; overflow: hidden; border-radius: 12px;">
+                                        <img src="${data?.images[0]}" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                                        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); padding: 20px; display: flex; flex-direction: column;">
+                                            <h2 style="color: white; margin: 0; font-size: 24px; font-weight: 600; margin-bottom: 12px;">${data?.title}</h2>
+
+                                            <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;">
+                                                <div style="display: flex; align-items: center; color: rgba(255,255,255,0.8); font-size: 13px;">
+                                                    <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; margin-right: 6px; fill: currentColor;">
+                                                        <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z"/>
+                                                    </svg>
+                                                    ${dayjs(+data?.createTime).format('YYYY-MM-DD HH:mm')}
+                                                </div>
+
+                                                <div style="display: flex; align-items: center; color: rgba(255,255,255,0.8); font-size: 13px;">
+                                                    <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; margin-right: 6px; fill: currentColor;">
+                                                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                                                    </svg>
+                                                    ${data?.address}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div style="margin-top: 5px; border-radius: 12px; overflow: hidden;">
+                                        <button 
+                                            data-id="${data.id}"
+                                            onclick="document.querySelector('[data-id=\\'${data.id}\\']').dispatchEvent(new CustomEvent('openModal', {bubbles: true}))"
+                                            style="display: flex; width: 100%; padding: 12px; background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); border: none; color: white; font-size: 14px; cursor: pointer; align-items: center; justify-content: center; transition: all 0.3s ease;"
+                                            onmouseover="this.style.background='rgba(255,255,255,0.35)'; this.style.transform='scale(1.05)';"
+                                            onmouseout="this.style.background='rgba(255,255,255,0.2)'; this.style.transform='scale(1)';"
+                                        >
+                                            查看更多 
+                                            <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; margin-left: 4px; fill: currentColor;">
+                                                <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                            infoWindow.setContent(content);
+                            infoWindow.open(map, marker.getPosition());
                             setData(data);
+                            // 设置地图中心点和缩放级别
+                            map.setCenter(marker.getPosition());
+                            map.setZoom(15);
                         });
                     });
 
-                    // 点击任意位置清空信息框内容并关闭
-                    // map.on("click", () => {
-                    //     setData(null);
-                    // });
+                    // 监听自定义事件来打开 Modal
+                    document.addEventListener('openModal', (event) => {
+                        const button = event.target as HTMLElement;
+                        const id = button.getAttribute('data-id');
+                        if (id) {
+                            const targetData = list.find(item => item.id === Number(id));
+                            if (targetData) {
+                                setData(targetData);
+                                onOpen();
+                            }
+                        }
+                    });
                 })
                 .catch((e) => {
                     console.log(e);
                 });
 
-            return () => map?.destroy();
+            return () => {
+                map?.destroy();
+                infoWindow?.destroy();
+            };
         });
     }, [list]);
 
@@ -88,7 +174,6 @@ export default function MapContainer() {
         <>
             <title>那年走过的路</title>
             <meta name="description" content="那年走过的路" />
-
             <div id="container"></div>
 
             <Modal
@@ -107,12 +192,10 @@ export default function MapContainer() {
                     {(onClose) => (
                         <>
                             <ModalHeader className="flex flex-col gap-1 text-center pb-2 text-white">{data?.title}</ModalHeader>
-
                             <ModalBody>
                                 <div className="flex flex-col">
                                     <div className="flex flex-col justify-between w-full mb-8">
                                         <p className="overflow-auto max-h-[210px] text-[#d6d6d6] px-[5px]">{data?.content}</p>
-
                                         <div className="text-sm text-end text-[#a5a5a5] pt-2">
                                             <p>时间：{dayjs(+data?.createTime).format('YYYY-MM-DD HH:mm')}</p>
                                             <p>地址：{data?.address}</p>
@@ -124,7 +207,6 @@ export default function MapContainer() {
                                             speed={() => 800}
                                             easing={(type) => (type === 2 ? 'cubic-bezier(0.36, 0, 0.66, -0.56)' : 'cubic-bezier(0.34, 1.56, 0.64, 1)')}
                                             onVisibleChange={(visible) => {
-                                                // 当图片预览模式打开时，不允许关闭 Modal
                                                 setIsDismissable(!visible);
                                             }}
                                         >
