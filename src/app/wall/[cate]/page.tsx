@@ -27,6 +27,8 @@ export default async (props: Props) => {
     const id = cateList.find(item => item.mark === cate)?.id!
     const { data: tallList } = (await getCateWallListAPI(id, page)) || { data: {} as Paginate<Wall[]> }
 
+    cateList.sort((a, b) => a.order - b.order);
+
     return (
         <>
             <title>留言墙</title>

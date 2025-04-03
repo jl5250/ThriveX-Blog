@@ -6,6 +6,7 @@ export interface Cate {
     icon: string,
     level: number,
     type: string,
+    order: number,
     children: Cate[]
 }
 
