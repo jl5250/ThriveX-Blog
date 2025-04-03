@@ -74,7 +74,7 @@ export default function MapContainer() {
                         const marker = new AMap.Marker({
                             position: data?.position.split(","),
                             map: map,
-                            content: `
+                            content: data?.images[0] && `
                             <div style="display: flex; justify-content: center; align-items: center; background-color: #fff; width: 35px; height: 35px; border-radius: 50%; overflow: hidden; box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.4); animation: pulse 2s infinite;">
                                 <img src="${data?.images[0]}" alt="" style="width: 90%; height: 90%; border-radius: 50%;">
                             </div>

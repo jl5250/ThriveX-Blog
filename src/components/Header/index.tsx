@@ -32,11 +32,11 @@ const Header = () => {
     setTheme(theme)
   }
 
-  const patchName = usePathname()
-  // 这些路径段不需要改变导航样式
-  const isPathSty = ['/my', '/wall', '/record'].some((path) => patchName.includes(path))
-  // 是否改变导航样式
-  const [isScrolled, setIsScrolled] = useState(false)
+    const patchName = usePathname();
+    // 这些路径段不需要改变导航样式
+    const isPathSty = ['/my', '/wall', '/record', '/equipment', '/tags'].some(path => patchName.includes(path))
+    // 是否改变导航样式
+    const [isScrolled, setIsScrolled] = useState(false);
 
   // 获取分类列表
   const [cateList, setCateList] = useState<Cate[]>([])
@@ -178,7 +178,7 @@ const Header = () => {
                         <li className="group/one relative">
                             <Link
                                 href=""
-                                className={`flex items-center p-5 text-[15px] group-hover/one:!text-primary transition-colors ${isPathSty || isScrolled ? 'text-[#333] dark:text-white' : 'text-white'}`}
+                                className={`flex items-center p-5 px-10 text-[15px] group-hover/one:!text-primary transition-colors ${isPathSty || isScrolled ? 'text-[#333] dark:text-white' : 'text-white'}`}
                             >
                                 🧩 探索
                                 <Show is={true} children={(
