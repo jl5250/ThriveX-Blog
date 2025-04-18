@@ -1,5 +1,4 @@
 import dayFormat from './dayFormat'
-import img from '@/assets/image/bg-page.jpg'
 
 const parseExp = /\[(\d{2}):(\d{2})\.(\d{2,3})\]/
 export interface lyricItem {

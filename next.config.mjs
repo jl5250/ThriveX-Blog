@@ -9,7 +9,9 @@ const nextConfig = {
       'q1.qlogo.cn',
       'bu.dusays.com',
       'p2.music.126.net',
-      'p1.music.126.net'
+      'p1.music.126.net',
+      'bucket.starlightpathserver.fun',
+      'api.starlightpathserver.fun'
     ]
   }
 }
