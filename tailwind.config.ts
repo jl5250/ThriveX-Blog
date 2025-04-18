@@ -41,29 +41,15 @@ const config: Config = {
       }
     }
   },
-  darkMode: 'class',
-  plugins: [
-    heroui({
-      themes: {
-        dark: {
-          colors: {
-            background: '#232931'
-          }
-        }
-      }
-    }),
-    function ({ addUtilities }: { addUtilities: Function }) {
-      const newUtilities = {
-        '.animate-paused': {
-          animationPlayState: 'paused'
+  darkMode: "class",
+  plugins: [heroui({
+    themes: {
+      dark: {
+        colors: {
+          background: "#232931",
         },
-        '.animate-running': {
-          animationPlayState: 'running'
-        }
-      }
-
-      addUtilities(newUtilities, ['responsive', 'hover'])
+      },
     }
-  ]
-}
-export default config
+  })]
+};
+export default config;

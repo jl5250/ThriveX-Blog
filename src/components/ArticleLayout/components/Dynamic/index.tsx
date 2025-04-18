@@ -44,7 +44,7 @@ export default function Dynamic({ className }: { className?: string }) {
                 <span>最新动态：</span>
             </div>
 
-            <Link href="/record" className={`flex-1 line-clamp-1 hover:text-primary cursor-pointer duration-500 ${fade ? 'opacity-100' : 'opacity-0'} transition-all`}>
+            <Link href="/record" className={`flex-1 line-clamp-1 hover:text-primary cursor-pointer ${fade ? 'opacity-100' : 'opacity-0'} transition-all`}>
                 {list[currentContentIndex]?.content}
             </Link>
         </div>

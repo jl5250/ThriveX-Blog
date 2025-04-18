@@ -29,7 +29,6 @@ export default async () => {
         {/* 
             为了项目的生态越来越强大，作者在这里恳请大家保留 ThriveX 博客系统版权
             在项目 Star 突破 2K 后大家可自由选择删除 or 保留版权
-            如果你是项目贡献者 或 项目赞助者，那么你可以自由选择删除 or 保留版权
         */}
         <div className='py-4 border-t dark:border-black-a transition-colors'>
           <Tooltip content="一款免费、开源、年轻、高颜值的现代化博客管理系统">
