@@ -201,7 +201,7 @@ export default () => {
           </div>
 
           {/* 自我介绍 */}
-          <motion.div
+          {/* <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
@@ -223,7 +223,7 @@ export default () => {
               </div>
             </div>
 
-            {/* <div className="mt-8 space-y-3">
+            <div className="mt-8 space-y-3">
               <p className="flex items-center">
                 <span className="text-gray-800 font-semibold mr-3">GitHub 社区地址：</span>
                 <a href={personalInfo.links.github} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium">
@@ -244,8 +244,8 @@ export default () => {
                   {personalInfo.links.project}
                 </a>
               </p>
-            </div> */}
-          </motion.div>
+            </div>
+          </motion.div> */}
 
           {/* 专业技能 */}
           <motion.div
