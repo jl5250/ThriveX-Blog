@@ -5,18 +5,11 @@ import { useState, useEffect, useRef } from "react";
 import { BiChevronRight } from "react-icons/bi";
 import { BiChevronLeft } from "react-icons/bi";
 import { Swiper as SwiperType } from "@/types/app/swiper";
-import { getSwiperListAPI } from "@/api/swiper";
 
 export default ({ data, className }: { data: SwiperType[], className?: string }) => {
     const [current, setCurrent] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
-
-    useEffect(() => {
-        getSwiperListAPI().then((res) => {
-            console.log(res, 444)
-        })
-    }, [])
 
     const handlePrev = () => {
         setCurrent((current) => {

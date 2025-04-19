@@ -8,6 +8,8 @@ export interface Config {
     articleId?: number,
     top: number,
     status: Status,
+    isEncrypt: number,
+    isDel: number,
     password: string
 }
 
@@ -23,7 +25,6 @@ export interface Article {
     tagList: Tag[]
     view?: number
     comment?: number,
-    isEncrypt: number,
     config: Config,
     prev: { id: number, title: string },
     next: { id: number, title: string },
