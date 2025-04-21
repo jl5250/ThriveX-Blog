@@ -20,13 +20,13 @@ export default function LyricBox(props: lyricBox) {
   const style = { padding: `${leading ?? 5}px 0` }
 
   return (
-    <ScrollShadow hideScrollBar size={100} className="w-[280px]">
+    <ScrollShadow hideScrollBar size={100}>
       <div ref={lyricBoxRef} className="transition">
         {lyricList.length > 0 ? (
           lyricList.map((item, index) => (
             <p
               key={item.time + item.content}
-              className={`text-center leading-[18px] ${pClass(index)}`}
+              className={`text-center text-balance leading-[16px] ${pClass(index)}`}
               style={style}
             >
               {item.content}

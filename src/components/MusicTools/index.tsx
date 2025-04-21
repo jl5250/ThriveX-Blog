@@ -50,14 +50,11 @@ export default function MusicTools() {
     switchMusic,
     setVolume
   } = audioInfo
-  // // 获取时间进度条
-  // const TimeSlider = getImpTimeSlider(audioInfo, lyricInfo)
-  // // 获取音乐进度条
-  // const VolumeSlider = getImpVolumeSlider(audioInfo)
 
-  const iconSize = 20
+  // 获取歌曲信息
   const { al } = musicInfo
 
+  const iconSize = 20
   // 判断音量图标
   const VolumeIcon = () => {
     if (volume === 0) {
@@ -71,6 +68,7 @@ export default function MusicTools() {
     }
   }
 
+  // 更新播放时间
   const updateTime = (value: number | number[]) => {
     if (typeof value === 'number' && audioRef.current) {
       audioRef.current.currentTime = value / 1000
@@ -128,7 +126,7 @@ export default function MusicTools() {
             isExpanded ? 'gap-4 md:gap-20' : 'gap-6 md:gap-2'
           }`}
         >
-          <div className="hidden md:flex flex-col items-center col-span-8 col-start-1 h-[180px] md:col-span-3 md:col-start-3">
+          <div className="hidden md:flex flex-col items-center col-span-8 col-start-1 h-[180px] w-[300px] md:col-span-3 md:col-start-2">
             {/* 歌词 */}
             <MusicLyric leading={10} musicInfo={musicInfo} lyricInfo={lyricInfo} />
           </div>
@@ -208,6 +206,7 @@ export default function MusicTools() {
                   thumb: 'w-2 h-2 after:w-2 after:h-2 after:bg-foreground'
                 }}
                 color="foreground"
+                value={currentTime}
                 defaultValue={0}
                 maxValue={duration}
                 size="sm"

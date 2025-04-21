@@ -48,7 +48,7 @@ export default function MusicHeader(props: {
           </Tab>
         )}
       </Tabs>
-      <Card className="w-[450px] h-[500px] bg-white/60 dark:bg-black/60">
+      <Card className="w-[550px] h-[500px] bg-white/60 dark:bg-black/60">
         <CardBody className="flex flex-col items-center">
           {/* 歌词 */}
           <MusicLyric leading={10} musicInfo={musicInfo} lyricInfo={lyricInfo} />
