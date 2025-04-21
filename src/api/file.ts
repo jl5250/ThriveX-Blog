@@ -8,5 +8,5 @@ export const getLocalDirListAPI = async (dir?: string, platform?: string) => {
 
 // 获取文件列表
 export const getFileListAPI = async (dir?: string, platform?: string) => {
-  return await Request<File[]>('GET', `/file/list?dir=${dir}&platform=${platform}`)
+  return await Request<File[]>('GET', `/file/list/local?dir=${dir}&platform=${platform}`)
 }
