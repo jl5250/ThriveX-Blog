@@ -18,6 +18,12 @@
 项目文档：[https://docs.liuyuyang.net/](https://docs.liuyuyang.net/)
 
 
+# 后续开发计划
+
+![image](https://github.com/user-attachments/assets/c8acfe33-8376-43d6-a2da-f4bfd046fc39)
+
+
+
 # 🎉 ThriveX 现代化博客管理系统
 
 🎉 `ThriveX` 是一个年轻、高颜值、全开源、永不收费的现代化博客管理系统，它是一个基于 `NextJS` + `Spring Boot` 的产物，所有技术栈都是目前市面上最主流的
