@@ -20,7 +20,7 @@ export default async () => {
         </div>
       </div>
 
-      <div className='bg-white dark:bg-black-b border-t dark:border-black-b px-10 transition-colors'>
+      <div className='absolute z-10 w-full bg-white dark:bg-black-b border-t dark:border-black-b px-10 transition-colors'>
         <div className="flex justify-center items-center py-4">
           <img src={user?.avatar} alt='作者头像' className='w-20 h-20 rounded-full mr-8 avatar-animation shadow-[5px_11px_30px_20px_rgba(255,255,255,0.1)]' />
           <h2 className="w-[90%] xl:w-3/6 text-sm sm:text-base dark:text-[#8c9ab1] line-clamp-4">{web?.footer}</h2>

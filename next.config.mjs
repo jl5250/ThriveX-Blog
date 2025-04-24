@@ -11,7 +11,8 @@ const nextConfig = {
       'p2.music.126.net',
       'p1.music.126.net',
       'bucket.starlightpathserver.fun',
-      'api.starlightpathserver.fun'
+      'api.starlightpathserver.fun',
+      'pic1.imgdb.cn'
     ]
   }
 }
