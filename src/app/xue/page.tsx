@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
+import { Suspense } from 'react'
 
 export default function XuePage() {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -618,34 +619,41 @@ export default function XuePage() {
       {/* 第一页：全屏视频介绍 */}
       <div className="relative h-screen w-full overflow-hidden z-20">
         <motion.div className="absolute top-0 left-0 w-full h-full" style={{ opacity, scale }}>
-          <video
-            ref={videoRef}
-            className="w-full h-full object-cover"
-            loop
-            muted
-            playsInline
-            autoPlay
-          >
-            <source src="https://api.starlightpathserver.fun/static/upload/video/xue.mp4" type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-black/30 flex items-center justify-center flex-col">
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1 }}
-              className="text-6xl font-bold text-white mb-4"
+          <Suspense fallback={<p>Loading video...</p>}>
+            <video
+              ref={videoRef}
+              className="w-full h-full object-cover"
+              loop
+              muted
+              playsInline
+              autoPlay
+              preload="metadata"
             >
-              薛之谦
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.3 }}
-              className="text-2xl text-white"
-            >
-              音乐诗人 · 创作才子
-            </motion.p>
-          </div>
+              <source
+                src="https://api.starlightpathserver.fun/static/upload/video/xue.mp4"
+                type="video/mp4"
+              />
+            </video>
+
+            <div className="absolute inset-0 bg-black/30 flex items-center justify-center flex-col">
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1 }}
+                className="text-6xl font-bold text-white mb-4"
+              >
+                薛之谦
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.3 }}
+                className="text-2xl text-white"
+              >
+                音乐诗人 · 创作才子
+              </motion.p>
+            </div>
+          </Suspense>
         </motion.div>
       </div>
 
