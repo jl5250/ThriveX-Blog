@@ -1,65 +1,78 @@
-import Slide from '@/components/Slide'
-import Starry from '@/components/Starry'
-import ImageCard from './components/ImageCard'
-import Copyright from '@/app/article/components/Copyright'
-import { getLocalDirListAPI } from '@/api/file'
-import { getConfigDataAPI } from '@/api/project'
-import { getRandom } from '@/utils'
-import { Theme } from '@/types/app/project'
-import { FileDir } from '@/types/app/file'
+"use client"
 
-const albumData = [
-  {
-    title: '世界名画',
-    description: '我眼里的世界，总是丰富多彩的'
-  },
-  {
-    title: '风景',
-    description: '风景如画，美不胜收'
-  },
-  {
-    title: '人物',
-    description: '美丽的人儿，总是让人流连忘返'
+import { useEffect, useState } from "react"
+import { motion } from "framer-motion"
+import { useRouter } from "next/navigation"
+import { Cate } from "@/types/app/album"
+import { getAlbumCatePagingAPI } from "@/api/album"
+import Masonry from "react-masonry-css"
+import "./page.scss"
+
+const breakpointColumnsObj = {
+  default: 4,
+  1024: 3,
+  700: 2
+};
+
+export default function AlbumPage() {
+  const router = useRouter()
+
+  const [list, setList] = useState<Cate[]>([])
+
+  const getAlbumCatePaging = async () => {
+    const { data } = await getAlbumCatePagingAPI(1, 9999) || { data: {} as Paginate<Cate[]> }
+    setList(data.result)
   }
-]
 
-export default async () => {
-  const { data } = (await getLocalDirListAPI('album/', 'local')) || { data: {} as FileDir[] }
-  const { data: srcData } = (await getConfigDataAPI<Theme>('layout')) || { data: {} as Theme }
-  const covers = JSON.parse(srcData.covers || '[]')
+  useEffect(() => {
+    getAlbumCatePaging()
+  }, [])
+
+  const handleClick = (id: number) => {
+    router.push(`/album/${id}`)
+  }
 
   return (
-    <>
-      <Slide isRipple={false}>
-        {/* 星空背景组件 */}
-        <Starry />
-        <div className="absolute top-[30%] left-[50%] transform -translate-x-1/2 flex flex-col items-center">
-          <div className="text-white text-[20px] xs:text-[25px] sm:text-[30px] whitespace-nowrap custom_text_shadow">
-            欢迎来到我的相册
-          </div>
-          <div className="text-white text-[10px] xs:text-[15px] sm:text-[20px]">
-            偷偷地记录我的全世界
-          </div>
-        </div>
-      </Slide>
+    <div className="container mx-auto px-4 py-8 pt-[90px]">
+      <Masonry
+        breakpointCols={breakpointColumnsObj}
+        className="masonry-grid mb-12"
+        columnClassName="masonry-grid_column"
+      >
+        {list.map((cate, index) => (
+          <motion.div
+            key={cate.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            className="mb-6"
+          >
+            <div
+              className="relative group overflow-hidden rounded-lg shadow-lg cursor-pointer"
+              onClick={() => handleClick(cate.id!)}
+            >
+              {/* 图片容器 */}
+              <div className="aspect-w-1 aspect-h-1 w-full">
+                <img
+                  src={cate.cover || "https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-1.2.1&auto=format&fit=crop&w=3840&q=100"}
+                  alt={cate.name}
+                  className="w-full h-full object-cover transform transition-transform duration-300 group-hover:scale-110"
+                />
+              </div>
 
-      <div className="w-[90%] xl:w-[1200px] my-10 mx-auto bg-white dark:bg-black-b p-6 sm:p-10 rounded-xl border dark:border-black-b transition-colors">
-        <div className="flex flex-wrap">
-          {data?.map((item, index) => {
-            const sty = covers[getRandom(0, covers.length - 1)]
-            return (
-              <ImageCard
-                srcData={sty}
-                key={index}
-                id={item.name}
-                title={albumData[index].title}
-                description={albumData[index].description}
-              />
-            )
-          })}
-        </div>
-        <Copyright />
-      </div>
-    </>
+              {/* 分类标签 */}
+              <div className="absolute top-4 left-4 bg-black/20 backdrop-blur-md text-white px-3 py-1 rounded-full text-sm">
+                {cate.name}
+              </div>
+
+              {/* 标题遮罩 */}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                <h3 className="text-white font-medium text-lg">{cate.name}</h3>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </Masonry>
+    </div>
   )
 }
