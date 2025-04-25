@@ -168,8 +168,8 @@ export default () => {
 
   return (
     <>
-      <title>关于我</title>
-      <meta name="description" content="关于我" />
+      <title>👋 关于我</title>
+      <meta name="description" content="👋 关于我" />
 
       <div className="bg-white dark:bg-black-a pt-20 bg-cover bg-center bg-fixed"
         style={{ backgroundImage: `url(${bg.src})` }}>

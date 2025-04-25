@@ -66,8 +66,8 @@ const list = [
 export default () => {
     return (
         <>
-            <title>我的设备 - 工欲善其事必先利其器</title>
-            <meta name="description" content="分享我的生产力工具" />
+            <title>🔭 我的设备 - 工欲善其事必先利其器</title>
+            <meta name="description" content="🔭 分享我的生产力工具" />
 
             <div className="pt-20 pb-10 bg-sky-200">
                 <div className="w-[90%] lg:w-[1200px] mx-auto mt-10 space-y-20 md:space-y-24">
