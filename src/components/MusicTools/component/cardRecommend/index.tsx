@@ -1,6 +1,6 @@
 'use client'
 
-import CardList from '../cardList'
+import CardList from '../musicList'
 import { useEffect } from 'react'
 import { MusicListItem } from '@/types/app/music'
 import { useMusicStore } from '@/stores'
@@ -30,11 +30,5 @@ export default function cardRecommend(props: { audioInfo: IAudio }) {
     //TODO:push成功的dialog
     // alert('push成功')
   }
-  return (
-    <CardList
-      rowClick={pushIntoPlayingMusicList}
-      rowDoubleClick={pushIntoPlayingMusicList}
-      list={dailyMusicList}
-    />
-  )
+  return <div>123</div>
 }

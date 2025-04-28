@@ -26,6 +26,7 @@ export interface IAudio {
   volume: number
   // bufferPercent: number
   currentTime: number
+  currentMusic: MusicListItem
 }
 //需要放在最外面，否则每次执行函数都会重新创建变量
 let volumeCache = 0
@@ -123,8 +124,10 @@ export default function useAudio(): IAudio {
   const onError = () => {
     if (!currentMusic.initFlag) {
       //防止因为单曲循环报错而不切换音乐
-      switchMusic('next', currentOrder === 'single' ? 'cycle' : currentOrder)
+      // switchMusic('next', currentOrder === 'single' ? 'cycle' : currentOrder)
       //TODO:Error时发出提示，并且不在切换音乐
+      audioRef.current?.pause()
+      setIsMusic(false)
     }
   }
 
@@ -146,6 +149,7 @@ export default function useAudio(): IAudio {
     currentOrder,
     // bufferPercent,
     currentTime,
+    currentMusic,
     isMusic,
     duration,
     audioRef,

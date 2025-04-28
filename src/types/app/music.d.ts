@@ -13,6 +13,7 @@ export interface MusicListItem {
   dt?: number
   lyric?: string
   initFlag?: boolean
+  fee?: number
 }
 
 export interface MusicDetail {

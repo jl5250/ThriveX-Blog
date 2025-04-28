@@ -2,11 +2,11 @@
 
 import { Card, CardBody, CardHeader, Tabs, Tab } from '@heroui/react'
 import CardRecommend from '../cardRecommend'
-import DisCover from '../disCover'
 import { ILyric } from '@/hooks/useLyric'
 import { IMusicInfo } from '@/hooks/useMusic'
 import { IAudio } from '@/hooks/useAudio'
 import MusicLyric from '../musicLyric'
+import MUsicList from '../musicList'
 
 export default function MusicHeader(props: {
   isExpanded: boolean
@@ -19,28 +19,28 @@ export default function MusicHeader(props: {
   let tabs = [
     {
       title: '每日推荐',
-      content: <CardRecommend audioInfo={audioInfo} />
+      content: <MUsicList type="like" audioInfo={audioInfo} />
     },
     {
       title: '飙升榜',
-      content: <DisCover id={19723756} type="surge" audioInfo={audioInfo} />
+      content: <MUsicList id={19723756} type="surge" audioInfo={audioInfo} />
     },
     {
       title: '新歌榜',
-      content: <DisCover id={3779629} type="new" audioInfo={audioInfo} />
+      content: <MUsicList id={3779629} type="new" audioInfo={audioInfo} />
     },
     {
       title: '原创榜',
-      content: <DisCover id={2884035} type="original" audioInfo={audioInfo} />
+      content: <MUsicList id={2884035} type="original" audioInfo={audioInfo} />
     },
     {
       title: '热歌榜',
-      content: <DisCover id={3778678} type="hot" audioInfo={audioInfo} />
+      content: <MUsicList id={3778678} type="hot" audioInfo={audioInfo} />
     }
   ]
 
   return (
-    <CardHeader className={`absolute ${isExpanded ? 'hidden md:flex' : 'hidden'} flex-row`}>
+    <CardHeader className={`absolute ${isExpanded ? 'hidden md:flex' : 'hidden'}`}>
       <Tabs aria-label="Dynamic tabs" items={tabs} color="primary" isVertical variant="solid">
         {(item) => (
           <Tab key={item.title} title={item.title}>

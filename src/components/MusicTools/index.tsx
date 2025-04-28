@@ -11,7 +11,7 @@ import {
   FaPlay,
   FaBarsStaggered
 } from 'react-icons/fa6'
-import { Card, CardFooter, Button, Slider, Image } from '@heroui/react'
+import { Card, CardFooter, Button, Slider, Image, alert, Alert } from '@heroui/react'
 import useMusicInfo from '@/hooks/useMusic'
 import useLyric from '@/hooks/useLyric'
 import useAudio from '@/hooks/useAudio'
@@ -41,6 +41,7 @@ export default function MusicTools() {
     currentOrder,
     volume,
     currentTime,
+    currentMusic,
     duration,
     changeJingyin,
     canplay,
@@ -52,7 +53,7 @@ export default function MusicTools() {
   } = audioInfo
 
   // 获取歌曲信息
-  const { al } = musicInfo
+  const { al, url } = musicInfo
 
   const iconSize = 20
   // 判断音量图标
@@ -79,12 +80,13 @@ export default function MusicTools() {
     <>
       <audio
         ref={audioRef}
-        src={musicInfo.url}
+        src={url}
         onTimeUpdate={(e) => lyricInfo.updateTime(e)}
         onCanPlay={(e) => canplay(e)}
         onEnded={() => onEnd()}
         onError={() => onError()}
       />
+
       {/* 小圆唱片 */}
       <MusicRecords
         active={active}

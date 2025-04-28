@@ -5,7 +5,7 @@ import { useMusicStore } from '@/stores'
 import { IAudio } from '@/hooks/useAudio'
 import useSwitchCurrentMusic from '@/hooks/useSwitchCurrentMusic'
 import { MusicListItem } from '@/types/app/music'
-import CardList from '../cardList'
+import CardList from '../musicList'
 
 type typeProps = {
   id: number // 传入各个排行版的id
@@ -28,6 +28,7 @@ export default function DisCover(props: typeProps) {
   useEffect(() => {
     const fetchDisCover = async () => {
       const { songs } = (await getPlayListTrack(props.id)) as MusicList
+      console.log('获取到的歌曲数据', songs)
       // 保存
       switch (props.type) {
         case 'surge':
@@ -70,11 +71,5 @@ export default function DisCover(props: typeProps) {
     }
   }
 
-  return (
-    <CardList
-      rowClick={pushIntoPlayingMusicList}
-      rowDoubleClick={pushIntoPlayingMusicList}
-      list={list()}
-    />
-  )
+  return <div>123</div>
 }
