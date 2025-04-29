@@ -80,7 +80,7 @@ export default () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="flex flex-col w-full px-4 py-3 border dark:border-none rounded-lg bg-white dark:bg-black-b mb-2 transition-all"
+      className="hidden md:flex flex-col w-full px-4 py-3 border dark:border-none rounded-lg bg-white dark:bg-black-b mb-2 transition-all"
     >
       {/* 地区 */}
       <div className="flex flex-col w-full mb-2">
