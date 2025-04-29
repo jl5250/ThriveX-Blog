@@ -2,7 +2,15 @@
 
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { FaMapMarkerAlt, FaCloudSun, FaTemperatureHigh, FaWind } from 'react-icons/fa'
+import {
+  FaMapMarkerAlt,
+  FaCloudSun,
+  FaTemperatureHigh,
+  FaWind,
+  FaRegCalendarAlt,
+  FaRegWindowMaximize
+} from 'react-icons/fa'
+import { formatDate, formatDay } from '@/utils/dayFormat'
 
 interface WeatherData {
   temperature: number //实时气温，单位：摄氏度
@@ -29,7 +37,6 @@ export default () => {
           `https://restapi.amap.com/v3/ip?key=${process.env.NEXT_PUBLIC_GAODE_KEY_IP}`
         )
         const locationData = await ipResponse.json()
-        console.log('locationData ', locationData)
 
         setLocation({
           province: locationData.province,
@@ -41,7 +48,6 @@ export default () => {
           `https://restapi.amap.com/v3/weather/weatherInfo?key=${process.env.NEXT_PUBLIC_GAODE_KEY_IP}&city=${locationData.adcode}`
         )
         const weatherData = await weatherResponse.json()
-        console.log('weatherData ', weatherData, weatherData.lives[0].winddirection)
         setWeather({
           temperature: weatherData.lives[0].temperature,
           description: weatherData.lives[0].weather,
@@ -103,6 +109,18 @@ export default () => {
             </span>
           </div>
           <div className="flex items-center space-x-2">
+            <FaRegCalendarAlt className="text-red-500" />
+            <span className="text-gray-600 dark:text-gray-300">
+              日期：<span className="text-red-500 font-bold">{formatDate()}</span>
+            </span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <FaRegWindowMaximize className="text-red-500" />
+            <span className="text-gray-600 dark:text-gray-300">
+              今天星期<span className="text-red-500 font-bold">{formatDay()}</span>
+            </span>
+          </div>
+          <div className="flex items-center space-x-2">
             <FaTemperatureHigh className="text-red-500" />
             <span className="text-gray-600 dark:text-gray-300">
               温度<span className="text-red-500 font-bold">{weather.temperature}°C</span>
@@ -112,7 +130,7 @@ export default () => {
             <FaWind className="text-red-500" />
             <span className="text-gray-600 dark:text-gray-300">
               今天是<span className="text-red-500 font-bold">{weather.winddirection}</span>风，
-              风速为<span className="text-red-500 font-bold">{weather.windpower}</span>级
+              风速<span className="text-red-500 font-bold">{weather.windpower}</span>级
             </span>
           </div>
         </div>

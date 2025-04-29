@@ -14,6 +14,9 @@ export interface MusicListItem {
   lyric?: string
   initFlag?: boolean
   fee?: number
+  key?: string
+  index?: number
+  arname?: string
 }
 
 export interface MusicDetail {

@@ -65,3 +65,30 @@ export const formatTime = (time: number) => {
   }
   return res
 }
+
+/**
+ * 给出日期，返回时间格式: yyyy-mm-dd
+ * @param date
+ * @returns
+ */
+export const formatDate = () => {
+  var date = new Date()
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0') // getMonth() 返回 0-11
+  const day = String(date.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
+export const formatDay = () => {
+  var d = new Date()
+  var weekday = new Array(7)
+  weekday[0] = '一'
+  weekday[1] = '二'
+  weekday[2] = '三'
+  weekday[3] = '四'
+  weekday[4] = '五'
+  weekday[5] = '六'
+  weekday[6] = '日'
+
+  return weekday[d.getDay()]
+}

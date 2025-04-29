@@ -6,7 +6,7 @@ import { ILyric } from '@/hooks/useLyric'
 import { IMusicInfo } from '@/hooks/useMusic'
 import { IAudio } from '@/hooks/useAudio'
 import MusicLyric from '../musicLyric'
-import MUsicList from '../musicList'
+import MusicList from '../musicList'
 
 export default function MusicHeader(props: {
   isExpanded: boolean
@@ -19,23 +19,23 @@ export default function MusicHeader(props: {
   let tabs = [
     {
       title: '每日推荐',
-      content: <MUsicList type="like" audioInfo={audioInfo} />
+      content: <MusicList type="like" audioInfo={audioInfo} />
     },
     {
       title: '飙升榜',
-      content: <MUsicList id={19723756} type="surge" audioInfo={audioInfo} />
+      content: <MusicList id={19723756} type="surge" audioInfo={audioInfo} />
     },
     {
       title: '新歌榜',
-      content: <MUsicList id={3779629} type="new" audioInfo={audioInfo} />
+      content: <MusicList id={3779629} type="new" audioInfo={audioInfo} />
     },
     {
       title: '原创榜',
-      content: <MUsicList id={2884035} type="original" audioInfo={audioInfo} />
+      content: <MusicList id={2884035} type="original" audioInfo={audioInfo} />
     },
     {
       title: '热歌榜',
-      content: <MUsicList id={3778678} type="hot" audioInfo={audioInfo} />
+      content: <MusicList id={3778678} type="hot" audioInfo={audioInfo} />
     }
   ]
 

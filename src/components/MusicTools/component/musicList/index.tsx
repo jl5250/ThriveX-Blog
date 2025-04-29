@@ -58,6 +58,7 @@ export default function MUsicList(props: Props) {
 
   const [list, setList] = useState<MusicListItem[]>([])
   const [loading, setLoading] = useState(true)
+  const [disabledKeys, setDisabledKeys] = useState<string[]>([])
 
   // 请求热榜推荐歌曲的数据
   useEffect(() => {
@@ -101,14 +102,19 @@ export default function MUsicList(props: Props) {
   }, [])
 
   // 整理表单数据
-  const row = list.map((item, index) => {
-    return {
-      ...item,
-      key: item.id,
-      index: index + 1,
-      arname: item.ar && item.ar[0].name
-    }
-  })
+  const newList = () => {
+    const row = list.map((item, index) => {
+      return {
+        ...item,
+        key: item.id + '',
+        index: index + 1,
+        arname: item.ar && item.ar[0].name
+      }
+    })
+    return row
+  }
+
+  // TDD: 找到不能播放的key
 
   // 匹配表单的值
   const getKeyValue = (item: any, key: string | number) => {
@@ -125,6 +131,8 @@ export default function MUsicList(props: Props) {
 
   // 单击row触发事件
   const single = (item: MusicListItem) => {
+    if (currentMusic.id === item.id) return // 如果当前点击的歌曲是正在播放的歌曲，则不执行任何操作
+    if (item.fee === 1 || item.fee === 4) return // 如果当前点击的歌曲是VIP歌曲，则不执行任何操作
     clearTimeout(timer) // 清除第二次单击事件
     timer = setTimeout(() => {
       useSwitchCurrentMusic(item)
@@ -134,6 +142,8 @@ export default function MUsicList(props: Props) {
 
   // 双击row触发事件
   const double = (item: MusicListItem) => {
+    if (currentMusic.id === item.id) return // 如果当前点击的歌曲是正在播放的歌曲，则不执行任何操作
+    if (item.fee === 1 || item.fee === 4) return // 如果当前点击的歌曲是VIP歌曲，则不执行任何操作
     clearTimeout(timer) // 清除第一次单击事件
     useSwitchCurrentMusic(item)
     audioInfo.setIsMusic(true)
@@ -145,6 +155,8 @@ export default function MUsicList(props: Props) {
         isVirtualized
         maxTableHeight={510}
         rowHeight={30}
+        disabledKeys={disabledKeys}
+        selectionMode="single"
         isStriped
         fullWidth
         className="w-[510px]"
@@ -153,7 +165,7 @@ export default function MUsicList(props: Props) {
           {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
         </TableHeader>
         <TableBody
-          items={row}
+          items={newList()}
           emptyContent={LIST_NULL_TEXT}
           isLoading={loading}
           loadingContent="加载中..."
