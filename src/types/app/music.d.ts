@@ -17,6 +17,7 @@ export interface MusicListItem {
   key?: string
   index?: number
   arname?: string
+  type?: string
 }
 
 export interface MusicDetail {

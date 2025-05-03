@@ -49,6 +49,7 @@ export default function MUsicList(props: Props) {
     newMusicList,
     originalMusicList,
     dailyMusicList,
+    changeCurrentMusicType,
     changeSurgeMusicList,
     changeHotMusicList,
     changeNewMusicList,
@@ -59,6 +60,21 @@ export default function MUsicList(props: Props) {
   const [list, setList] = useState<MusicListItem[]>([])
   const [loading, setLoading] = useState(true)
   const [disabledKeys, setDisabledKeys] = useState<string[]>([])
+  const [selectedKeys, setSelectedKeys] = useState(new Set(['']))
+
+  useEffect(() => {
+    const SelectKeys = () => {
+      currentMusic.id && setSelectedKeys(new Set([currentMusic.id + ''])) // 设置当前播放的音乐为选中状态
+    }
+    SelectKeys()
+  }, [currentMusic])
+
+  useEffect(() => {
+    const saveMusicType = () => {
+      changeCurrentMusicType(type) // 设置当前音乐类型
+    }
+    saveMusicType()
+  }, [type])
 
   // 请求热榜推荐歌曲的数据
   useEffect(() => {
@@ -70,19 +86,19 @@ export default function MUsicList(props: Props) {
       switch (type) {
         case 'surge':
           changeSurgeMusicList(songs || [])
-          setList(surgeMusicList)
+          newList(surgeMusicList)
           break
         case 'hot':
           changeHotMusicList(songs || [])
-          setList(hotMusicList)
+          newList(hotMusicList)
           break
         case 'new':
           changeNewMusicList(songs || [])
-          setList(newMusicList)
+          newList(newMusicList)
           break
         case 'original':
           changeOriginalMusicList(songs || [])
-          setList(originalMusicList)
+          newList(originalMusicList)
         default:
           break
       }
@@ -94,7 +110,7 @@ export default function MUsicList(props: Props) {
       const dailySongs = res?.data.dailySongs || []
       // 保存
       changeDailyMusicList(dailySongs)
-      setList(dailyMusicList)
+      newList(dailyMusicList)
       setLoading(false)
     }
     if (id === undefined && type === 'like') fetchHotRecommend()
@@ -102,19 +118,22 @@ export default function MUsicList(props: Props) {
   }, [])
 
   // 整理表单数据
-  const newList = () => {
-    const row = list.map((item, index) => {
+  const newList = (listMap: MusicListItem[]) => {
+    const row = listMap.map((item, index) => {
       return {
         ...item,
         key: item.id + '',
-        index: index + 1,
+        index: index,
         arname: item.ar && item.ar[0].name
       }
     })
-    return row
-  }
+    setList(row)
 
-  // TDD: 找到不能播放的key
+    const findDisKey = row
+      .filter((item) => item.fee === 1 || item.fee === 4)
+      .map((item) => item.key) // 找到不能播放的key
+    setDisabledKeys(findDisKey) // 设置不能播放的key
+  }
 
   // 匹配表单的值
   const getKeyValue = (item: any, key: string | number) => {
@@ -124,7 +143,7 @@ export default function MUsicList(props: Props) {
     if (key === 'index' && currentMusic.id === item.id) {
       return <Image src={img} alt="" />
     } else if (key === 'index' && currentMusic.id !== item.id) {
-      return item[key]
+      return item[key] + 1
     }
     return item[key]
   }
@@ -140,15 +159,6 @@ export default function MUsicList(props: Props) {
     }, 200)
   }
 
-  // 双击row触发事件
-  const double = (item: MusicListItem) => {
-    if (currentMusic.id === item.id) return // 如果当前点击的歌曲是正在播放的歌曲，则不执行任何操作
-    if (item.fee === 1 || item.fee === 4) return // 如果当前点击的歌曲是VIP歌曲，则不执行任何操作
-    clearTimeout(timer) // 清除第一次单击事件
-    useSwitchCurrentMusic(item)
-    audioInfo.setIsMusic(true)
-  }
-
   return (
     <>
       <Table
@@ -157,6 +167,8 @@ export default function MUsicList(props: Props) {
         rowHeight={30}
         disabledKeys={disabledKeys}
         selectionMode="single"
+        disallowEmptySelection
+        selectedKeys={selectedKeys}
         isStriped
         fullWidth
         className="w-[510px]"
@@ -164,22 +176,12 @@ export default function MUsicList(props: Props) {
         <TableHeader columns={columns}>
           {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
         </TableHeader>
-        <TableBody
-          items={newList()}
-          emptyContent={LIST_NULL_TEXT}
-          isLoading={loading}
-          loadingContent="加载中..."
-        >
-          {(item) => (
-            <TableRow
-              key={item.key}
-              onClick={() => single(item)}
-              onDoubleClick={() => double(item)}
-              className="hover:cursor-pointer hover:bg-[#f5f5f5]"
-            >
+        <TableBody emptyContent={LIST_NULL_TEXT} isLoading={loading} loadingContent="加载中...">
+          {list.map((item) => (
+            <TableRow key={item.key} onClick={() => single(item)} className="hover:cursor-pointer">
               {(columnKey) => <TableCell>{getKeyValue(item, columnKey)}</TableCell>}
             </TableRow>
-          )}
+          ))}
         </TableBody>
       </Table>
     </>

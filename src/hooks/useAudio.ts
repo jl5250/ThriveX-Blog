@@ -10,7 +10,6 @@ type Order = 'cycle' | 'single' | 'random'
 
 export interface IAudio {
   canplay: (e: SyntheticEvent<HTMLAudioElement, Event>) => void
-  audioTimeUpdate: (e: any, fn?: (e: any) => void) => void
   switchMusic: (type: 'pre' | 'next', order?: Order) => void
   setVolume: Dispatch<SetStateAction<number>>
   switchMusicStaus: () => void
@@ -32,7 +31,17 @@ export interface IAudio {
 let volumeCache = 0
 let isJingyin = false
 export default function useAudio(): IAudio {
-  const { duration, dailyMusicList, currentMusic, currentTime } = useMusicStore()
+  const {
+    surgeMusicList,
+    hotMusicList,
+    newMusicList,
+    originalMusicList,
+    dailyMusicList,
+    currentMusicType,
+    duration,
+    currentMusic,
+    currentTime
+  } = useMusicStore()
   // 是否播放音乐
   const [isMusic, setIsMusic] = useState(false)
   //获取audio元素
@@ -69,28 +78,40 @@ export default function useAudio(): IAudio {
     isJingyin = !isJingyin
   }
 
-  const audioTimeUpdate = (e: any, fn?: (e: any) => void) => {
-    // if (audioRef.current) {
-    //   // 获取timeRange
-    //   const timeRanges = audioRef.current.buffered
-    //   // 最后一个timeRange对象
-    //   const last = timeRanges.length - 1
-    //   // 当最后一个timeRange对象存在时，可以获取到当前缓冲区的长度（单位是s）
-    //   if (last >= 0) {
-    //     const bufferPercent = (timeRanges.end(last) / duration) * 1000
-    //     setBufferPercent(bufferPercent > 1 ? 1 : bufferPercent)
-    //   }
-    // }
-    // 会修改全局的currentTime和currentLyricIndex
-    fn && fn(e)
-  }
-
   const [currentOrder, setCurrentOrder] = useState<Order>('cycle')
 
+  // 切换上/下一首歌曲
   const switchMusic = (type: 'pre' | 'next', order: Order = 'cycle') => {
+    let currentMusicList: MusicListItem[] = []
+    // 寻找歌单
+    switch (currentMusicType) {
+      case 'surge': {
+        currentMusicList = surgeMusicList
+        break
+      }
+      case 'hot': {
+        currentMusicList = hotMusicList
+        break
+      }
+      case 'new': {
+        currentMusicList = newMusicList
+        break
+      }
+      case 'original': {
+        currentMusicList = originalMusicList
+        break
+      }
+      case 'like': {
+        currentMusicList = dailyMusicList
+        break
+      }
+      default:
+        break
+    }
+
     // 如果有歌曲就执行
-    if (dailyMusicList.length) {
-      let currentIndex = dailyMusicList.findIndex((item) => item === currentMusic)
+    if (currentMusicList.length) {
+      let currentIndex = currentMusicList.findIndex((item) => item.al?.id === currentMusic.al?.id)
       let Music: MusicListItem | null = null
 
       switch (order) {
@@ -98,17 +119,18 @@ export default function useAudio(): IAudio {
           currentIndex += type === 'pre' ? -1 : 1
           //循环播放
           currentIndex =
-            currentIndex < 0 ? dailyMusicList.length - 1 : currentIndex % dailyMusicList.length
+            currentIndex < 0 ? currentMusicList.length - 1 : currentIndex % currentMusicList.length
           break
         }
         case 'single': {
           break
         }
         case 'random': {
-          currentIndex = Math.floor(Math.random() * (dailyMusicList.length + 1))
+          currentIndex = Math.floor(Math.random() * (currentMusicList.length + 1))
         }
       }
-      Music = dailyMusicList[currentIndex]
+      Music = currentMusicList[currentIndex]
+      audioRef.current?.pause()
       // 改变当前音乐
       useSwitchCurrentMusic(Music)
       // 根据当前状态判断是否要播放
@@ -124,10 +146,9 @@ export default function useAudio(): IAudio {
   const onError = () => {
     if (!currentMusic.initFlag) {
       //防止因为单曲循环报错而不切换音乐
-      // switchMusic('next', currentOrder === 'single' ? 'cycle' : currentOrder)
-      //TODO:Error时发出提示，并且不在切换音乐
+      switchMusic('next', currentOrder === 'single' ? 'cycle' : currentOrder)
       audioRef.current?.pause()
-      setIsMusic(false)
+      //TODO:Error时发出提示，并且不在切换音乐
     }
   }
 
@@ -137,7 +158,6 @@ export default function useAudio(): IAudio {
 
   return {
     switchMusicStaus,
-    audioTimeUpdate,
     changeJingyin,
     switchMusic,
     setVolume,

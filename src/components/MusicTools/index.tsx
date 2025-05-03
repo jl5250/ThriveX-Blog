@@ -11,7 +11,7 @@ import {
   FaPlay,
   FaBarsStaggered
 } from 'react-icons/fa6'
-import { Card, CardFooter, Button, Slider, Image, alert, Alert } from '@heroui/react'
+import { Card, CardFooter, Button, Slider, Image } from '@heroui/react'
 import useMusicInfo from '@/hooks/useMusic'
 import useLyric from '@/hooks/useLyric'
 import useAudio from '@/hooks/useAudio'
@@ -41,7 +41,6 @@ export default function MusicTools() {
     currentOrder,
     volume,
     currentTime,
-    currentMusic,
     duration,
     changeJingyin,
     canplay,

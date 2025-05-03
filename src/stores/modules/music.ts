@@ -17,6 +17,10 @@ interface initialMusic {
   currentMusic: MusicListItem
   // 当前音乐的歌词
   currentLyric: string
+  // 当前音乐的类型
+  currentMusicType: string
+  // VIP音乐列表ID
+  disabledKeys: string[]
   // 当前音乐的时长
   duration: number
   // 当前音乐的播放时间
@@ -35,6 +39,8 @@ const initialState: initialMusic = {
   hotMusicList: [],
   currentMusic: initialCurrentMusic,
   currentLyric: '',
+  currentMusicType: 'like',
+  disabledKeys: [],
   duration: 0,
   currentTime: 0,
   currentLyricIndex: 0
@@ -61,6 +67,12 @@ interface musicState {
 
   currentLyric: string
   changeCurrentLyric: (status: string) => void
+
+  currentMusicType: string
+  changeCurrentMusicType: (status: string) => void
+
+  disabledKeys: string[]
+  changeDisabledKeys: (status: string[]) => void
 
   duration: number
   changeDuration: (status: number) => void
@@ -89,6 +101,10 @@ export default create(
       changeCurrentMusic: (status) => set({ currentMusic: status }),
 
       changeCurrentLyric: (status) => set({ currentLyric: status }),
+
+      changeCurrentMusicType: (status) => set({ currentMusicType: status }),
+
+      changeDisabledKeys: (status) => set({ disabledKeys: status }),
 
       changeDuration: (status) => set({ duration: status }),
 

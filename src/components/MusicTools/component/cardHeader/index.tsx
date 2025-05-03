@@ -1,7 +1,4 @@
-'use client'
-
 import { Card, CardBody, CardHeader, Tabs, Tab } from '@heroui/react'
-import CardRecommend from '../cardRecommend'
 import { ILyric } from '@/hooks/useLyric'
 import { IMusicInfo } from '@/hooks/useMusic'
 import { IAudio } from '@/hooks/useAudio'
