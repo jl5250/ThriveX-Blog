@@ -4,6 +4,7 @@ import { IMusicInfo } from '@/hooks/useMusic'
 import { IAudio } from '@/hooks/useAudio'
 import MusicLyric from '../musicLyric'
 import MusicList from '../musicList'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 
 export default function MusicHeader(props: {
   isExpanded: boolean
@@ -12,6 +13,7 @@ export default function MusicHeader(props: {
   audioInfo: IAudio
 }) {
   const { lyricInfo, musicInfo, audioInfo, isExpanded } = props
+  const isDesktop = useMediaQuery('(min-width: 768px)')
 
   let tabs = [
     {
@@ -38,13 +40,7 @@ export default function MusicHeader(props: {
 
   return (
     <CardHeader className={`absolute ${isExpanded ? 'flex' : 'hidden'}`}>
-      <Tabs
-        items={tabs}
-        color="primary"
-        isVertical={window.innerWidth >= 768}
-        size={window.innerWidth >= 768 ? 'lg' : 'sm'}
-        variant="solid"
-      >
+      <Tabs items={tabs} color="primary" isVertical={isDesktop} size={isDesktop ? 'lg' : 'sm'} variant="solid">
         {(item) => (
           <Tab key={item.title} title={item.title}>
             {item.content}
