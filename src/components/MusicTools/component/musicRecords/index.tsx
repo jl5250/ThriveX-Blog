@@ -17,7 +17,7 @@ export default function MusicRecords(props: {
     <div
       className={`fixed left-[3px] bottom-[50px] w-[80px] h-[80px] cursor-pointer z-[999] rounded-full translate-x-[-50%] transition duration-DEFAULT transform ${
         active
-          ? 'translate-x-[10px] translate-y-[-135px] md:translate-x-[20px] md:translate-y-[-80px] shadow-lg hover:shadow-white'
+          ? 'translate-x-[10px] translate-y-[-20px] md:translate-x-[20px] md:translate-y-[-80px] shadow-lg hover:shadow-white'
           : 'hover:translate-x-0'
       }`}
     >

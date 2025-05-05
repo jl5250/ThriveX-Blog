@@ -21,7 +21,7 @@ export default function MusicLyric(props: {
         {songName || PAGE_SONG_NULL_TEXT}
       </div>
       {/* 歌手 */}
-      <p className="text-[12px] text-center leading-[20px] mb-[10px] w-[160px]">
+      <p className="text-[12px] text-center leading-[20px] mb-[5px] w-[160px]">
         歌手：{singers || PAGE_SINGER_NULL_TEXT}
       </p>
       {/* 歌词 */}

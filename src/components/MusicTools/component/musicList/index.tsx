@@ -171,7 +171,7 @@ export default function MUsicList(props: Props) {
         selectedKeys={selectedKeys}
         isStriped
         fullWidth
-        className="w-[510px]"
+        className="w-[360px] h-[360px] md:h-[500px] md:w-[510px]"
       >
         <TableHeader columns={columns}>
           {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}

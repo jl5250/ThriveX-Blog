@@ -98,14 +98,14 @@ export default function MusicTools() {
         isBlurred
         isFooterBlurred
         shadow="lg"
-        className={`fixed top-[68%] left-[1%] border-none z-[998] bg-white/40 ${
+        className={`fixed bottom-[5%] left-[1%] md:top-[68%] md:left-[1%] border-none z-[998] bg-white/40 w-full ${
           active
             ? 'translate-x-0 translate-y-0 scale-100 opacity-100'
             : 'translate-x-[-500px] translate-y-[500px] scale-0 opacity-0'
         } ${
           isExpanded
-            ? 'md:w-[70vw] md:h-[80vh] md:top-[8%]'
-            : 'w-[300px] h-[260px] md:w-[700px] md:h-[200px]'
+            ? 'h-[85vh] md:w-[70vw] md:h-[80vh] md:top-[8%]'
+            : 'h-[295px] md:w-[700px] md:h-[200px]'
         }`}
       >
         {/* 音乐歌单组件 */}
@@ -123,16 +123,20 @@ export default function MusicTools() {
         />
         {/* 音乐信息组件 */}
         <CardFooter
-          className={`absolute z-10 bottom-0 grid grid-cols-6 md:grid-cols-12 items-center justify-center w-full h-[200px] transition-all duration-500 ease-in-out transform ${
-            isExpanded ? 'gap-4 md:gap-20' : 'gap-6 md:gap-2'
+          className={`absolute z-10 bottom-0 grid gap-1 grid-flow-row-dense grid-rows-4 grid-cols-12 items-center justify-center w-full h-[295px] md:h-[200px] transition-all duration-500 ease-in-out transform ${
+            isExpanded ? 'md:gap-x-10' : 'md:gap-x-2'
           }`}
         >
-          <div className="hidden md:flex flex-col items-center col-span-8 col-start-1 h-[180px] w-[300px] md:col-span-3 md:col-start-2">
+          <div
+            className={`flex flex-col items-center row-span-1 md:row-span-2 row-start-1 md:row-start-2 col-span-12  col-start-1  h-[180px] ${
+              isExpanded ? 'md:col-start-2 md:col-span-4' : 'md:col-start-2 md:col-span-5'
+            }`}
+          >
             {/* 歌词 */}
             <MusicLyric leading={10} musicInfo={musicInfo} lyricInfo={lyricInfo} />
           </div>
           <div
-            className={`flex flex-col col-span-8 col-start-1 justify-center ${
+            className={`flex flex-col row-start-3 col-span-8 col-start-5 justify-center ${
               isExpanded ? 'md:col-start-6 md:col-span-8' : 'md:col-start-7 md:col-span-6'
             }`}
           >

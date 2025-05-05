@@ -37,15 +37,21 @@ export default function MusicHeader(props: {
   ]
 
   return (
-    <CardHeader className={`absolute ${isExpanded ? 'hidden md:flex' : 'hidden'}`}>
-      <Tabs aria-label="Dynamic tabs" items={tabs} color="primary" isVertical variant="solid">
+    <CardHeader className={`absolute ${isExpanded ? 'flex' : 'hidden'}`}>
+      <Tabs
+        items={tabs}
+        color="primary"
+        isVertical={window.innerWidth >= 768}
+        size={window.innerWidth >= 768 ? 'lg' : 'sm'}
+        variant="solid"
+      >
         {(item) => (
           <Tab key={item.title} title={item.title}>
             {item.content}
           </Tab>
         )}
       </Tabs>
-      <Card className="w-[550px] h-[500px] bg-white/60 dark:bg-black/60">
+      <Card className="hidden md:block w-[550px] h-[500px] bg-white/60 dark:bg-black/60">
         <CardBody className="flex flex-col items-center">
           {/* 歌词 */}
           <MusicLyric leading={10} musicInfo={musicInfo} lyricInfo={lyricInfo} />

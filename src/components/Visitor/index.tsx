@@ -48,12 +48,14 @@ export default () => {
           `https://restapi.amap.com/v3/weather/weatherInfo?key=${process.env.NEXT_PUBLIC_GAODE_KEY_IP}&city=${locationData.adcode}`
         )
         const weatherData = await weatherResponse.json()
-        setWeather({
-          temperature: weatherData.lives[0].temperature,
-          description: weatherData.lives[0].weather,
-          winddirection: weatherData.lives[0].winddirection,
-          windpower: weatherData.lives[0].windpower
-        })
+        if (weatherData.status === '1') {
+          setWeather({
+            temperature: weatherData.lives[0].temperature,
+            description: weatherData.lives[0].weather,
+            winddirection: weatherData.lives[0].winddirection,
+            windpower: weatherData.lives[0].windpower
+          })
+        }
       } catch (error) {
         console.error('Error fetching visitor info:', error)
       } finally {
@@ -129,8 +131,8 @@ export default () => {
           <div className="flex items-center space-x-2">
             <FaWind className="text-red-500" />
             <span className="text-gray-600 dark:text-gray-300">
-              今天是<span className="text-red-500 font-bold">{weather.winddirection}</span>风，
-              风速<span className="text-red-500 font-bold">{weather.windpower}</span>级
+              今天是<span className="text-red-500 font-bold">{weather.winddirection}</span>风， 风速
+              <span className="text-red-500 font-bold">{weather.windpower}</span>级
             </span>
           </div>
         </div>

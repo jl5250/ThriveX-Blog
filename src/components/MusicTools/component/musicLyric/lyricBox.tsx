@@ -20,7 +20,7 @@ export default function LyricBox(props: lyricBox) {
   const style = { padding: `${leading ?? 5}px 0` }
 
   return (
-    <ScrollShadow hideScrollBar size={100}>
+    <ScrollShadow hideScrollBar size={100} className='w-full'>
       <div ref={lyricBoxRef} className="transition">
         {lyricList.length > 0 ? (
           lyricList.map((item, index) => (
