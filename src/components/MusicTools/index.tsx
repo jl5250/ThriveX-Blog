@@ -132,12 +132,12 @@ export default function MusicTools() {
         />
         {/* 音乐信息组件 */}
         <CardFooter
-          className={`absolute z-10 bottom-0 grid gap-1 grid-flow-row-dense grid-rows-4 grid-cols-12 items-center justify-center w-full h-[295px] md:h-[200px] transition-all duration-500 ease-in-out transform ${
+          className={`absolute z-10 bottom-0 grid gap-1 grid-flow-row-dense grid-rows-4 grid-cols-12 items-center justify-center w-full h-[200px] transition-all duration-500 ease-in-out transform ${
             isExpanded ? 'md:gap-x-10' : 'md:gap-x-2'
           }`}
         >
           <div
-            className={`flex flex-col items-center row-span-2 md:row-span-2 row-start-1 md:row-start-2 col-span-12 col-start-1 h-full ${
+            className={`flex flex-col items-center row-span-2 md:row-span-2 row-start-1 md:row-start-2 col-span-12 col-start-1 h-full md:h-[180px] ${
               isExpanded ? 'md:col-start-2 md:col-span-4' : 'md:col-start-2 md:col-span-5'
             }`}
           >
