@@ -61,7 +61,8 @@ export default function useLyric() {
         const offsetTop =
           currentLyricWrapper.offsetTop -
           (currentLyricParent?.parentElement?.clientHeight ?? 140) / 2 +
-          currentLyricWrapper?.clientHeight / 2
+          currentLyricWrapper?.clientHeight / 2 -
+          30
         // 设置偏移量
         // lyricBoxRef.current.style.transform = `translateY(${-offsetTop}px)`
         // currentLyricParent.scrollTop = offsetTop

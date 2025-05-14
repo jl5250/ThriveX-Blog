@@ -18,9 +18,14 @@ import useAudio from '@/hooks/useAudio'
 import CardHeader from './component/cardHeader'
 import MusicLyric from './component/musicLyric'
 import { formatTime } from '@/utils/dayFormat'
-import { useState } from 'react'
-import MusicRecords from './component/musicRecords'
+import { useState, useCallback, useMemo } from 'react'
+import dynamic from 'next/dynamic'
 import { imgUrl } from '@/utils'
+
+// 动态导入组件以优化加载性能
+const DynamicMusicRecords = dynamic(() => import('./component/musicRecords'), {
+  loading: () => <div className="w-16 h-16 rounded-full bg-gray-200 animate-pulse" />
+})
 
 export default function MusicTools() {
   // 是否展开card
@@ -55,25 +60,29 @@ export default function MusicTools() {
   const { al, url } = musicInfo
 
   const iconSize = 20
-  // 判断音量图标
-  const VolumeIcon = () => {
-    if (volume === 0) {
-      return <FaVolumeXmark size={iconSize} />
-    } else if (volume > 0 && volume <= 0.33) {
-      return <FaVolumeOff size={iconSize} />
-    } else if (volume > 0.33 && volume <= 0.66) {
-      return <FaVolumeLow size={iconSize} />
-    } else if (volume > 0.66 && volume <= 1) {
-      return <FaVolumeHigh size={iconSize} />
-    }
-  }
+  // 使用useMemo优化音量图标计算
+  const VolumeIcon = useMemo(() => {
+    if (volume === 0) return <FaVolumeXmark size={iconSize} />
+    if (volume > 0 && volume <= 0.33) return <FaVolumeOff size={iconSize} />
+    if (volume > 0.33 && volume <= 0.66) return <FaVolumeLow size={iconSize} />
+    if (volume > 0.66 && volume <= 1) return <FaVolumeHigh size={iconSize} />
+    return null
+  }, [volume])
 
-  // 更新播放时间
-  const updateTime = (value: number | number[]) => {
-    if (typeof value === 'number' && audioRef.current) {
-      audioRef.current.currentTime = value / 1000
-    }
-  }
+  // 使用useCallback优化事件处理函数，拖动更新播放时间
+  const updateTime = useCallback(
+    (value: number | number[]) => {
+      if (typeof value === 'number' && audioRef.current) {
+        audioRef.current.currentTime = value / 1000
+      }
+    },
+    [audioRef]
+  )
+
+  // 使用useCallback优化事件处理函数，点击展开卡片
+  const toggleExpand = useCallback(() => {
+    setIsExpanded((prev) => !prev)
+  }, [])
 
   return (
     <>
@@ -84,10 +93,10 @@ export default function MusicTools() {
         onCanPlay={(e) => canplay(e)}
         onEnded={() => onEnd()}
         onError={() => onError()}
+        className="hidden"
       />
 
-      {/* 小圆唱片 */}
-      <MusicRecords
+      <DynamicMusicRecords
         active={active}
         setPanActive={setPanActive}
         isMusic={isMusic}
@@ -98,7 +107,7 @@ export default function MusicTools() {
         isBlurred
         isFooterBlurred
         shadow="lg"
-        className={`fixed bottom-[5%] left-[1%] md:top-[68%] md:left-[1%] border-none z-[998] bg-white/40 w-full ${
+        className={`fixed bottom-[5%] left-[1%] md:top-[68%] md:left-[1%] border-none z-[998] bg-white/40 w-full transition-all duration-500 ease-in-out ${
           active
             ? 'translate-x-0 translate-y-0 scale-100 opacity-100'
             : 'translate-x-[-500px] translate-y-[500px] scale-0 opacity-0'
@@ -118,7 +127,7 @@ export default function MusicTools() {
         <Image
           removeWrapper
           src={imgUrl(1236, 794, al?.picUrl)}
-          alt="图片"
+          alt="音乐封面"
           className="z-0 w-full h-full object-cover"
         />
         {/* 音乐信息组件 */}
@@ -128,7 +137,7 @@ export default function MusicTools() {
           }`}
         >
           <div
-            className={`flex flex-col items-center row-span-1 md:row-span-2 row-start-1 md:row-start-2 col-span-12  col-start-1  h-[180px] ${
+            className={`flex flex-col items-center row-span-2 md:row-span-2 row-start-1 md:row-start-2 col-span-12 col-start-1 h-full ${
               isExpanded ? 'md:col-start-2 md:col-span-4' : 'md:col-start-2 md:col-span-5'
             }`}
           >
@@ -141,10 +150,10 @@ export default function MusicTools() {
             }`}
           >
             {/* 播放按钮 */}
-            <div className="flex items-end justify-center h-full">
+            <div className="flex items-end justify-center h-full space-x-2">
               <Button
                 isIconOnly
-                className="data-[hover]:bg-foreground/10"
+                className="data-[hover]:bg-foreground/10 transition-colors duration-200"
                 radius="full"
                 variant="light"
                 onPress={() => switchMusic('pre', currentOrder)}
@@ -153,7 +162,7 @@ export default function MusicTools() {
               </Button>
               <Button
                 isIconOnly
-                className="data-[hover]:bg-foreground/10"
+                className="data-[hover]:bg-foreground/10 transition-colors duration-200"
                 radius="full"
                 variant="light"
                 onPress={() => switchMusicStaus()}
@@ -162,7 +171,7 @@ export default function MusicTools() {
               </Button>
               <Button
                 isIconOnly
-                className="data-[hover]:bg-foreground/10"
+                className="data-[hover]:bg-foreground/10 transition-colors duration-200"
                 radius="full"
                 variant="light"
                 onPress={() => switchMusic('next', currentOrder)}
@@ -171,7 +180,7 @@ export default function MusicTools() {
               </Button>
               <div className="flex flex-col group">
                 <Slider
-                  className="opacity-0 group-hover:opacity-100 h-14"
+                  className="opacity-0 group-hover:opacity-100 h-14 transition-opacity duration-200"
                   defaultValue={volume}
                   value={volume}
                   maxValue={1}
@@ -184,20 +193,20 @@ export default function MusicTools() {
                 />
                 <Button
                   isIconOnly
-                  className="data-[hover]:bg-foreground/10"
+                  className="data-[hover]:bg-foreground/10 transition-colors duration-200"
                   radius="full"
                   variant="light"
                   onPress={() => changeJingyin()}
                 >
-                  {VolumeIcon()}
+                  {VolumeIcon}
                 </Button>
               </div>
               <Button
                 isIconOnly
-                className="data-[hover]:bg-foreground/10"
+                className="data-[hover]:bg-foreground/10 transition-colors duration-200"
                 radius="full"
                 variant="light"
-                onPress={() => setIsExpanded(!isExpanded)}
+                onPress={toggleExpand}
               >
                 <FaBarsStaggered size={iconSize} />
               </Button>
@@ -215,11 +224,11 @@ export default function MusicTools() {
                 defaultValue={0}
                 maxValue={duration}
                 size="sm"
-                onChangeEnd={(value) => updateTime(value)}
+                onChangeEnd={updateTime}
               />
-              <div className="flex justify-between">
-                <p className="text-small">{formatTime(currentTime)}</p>
-                <p className="text-small text-foreground/50">{formatTime(duration)}</p>
+              <div className="flex justify-between text-sm">
+                <p className="text-foreground/80">{formatTime(currentTime)}</p>
+                <p className="text-foreground/50">{formatTime(duration)}</p>
               </div>
             </div>
           </div>

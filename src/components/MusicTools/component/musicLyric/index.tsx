@@ -1,9 +1,12 @@
+'use client'
+
 import { ILyric } from '@/hooks/useLyric'
 import { IMusicInfo } from '@/hooks/useMusic'
 import { PAGE_SINGER_NULL_TEXT, PAGE_SONG_NULL_TEXT } from '@/constant'
 import LyricBox from './lyricBox'
+import { memo } from 'react'
 
-export default function MusicLyric(props: {
+const MusicLyric = memo(function MusicLyric(props: {
   leading?: number
   lyricInfo: ILyric
   musicInfo: IMusicInfo
@@ -33,4 +36,6 @@ export default function MusicLyric(props: {
       />
     </>
   )
-}
+})
+
+export default MusicLyric

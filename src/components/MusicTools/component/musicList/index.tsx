@@ -1,13 +1,14 @@
 'use client'
 
-import { MusicListItem, MusicList } from '@/types/app/music'
+import { MusicListItem } from '@/types/app/music'
+import type { MusicList as MusicListType } from '@/types/app/music'
 import { useMusicStore } from '@/stores'
 import img from '@/assets/image/playing.gif'
 import Image from 'next/image'
 import { formatTime } from '@/utils/dayFormat'
 import { LIST_NULL_TEXT } from '@/constant'
 import { IAudio } from '@/hooks/useAudio'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { getPlayListTrack, getLike } from '@/api/music'
 import useSwitchCurrentMusic from '@/hooks/useSwitchCurrentMusic'
 import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from '@heroui/react'
@@ -18,9 +19,14 @@ interface Props {
   audioInfo: IAudio // 传入当前播放的音乐信息
 }
 
-let timer: any = null
+type ColumnKey = 'index' | 'name' | 'arname' | 'dt'
 
-const columns = [
+interface Column {
+  key: ColumnKey
+  label: string
+}
+
+const columns: Column[] = [
   {
     key: 'index',
     label: ''
@@ -39,7 +45,7 @@ const columns = [
   }
 ]
 
-export default function MUsicList(props: Props) {
+export default function MusicList(props: Props) {
   const { id, type, audioInfo } = props
 
   const {
@@ -62,128 +68,152 @@ export default function MUsicList(props: Props) {
   const [disabledKeys, setDisabledKeys] = useState<string[]>([])
   const [selectedKeys, setSelectedKeys] = useState(new Set(['']))
 
+  // 使用useMemo优化当前音乐列表的选择
   useEffect(() => {
-    const SelectKeys = () => {
-      currentMusic.id && setSelectedKeys(new Set([currentMusic.id + ''])) // 设置当前播放的音乐为选中状态
+    if (currentMusic.id) {
+      setSelectedKeys(new Set([currentMusic.id.toString()]))
     }
-    SelectKeys()
-  }, [currentMusic])
+  }, [currentMusic.id])
 
+  // 使用useMemo优化音乐类型设置
   useEffect(() => {
-    const saveMusicType = () => {
-      changeCurrentMusicType(type) // 设置当前音乐类型
-    }
-    saveMusicType()
-  }, [type])
+    changeCurrentMusicType(type)
+  }, [type, changeCurrentMusicType])
 
-  // 请求热榜推荐歌曲的数据
-  useEffect(() => {
-    const fetchDisCover = async () => {
-      if (id === undefined) return
-      setLoading(true)
-      const { songs } = (await getPlayListTrack(id)) as MusicList
-      // 保存
-      switch (type) {
-        case 'surge':
-          changeSurgeMusicList(songs || [])
-          newList(surgeMusicList)
-          break
-        case 'hot':
-          changeHotMusicList(songs || [])
-          newList(hotMusicList)
-          break
-        case 'new':
-          changeNewMusicList(songs || [])
-          newList(newMusicList)
-          break
-        case 'original':
-          changeOriginalMusicList(songs || [])
-          newList(originalMusicList)
-        default:
-          break
-      }
-      setLoading(false)
-    }
-    const fetchHotRecommend = async () => {
-      setLoading(true)
-      const res = await getLike()
-      const dailySongs = res?.data.dailySongs || []
-      // 保存
-      changeDailyMusicList(dailySongs)
-      newList(dailyMusicList)
-      setLoading(false)
-    }
-    if (id === undefined && type === 'like') fetchHotRecommend()
-    else fetchDisCover()
+  // 使用useCallback优化列表数据处理
+  const processList = useCallback((listMap: MusicListItem[]) => {
+    const processedList = listMap.map((item, index) => ({
+      ...item,
+      key: item.id?.toString() || '',
+      index,
+      arname: item.ar?.[0]?.name || '未知歌手'
+    }))
+
+    setList(processedList)
+
+    const vipSongs = processedList
+      .filter((item) => item.fee === 1 || item.fee === 4)
+      .map((item) => item.key)
+    setDisabledKeys(vipSongs)
   }, [])
 
-  // 整理表单数据
-  const newList = (listMap: MusicListItem[]) => {
-    const row = listMap.map((item, index) => {
-      return {
-        ...item,
-        key: item.id + '',
-        index: index,
-        arname: item.ar && item.ar[0].name
+  // 使用useCallback优化数据获取
+  const fetchData = useCallback(async () => {
+    setLoading(true)
+    try {
+      if (id === undefined && type === 'like') {
+        const res = await getLike()
+        const dailySongs = res?.data.dailySongs || []
+        changeDailyMusicList(dailySongs)
+        processList(dailyMusicList)
+      } else if (id !== undefined) {
+        const { songs } = (await getPlayListTrack(id)) as MusicListType
+        const songsList = songs || []
+
+        switch (type) {
+          case 'surge':
+            changeSurgeMusicList(songsList)
+            processList(surgeMusicList)
+            break
+          case 'hot':
+            changeHotMusicList(songsList)
+            processList(hotMusicList)
+            break
+          case 'new':
+            changeNewMusicList(songsList)
+            processList(newMusicList)
+            break
+          case 'original':
+            changeOriginalMusicList(songsList)
+            processList(originalMusicList)
+            break
+        }
       }
-    })
-    setList(row)
-
-    const findDisKey = row
-      .filter((item) => item.fee === 1 || item.fee === 4)
-      .map((item) => item.key) // 找到不能播放的key
-    setDisabledKeys(findDisKey) // 设置不能播放的key
-  }
-
-  // 匹配表单的值
-  const getKeyValue = (item: any, key: string | number) => {
-    if (key === 'dt') {
-      return formatTime(item[key])
+    } catch (error) {
+      console.error('Failed to fetch music list:', error)
+    } finally {
+      setLoading(false)
     }
-    if (key === 'index' && currentMusic.id === item.id) {
-      return <Image src={img} alt="" />
-    } else if (key === 'index' && currentMusic.id !== item.id) {
-      return item[key] + 1
-    }
-    return item[key]
-  }
+  }, [id, type, processList])
 
-  // 单击row触发事件
-  const single = (item: MusicListItem) => {
-    if (currentMusic.id === item.id) return // 如果当前点击的歌曲是正在播放的歌曲，则不执行任何操作
-    if (item.fee === 1 || item.fee === 4) return // 如果当前点击的歌曲是VIP歌曲，则不执行任何操作
-    clearTimeout(timer) // 清除第二次单击事件
-    timer = setTimeout(() => {
-      useSwitchCurrentMusic(item)
-      audioInfo.setIsMusic(true)
-    }, 200)
-  }
+  useEffect(() => {
+    fetchData()
+  }, [fetchData])
+
+  // 使用useCallback优化单元格渲染
+  const renderCell = useCallback(
+    (item: MusicListItem, key: ColumnKey) => {
+      if (key === 'dt') {
+        return formatTime(item[key] || 0)
+      }
+      if (key === 'index') {
+        return currentMusic.id === item.id ? (
+          <Image src={img} alt="正在播放" className="w-4 h-4" />
+        ) : (
+          (item.index || 0) + 1
+        )
+      }
+      return item[key] || ''
+    },
+    [currentMusic.id]
+  )
+
+  // 使用useCallback优化行点击处理
+  const handleRowClick = useCallback(
+    (item: MusicListItem) => {
+      if (currentMusic.id === item.id || item.fee === 1 || item.fee === 4) return // 如果当前点击的歌曲是正在播放的歌曲或者是VIP歌曲，则不执行任何操作
+
+      const timer = setTimeout(() => {
+        useSwitchCurrentMusic(item)
+        audioInfo.setIsMusic(true)
+      }, 200)
+
+      return () => clearTimeout(timer)
+    },
+    [currentMusic.id, audioInfo]
+  )
 
   return (
-    <>
-      <Table
-        isVirtualized
-        maxTableHeight={510}
-        rowHeight={30}
-        disabledKeys={disabledKeys}
-        selectionMode="single"
-        disallowEmptySelection
-        selectedKeys={selectedKeys}
-        isStriped
-        fullWidth
-        className="w-[360px] h-[360px] md:h-[500px] md:w-[510px]"
+    <Table
+      isVirtualized
+      maxTableHeight={510}
+      rowHeight={30}
+      disabledKeys={disabledKeys}
+      selectionMode="single"
+      disallowEmptySelection
+      selectedKeys={selectedKeys}
+      isStriped
+      fullWidth
+      className="w-[360px] h-[360px] md:h-[500px] md:w-[510px]"
+    >
+      <TableHeader columns={columns}>
+        {(column: Column) => (
+          <TableColumn key={column.key} className="text-sm font-medium">
+            {column.label}
+          </TableColumn>
+        )}
+      </TableHeader>
+      <TableBody
+        emptyContent={LIST_NULL_TEXT}
+        isLoading={loading}
+        loadingContent={
+          <div className="flex items-center justify-center h-full">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+          </div>
+        }
       >
-        <TableHeader columns={columns}>
-          {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
-        </TableHeader>
-        <TableBody emptyContent={LIST_NULL_TEXT} isLoading={loading} loadingContent="加载中...">
-          {list.map((item) => (
-            <TableRow key={item.key} onClick={() => single(item)} className="hover:cursor-pointer">
-              {(columnKey) => <TableCell>{getKeyValue(item, columnKey)}</TableCell>}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </>
+        {list.map((item) => (
+          <TableRow
+            key={item.key}
+            onClick={() => handleRowClick(item)}
+            className="hover:cursor-pointer"
+          >
+            {(columnKey) => (
+              <TableCell className="text-sm">{renderCell(item, columnKey as ColumnKey)}</TableCell>
+            )}
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   )
 }
