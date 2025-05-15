@@ -15,7 +15,7 @@ const MusicLyric = memo(function MusicLyric(props: {
   // 获取音乐信息相关
   const { singers, name: songName } = musicInfo
   // 获取歌词相关信息
-  const { currentLyricIndex, lyricList, lyricBoxRef } = lyricInfo
+  const { currentLyricIndex, lyricList, lyricBoxRef, currentTime } = lyricInfo
 
   return (
     <>
@@ -33,6 +33,7 @@ const MusicLyric = memo(function MusicLyric(props: {
         currentLyricIndex={currentLyricIndex}
         lyricList={lyricList}
         lyricBoxRef={lyricBoxRef}
+        currentTime={currentTime}
       />
     </>
   )

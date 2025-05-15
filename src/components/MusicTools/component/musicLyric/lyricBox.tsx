@@ -12,12 +12,13 @@ interface LyricBoxProps {
   }>
   lyricBoxRef: React.RefObject<HTMLDivElement | null>
   leading?: number
+  currentTime: number
 }
 
 const LyricBox = memo(function LyricBox(props: LyricBoxProps) {
-  const { currentLyricIndex, lyricList, lyricBoxRef, leading } = props
+  const { currentLyricIndex, lyricList, lyricBoxRef, leading, currentTime } = props
 
-  // 使用useMemo优化样式计算
+  // 使用useMemo优化样式计算，添加currentTime依赖
   const getLyricStyle = useMemo(() => {
     return (index: number) => {
       const baseClasses = 'text-center text-balance leading-[16px] transition-all duration-300'
@@ -27,7 +28,7 @@ const LyricBox = memo(function LyricBox(props: LyricBoxProps) {
           : 'text-foreground/70'
       return `${baseClasses} ${activeClasses}`
     }
-  }, [currentLyricIndex])
+  }, [currentLyricIndex, currentTime]) // 添加 currentTime 依赖
 
   const style = { padding: `${leading ?? 5}px 0` }
 

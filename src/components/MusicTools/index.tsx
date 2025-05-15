@@ -9,7 +9,9 @@ import {
   FaBackwardStep,
   FaPause,
   FaPlay,
-  FaBarsStaggered
+  FaBarsStaggered,
+  FaRepeat,
+  FaShuffle
 } from 'react-icons/fa6'
 import { Card, CardFooter, Button, Slider, Image } from '@heroui/react'
 import useMusicInfo from '@/hooks/useMusic'
@@ -32,6 +34,8 @@ export default function MusicTools() {
   const [isExpanded, setIsExpanded] = useState(false)
   // 是否点击了pan显示card
   const [active, setPanActive] = useState(false)
+  // 拖动时的临时时间
+  const [tempTime, setTempTime] = useState<number | null>(null)
   // 获取音乐信息的Hook
   const musicInfo = useMusicInfo()
   // 获取歌词信息的Hook
@@ -69,11 +73,33 @@ export default function MusicTools() {
     return null
   }, [volume])
 
+  // 使用useMemo优化播放模式图标计算
+  const OrderIcon = useMemo(() => {
+    switch (currentOrder) {
+      case 'cycle':
+        return <FaRepeat size={iconSize} />
+      case 'single':
+        return <FaRepeat size={iconSize} className="text-primary" />
+      case 'random':
+        return <FaShuffle size={iconSize} />
+      default:
+        return <FaRepeat size={iconSize} />
+    }
+  }, [currentOrder])
+
+  // 处理拖动时的进度更新
+  const handleTimeChange = useCallback((value: number | number[]) => {
+    if (typeof value === 'number') {
+      setTempTime(value)
+    }
+  }, [])
+
   // 使用useCallback优化事件处理函数，拖动更新播放时间
   const updateTime = useCallback(
     (value: number | number[]) => {
       if (typeof value === 'number' && audioRef.current) {
         audioRef.current.currentTime = value / 1000
+        setTempTime(null)
       }
     },
     [audioRef]
@@ -178,6 +204,22 @@ export default function MusicTools() {
               >
                 <FaForwardStep size={iconSize} />
               </Button>
+              <Button
+                isIconOnly
+                className="data-[hover]:bg-foreground/10 transition-colors duration-200"
+                radius="full"
+                variant="light"
+                onPress={() => audioInfo.switchOrder()}
+                title={`当前模式：${
+                  currentOrder === 'cycle'
+                    ? '列表循环'
+                    : currentOrder === 'single'
+                    ? '单曲循环'
+                    : '随机播放'
+                }`}
+              >
+                {OrderIcon}
+              </Button>
               <div className="flex flex-col group">
                 <Slider
                   className="opacity-0 group-hover:opacity-100 h-14 transition-opacity duration-200"
@@ -220,11 +262,22 @@ export default function MusicTools() {
                   thumb: 'w-2 h-2 after:w-2 after:h-2 after:bg-foreground'
                 }}
                 color="foreground"
-                value={currentTime}
+                value={tempTime ?? currentTime}
                 defaultValue={0}
                 maxValue={duration}
                 size="sm"
+                onChange={handleTimeChange}
                 onChangeEnd={updateTime}
+                showTooltip
+                tooltipProps={{
+                  placement: 'top',
+                  showArrow: true,
+                  content: formatTime(tempTime ?? currentTime),
+                  classNames: {
+                    base: 'bg-black/80 text-white px-2 py-1 rounded-md text-xs',
+                    arrow: 'bg-black/80'
+                  }
+                }}
               />
               <div className="flex justify-between text-sm">
                 <p className="text-foreground/80">{formatTime(currentTime)}</p>

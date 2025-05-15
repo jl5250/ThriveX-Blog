@@ -6,6 +6,7 @@ import { useMusicStore } from '@/stores'
 export interface ILyric {
   updateTime: (e: any, fuzzy?: boolean) => void
   currentLyricIndex: number
+  currentTime: number
   lyricList: lyricItem[]
   lyricBoxRef: RefObject<HTMLDivElement | null>
 }
@@ -29,15 +30,22 @@ export default function useLyric() {
    * 为了模糊匹配（可以缓解这个情况）
    * @param e
    */
-  const updateTime = (e: any, fuzzy = false) => {
+  const updateTime = (e: any) => {
     // 修改全局播放时间
-    changeCurrentTime(
+    const newTime =
       typeof e !== 'string' ? parseInt((e.target.currentTime * 1000).toFixed()) : parseInt(e)
-    )
+    changeCurrentTime(newTime)
+
     // 找到当前歌词下标
-    const index = lyricList.findIndex(
-      (item) => Math.abs(item.time - currentTime) <= (fuzzy ? 1000 : 400)
-    )
+    const index = lyricList.findIndex((item, i) => {
+      // 如果是最后一句歌词，直接返回
+      if (i === lyricList.length - 1) {
+        return item.time <= newTime
+      }
+      // 否则检查当前歌词和下一句歌词的时间
+      return item.time <= newTime && lyricList[i + 1].time > newTime
+    })
+
     if (index !== -1) {
       // 修改当前的歌词下标
       changeCurrentLyricIndex(index)
@@ -73,11 +81,12 @@ export default function useLyric() {
       }
     }
     // 在当前歌词Index改变，或者是歌曲改变时执行
-  }, [currentLyricIndex, currentMusic])
+  }, [currentLyricIndex, currentMusic, currentTime])
 
   return {
     updateTime,
     currentLyricIndex,
+    currentTime,
     lyricList,
     lyricBoxRef
   }
