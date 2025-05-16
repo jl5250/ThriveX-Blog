@@ -125,7 +125,23 @@ export default function AlbumPage(props: Props) {
       <title>{`📷 ${albumName} - 照片墙`}</title>
       <meta name="description" content={`📷 ${albumName} - 照片墙`} />
 
-      <div className="container mx-auto px-4 py-8 pt-[90px]">
+      {/* 页面头部 */}
+      <div className="relative bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+        <div className="container mx-auto px-4 py-20 max-w-7xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-12"
+          >
+            <h1 className="text-4xl font-bold mb-4 text-gray-800 dark:text-white">{albumName}</h1>
+            <p className="text-gray-600 dark:text-gray-300">共 {list.length} 张照片</p>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* 主要内容区域 */}
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* 加载状态 */}
         {loading && list.length === 0 && (
           <div className="min-h-[60vh] flex flex-col items-center justify-center">
@@ -137,8 +153,8 @@ export default function AlbumPage(props: Props) {
           </div>
         )}
 
-        {/* 主要内容 */}
-        <div className="w-full">
+        {/* 照片网格 */}
+        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl shadow-lg p-6 md:p-8 border border-gray-100 dark:border-gray-700">
           {!loading && list?.length === 0 ? (
             <Empty info="暂无照片" />
           ) : (
@@ -154,25 +170,26 @@ export default function AlbumPage(props: Props) {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="relative group overflow-hidden rounded-lg shadow-lg mb-6"
+                    className="relative group overflow-hidden rounded-lg shadow-lg mb-6 cursor-pointer"
                     onClick={() => openPhoto(index)}
                   >
-                    <div className="w-full cursor-pointer">
+                    <div className="w-full">
                       <img
-                        src={
-                          photo.image ||
-                          'https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-1.2.1&auto=format&fit=crop&w=3840&q=100'
-                        }
+                        src={photo.image}
                         alt={photo.name}
                         className="w-full h-auto object-cover transform transition-transform duration-300 group-hover:scale-110"
                       />
                     </div>
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                       <h3 className="text-white font-medium text-lg">{photo.name}</h3>
+                      <p className="text-white/70 text-sm mt-1 line-clamp-2">{photo.description}</p>
                     </div>
                   </motion.div>
                 ))}
               </Masonry>
+
+              {/* 加载更多状态 */}
               {loading && list.length > 0 && (
                 <div className="flex justify-center items-center py-8">
                   <div className="relative">
@@ -187,98 +204,98 @@ export default function AlbumPage(props: Props) {
             </>
           )}
         </div>
-
-        {/* 照片查看模态框 */}
-        <AnimatePresence>
-          {showModal && currentPhotoIndex !== null && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 backdrop-blur-md bg-black/30 flex items-center justify-center z-50"
-              onClick={closeModal}
-            >
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-                className="relative max-w-4xl w-full mx-4"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <div className="relative rounded-2xl overflow-hidden">
-                  {isImageLoading && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-                      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
-                    </div>
-                  )}
-
-                  <motion.div
-                    key={currentPhotoIndex}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.3, ease: 'easeInOut' }}
-                    className="relative"
-                  >
-                    <img
-                      src={list[currentPhotoIndex].image}
-                      alt={list[currentPhotoIndex].name}
-                      className="w-full h-auto max-h-[80vh] rounded-2xl object-cover"
-                    />
-
-                    {/* 导航按钮 */}
-                    <button
-                      className="flex justify-center items-center absolute left-4 top-1/2 z-10 -translate-y-1/2 p-2 rounded-full bg-[#fff3] hover:bg-black/50 backdrop-blur-md transition-colors duration-200"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        prevPhoto()
-                      }}
-                    >
-                      <IoChevronBack className="w-8 h-8 text-white" />
-                    </button>
-
-                    <button
-                      className="flex justify-center items-center absolute right-4 top-1/2 z-10 -translate-y-1/2 p-2 rounded-full bg-[#fff3] hover:bg-black/10 backdrop-blur-md transition-colors duration-200"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        nextPhoto()
-                      }}
-                    >
-                      <IoChevronForward className="w-8 h-8 text-white" />
-                    </button>
-
-                    {/* 照片信息 */}
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
-                      <motion.div
-                        key={currentPhotoIndex}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: 0.2 }}
-                      >
-                        <h3 className="text-white text-2xl font-medium mb-2">
-                          {list[currentPhotoIndex].name}
-                        </h3>
-
-                        <p className="text-white/50 leading-relaxed mb-3">
-                          {list[currentPhotoIndex].description}
-                        </p>
-
-                        <div className="flex items-center space-x-2 text-gray-400">
-                          <BsCalendar className="w-4 h-4 text-gray-400" />
-                          <p className="text-sm">
-                            {dayjs(+list[currentPhotoIndex].createTime).format('YYYY-MM-DD HH:mm')}
-                          </p>
-                        </div>
-                      </motion.div>
-                    </div>
-                  </motion.div>
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
+
+      {/* 照片查看模态框 */}
+      <AnimatePresence>
+        {showModal && currentPhotoIndex !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 backdrop-blur-md bg-black/30 flex items-center justify-center z-50"
+            onClick={closeModal}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              className="relative max-w-4xl w-full mx-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="relative rounded-2xl overflow-hidden bg-white dark:bg-gray-800">
+                {isImageLoading && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+                  </div>
+                )}
+
+                <motion.div
+                  key={currentPhotoIndex}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  className="relative"
+                >
+                  <img
+                    src={list[currentPhotoIndex].image}
+                    alt={list[currentPhotoIndex].name}
+                    className="w-full h-auto max-h-[80vh] rounded-t-2xl object-cover"
+                  />
+
+                  {/* 导航按钮 */}
+                  <button
+                    className="flex justify-center items-center absolute left-4 top-1/2 z-10 -translate-y-1/2 p-2 rounded-full bg-[#fff3] hover:bg-black/50 backdrop-blur-md transition-colors duration-200"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      prevPhoto()
+                    }}
+                  >
+                    <IoChevronBack className="w-8 h-8 text-white" />
+                  </button>
+
+                  <button
+                    className="flex justify-center items-center absolute right-4 top-1/2 z-10 -translate-y-1/2 p-2 rounded-full bg-[#fff3] hover:bg-black/10 backdrop-blur-md transition-colors duration-200"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      nextPhoto()
+                    }}
+                  >
+                    <IoChevronForward className="w-8 h-8 text-white" />
+                  </button>
+
+                  {/* 照片信息 */}
+                  <div className="p-6">
+                    <motion.div
+                      key={currentPhotoIndex}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: 0.2 }}
+                    >
+                      <h3 className="text-2xl font-medium mb-2 text-gray-800 dark:text-white">
+                        {list[currentPhotoIndex].name}
+                      </h3>
+
+                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-3">
+                        {list[currentPhotoIndex].description}
+                      </p>
+
+                      <div className="flex items-center space-x-2 text-gray-500 dark:text-gray-400">
+                        <BsCalendar className="w-4 h-4" />
+                        <p className="text-sm">
+                          {dayjs(+list[currentPhotoIndex].createTime).format('YYYY-MM-DD')}
+                        </p>
+                      </div>
+                    </motion.div>
+                  </div>
+                </motion.div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   )
 }
