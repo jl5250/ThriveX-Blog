@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { useEffect, useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -6,21 +6,21 @@ import { IoChevronBack, IoChevronForward } from 'react-icons/io5'
 import { BsCalendar } from 'react-icons/bs'
 import { Photo } from '@/types/app/album'
 import { getImagesByAlbumIdAPI } from '@/api/album'
-import Masonry from "react-masonry-css"
+import Masonry from 'react-masonry-css'
 import Empty from '@/components/Empty'
 import dayjs from 'dayjs'
-import "./page.scss"
+import './page.scss'
 
 const breakpointColumnsObj = {
   default: 4,
   1024: 3,
   700: 2
-};
+}
 
 interface Props {
-  params: Promise<{ id: number }>;
-  searchParams: Promise<{ page: number; name: string }>;
-};
+  params: Promise<{ id: number }>
+  searchParams: Promise<{ page: number; name: string }>
+}
 
 export default function AlbumPage(props: Props) {
   const [list, setList] = useState<Photo[]>([])
@@ -35,27 +35,27 @@ export default function AlbumPage(props: Props) {
 
   useEffect(() => {
     const initData = async () => {
-      const searchParams = await props.searchParams;
-      const params = await props.params;
+      const searchParams = await props.searchParams
+      const params = await props.params
 
-      setAlbumName(searchParams.name);
-      setAlbumId(params.id);
-      await getImagesByAlbumId(params.id);
-    };
-    initData();
-  }, [props.searchParams, props.params]);
+      setAlbumName(searchParams.name)
+      setAlbumId(params.id)
+      await getImagesByAlbumId(params.id)
+    }
+    initData()
+  }, [props.searchParams, props.params])
 
   const getImagesByAlbumId = async (id: number, page: number = 1, isLoadMore: boolean = false) => {
     try {
       setLoading(true)
       const response = await getImagesByAlbumIdAPI(id, page)
-      console.log(response);
-      
+      console.log(response)
+
       if (!response) return
 
       const { data } = response
       if (isLoadMore) {
-        setList(prev => [...prev, ...data.result])
+        setList((prev) => [...prev, ...data.result])
       } else {
         setList(data.result)
       }
@@ -76,7 +76,7 @@ export default function AlbumPage(props: Props) {
     const clientHeight = document.documentElement.clientHeight
 
     if (scrollHeight - scrollTop - clientHeight < 300) {
-      setPage(prev => prev + 1)
+      setPage((prev) => prev + 1)
       getImagesByAlbumId(albumId, page + 1, true)
     }
   }, [loading, hasMore, page, albumId])
@@ -126,9 +126,20 @@ export default function AlbumPage(props: Props) {
       <meta name="description" content={`📷 ${albumName} - 照片墙`} />
 
       <div className="container mx-auto px-4 py-8 pt-[90px]">
-        {/* 移除最大高度限制 */}
+        {/* 加载状态 */}
+        {loading && list.length === 0 && (
+          <div className="min-h-[60vh] flex flex-col items-center justify-center">
+            <div className="relative">
+              <div className="w-16 h-16 border-4 border-gray-200 rounded-full"></div>
+              <div className="w-16 h-16 border-4 border-blue-500 rounded-full animate-spin absolute top-0 left-0 border-t-transparent"></div>
+            </div>
+            <p className="mt-4 text-gray-500">正在加载相册内容...</p>
+          </div>
+        )}
+
+        {/* 主要内容 */}
         <div className="w-full">
-          {list?.length === 0 ? (
+          {!loading && list?.length === 0 ? (
             <Empty info="暂无照片" />
           ) : (
             <>
@@ -148,7 +159,10 @@ export default function AlbumPage(props: Props) {
                   >
                     <div className="w-full cursor-pointer">
                       <img
-                        src={photo.image || "https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-1.2.1&auto=format&fit=crop&w=3840&q=100"}
+                        src={
+                          photo.image ||
+                          'https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-1.2.1&auto=format&fit=crop&w=3840&q=100'
+                        }
                         alt={photo.name}
                         className="w-full h-auto object-cover transform transition-transform duration-300 group-hover:scale-110"
                       />
@@ -159,9 +173,12 @@ export default function AlbumPage(props: Props) {
                   </motion.div>
                 ))}
               </Masonry>
-              {loading && (
-                <div className="flex justify-center items-center py-4">
-                  <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900"></div>
+              {loading && list.length > 0 && (
+                <div className="flex justify-center items-center py-8">
+                  <div className="relative">
+                    <div className="w-12 h-12 border-4 border-gray-200 rounded-full"></div>
+                    <div className="w-12 h-12 border-4 border-blue-500 rounded-full animate-spin absolute top-0 left-0 border-t-transparent"></div>
+                  </div>
                 </div>
               )}
               {!hasMore && list.length > 0 && (
@@ -249,7 +266,9 @@ export default function AlbumPage(props: Props) {
 
                         <div className="flex items-center space-x-2 text-gray-400">
                           <BsCalendar className="w-4 h-4 text-gray-400" />
-                          <p className="text-sm">{dayjs(+list[currentPhotoIndex].createTime).format('YYYY-MM-DD HH:mm')}</p>
+                          <p className="text-sm">
+                            {dayjs(+list[currentPhotoIndex].createTime).format('YYYY-MM-DD HH:mm')}
+                          </p>
                         </div>
                       </motion.div>
                     </div>
