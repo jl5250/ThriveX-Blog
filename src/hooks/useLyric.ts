@@ -23,6 +23,10 @@ export default function useLyric() {
   } = useMusicStore()
   // 转换歌词
   const lyricList = useMemo(() => parseLyric(currentLyric), [currentLyric])
+  // 记录上次滚动位置
+  const lastScrollTop = useRef(0)
+  // 记录是否应该恢复自动滚动
+  const shouldResumeAutoScroll = useRef(true)
 
   /**
    * 更新播放时间和当前歌词下标的函数（会被audio的onUpdateTime调用）
@@ -59,7 +63,7 @@ export default function useLyric() {
    * 滚动歌词的副作用函数
    */
   useEffect(() => {
-    if (lyricBoxRef.current) {
+    if (lyricBoxRef.current && shouldResumeAutoScroll.current) {
       // 获取歌词容器中当前歌词的对应元素
       const currentLyricWrapper = lyricBoxRef.current.children[currentLyricIndex] as HTMLElement
       const currentLyricParent = lyricBoxRef.current.parentElement as HTMLElement
@@ -72,16 +76,56 @@ export default function useLyric() {
           currentLyricWrapper?.clientHeight / 2 -
           20
         // 设置偏移量
-        // lyricBoxRef.current.style.transform = `translateY(${-offsetTop}px)`
-        // currentLyricParent.scrollTop = offsetTop
         currentLyricParent.scrollTo({
           top: offsetTop,
           behavior: 'smooth'
         })
+        // 手动触发 scroll 事件
+        const evt = new Event('scroll', { bubbles: true })
+        lyricBoxRef.current.dispatchEvent(evt)
       }
     }
-    // 在当前歌词Index改变，或者是歌曲改变时执行
   }, [currentLyricIndex, currentMusic, currentTime])
+
+  // 添加滚动事件监听
+  useEffect(() => {
+    const lyricParent = lyricBoxRef.current?.parentElement
+    if (!lyricParent) return
+
+    const handleScroll = () => {
+      const currentScrollTop = lyricParent.scrollTop
+
+      // 检测是否是用户手动滚动
+      if (Math.abs(currentScrollTop - lastScrollTop.current) > 5) {
+        shouldResumeAutoScroll.current = false
+      }
+
+      lastScrollTop.current = currentScrollTop
+    }
+
+    const handleScrollEnd = () => {
+      // 延迟恢复自动滚动，给用户一个缓冲时间
+      setTimeout(() => {
+        shouldResumeAutoScroll.current = true
+      }, 1000)
+    }
+
+    let scrollTimeout: NodeJS.Timeout
+    const debouncedScrollEnd = () => {
+      clearTimeout(scrollTimeout)
+      scrollTimeout = setTimeout(handleScrollEnd, 150)
+    }
+
+    lyricParent.addEventListener('scroll', () => {
+      handleScroll()
+      debouncedScrollEnd()
+    })
+
+    return () => {
+      lyricParent.removeEventListener('scroll', handleScroll)
+      clearTimeout(scrollTimeout)
+    }
+  }, [])
 
   return {
     updateTime,

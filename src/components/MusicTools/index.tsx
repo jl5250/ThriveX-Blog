@@ -130,9 +130,8 @@ export default function MusicTools() {
       />
 
       <Card
-        isBlurred
-        isFooterBlurred
         shadow="lg"
+        isFooterBlurred
         className={`fixed bottom-[5%] left-[1%] md:top-[68%] md:left-[1%] border-none z-[998] bg-white/40 w-full transition-all duration-500 ease-in-out ${
           active
             ? 'translate-x-0 translate-y-0 scale-100 opacity-100'
@@ -162,12 +161,12 @@ export default function MusicTools() {
             isExpanded ? 'md:gap-x-10' : 'md:gap-x-2'
           }`}
         >
+          {/* 歌词 */}
           <div
             className={`flex flex-col items-center row-span-2 md:row-span-2 row-start-1 md:row-start-2 col-span-12 col-start-1 h-full md:h-[180px] ${
               isExpanded ? 'md:col-start-2 md:col-span-4' : 'md:col-start-2 md:col-span-5'
             }`}
           >
-            {/* 歌词 */}
             <MusicLyric leading={10} musicInfo={musicInfo} lyricInfo={lyricInfo} />
           </div>
           <div

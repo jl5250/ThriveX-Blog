@@ -24,7 +24,7 @@ const LyricBox = memo(function LyricBox(props: LyricBoxProps) {
       const baseClasses = 'text-center text-balance leading-[16px] transition-all duration-300'
       const activeClasses =
         currentLyricIndex === index
-          ? 'font-semibold text-primary scale-110 rounded-lg'
+          ? 'font-semibold text-cyan-400 scale-110 bg-primary/10 rounded-lg'
           : 'text-foreground/70'
       return `${baseClasses} ${activeClasses}`
     }
@@ -33,11 +33,8 @@ const LyricBox = memo(function LyricBox(props: LyricBoxProps) {
   const style = { padding: `${leading ?? 5}px 0` }
 
   return (
-    <ScrollShadow hideScrollBar size={70} className="w-full h-full">
-      <div
-        ref={lyricBoxRef}
-        className="transition-all duration-300 ease-in-out flex flex-col justify-center min-h-full"
-      >
+    <ScrollShadow hideScrollBar size={70} className="w-full">
+      <div ref={lyricBoxRef} className="overflow-hidden">
         {lyricList.length > 0 ? (
           lyricList.map((item, index) => (
             <p key={`${item.time}-${index}`} className={getLyricStyle(index)} style={style}>

@@ -20,7 +20,7 @@ const MusicLyric = memo(function MusicLyric(props: {
   return (
     <>
       {/* 歌名 */}
-      <div className="hidden md:block text-[15px] text-center leading-[20px] mb-[10px] flex items-center">
+      <div className="hidden md:block text-[15px] text-center leading-[20px] mb-[10px]">
         {songName || PAGE_SONG_NULL_TEXT}
       </div>
       {/* 歌手 */}
