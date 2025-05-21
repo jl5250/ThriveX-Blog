@@ -6,8 +6,8 @@ import { User } from '@/types/app/user'
 import { Web } from '@/types/app/project'
 import Tooltip from './components/Tooltip'
 
-import animals from './images/animals.webp';
-import ICP from './images/ICP.png';
+import animals from './images/animals.webp'
+import ICP from './images/ICP.png'
 
 export default async () => {
   const { data: user } = (await getUserDataAPI()) || { data: {} as User }
@@ -29,8 +29,19 @@ export default async () => {
 
       <div className="absolute z-10 w-full bg-white dark:bg-black-b border-t dark:border-black-b px-10 transition-colors">
         <div className="flex justify-center items-center py-4">
-          <img src={user?.avatar} alt='作者头像' className='w-20 h-20 rounded-full mr-8 avatar-animation shadow-[5px_11px_30px_20px_rgba(255,255,255,0.1)]' />
-          <h2 className="w-[90%] xl:w-3/6 text-sm sm:text-base dark:text-[#8c9ab1] line-clamp-4">{web?.footer}</h2>
+          <img
+            src={user?.avatar}
+            alt="作者头像"
+            className="w-20 h-20 rounded-full mr-8 avatar-animation shadow-[5px_11px_30px_20px_rgba(255,255,255,0.1)]"
+          />
+          <h2 className="w-[90%] xl:w-3/6 text-sm sm:text-base dark:text-[#8c9ab1] line-clamp-4">
+            {web?.footer}
+          </h2>
+        </div>
+
+        <div className="group flex justify-center space-x-2 pb-4 cursor-pointer">
+          <Image src={ICP} alt="ICP" width={20} height={22} className="w-5 h-[22px]" />
+          <span className="group-hover:text-primary transition-colors">豫ICP备2020031040号-1</span>
         </div>
 
         {/* 
