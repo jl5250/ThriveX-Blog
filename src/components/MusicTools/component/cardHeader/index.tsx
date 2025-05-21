@@ -8,10 +8,11 @@ import MusicLyric from '../musicLyric'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { useMemo, memo } from 'react'
 import dynamic from 'next/dynamic'
+import Loading from '@/components/Loading'
 
 // 动态导入MusicList组件
 const DynamicMusicList = dynamic(() => import('../musicList'), {
-  loading: () => <div className="w-full h-32 bg-gray-200/20 animate-pulse rounded-lg" />
+  loading: () => <Loading />
 })
 
 // 使用memo优化组件重渲染

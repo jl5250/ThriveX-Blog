@@ -10,6 +10,7 @@ import Masonry from 'react-masonry-css'
 import Empty from '@/components/Empty'
 import dayjs from 'dayjs'
 import './page.scss'
+import Loading from '@/components/Loading'
 
 const breakpointColumnsObj = {
   default: 4,
@@ -29,7 +30,7 @@ export default function AlbumPage(props: Props) {
   const [isImageLoading, setIsImageLoading] = useState(false)
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [albumName, setAlbumName] = useState('')
   const [albumId, setAlbumId] = useState<number>(0)
 
@@ -47,7 +48,6 @@ export default function AlbumPage(props: Props) {
 
   const getImagesByAlbumId = async (id: number, page: number = 1, isLoadMore: boolean = false) => {
     try {
-      setLoading(true)
       const response = await getImagesByAlbumIdAPI(id, page)
       console.log(response)
 
@@ -143,19 +143,11 @@ export default function AlbumPage(props: Props) {
       {/* 主要内容区域 */}
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* 加载状态 */}
-        {loading && list.length === 0 && (
-          <div className="min-h-[60vh] flex flex-col items-center justify-center">
-            <div className="relative">
-              <div className="w-16 h-16 border-4 border-gray-200 rounded-full"></div>
-              <div className="w-16 h-16 border-4 border-blue-500 rounded-full animate-spin absolute top-0 left-0 border-t-transparent"></div>
-            </div>
-            <p className="mt-4 text-gray-500">正在加载相册内容...</p>
-          </div>
-        )}
+        {loading && list.length === 0 && <Loading title="正在加载相册内容..." />}
 
         {/* 照片网格 */}
         <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl shadow-lg p-6 md:p-8 border border-gray-100 dark:border-gray-700">
-          {!loading && list?.length === 0 ? (
+          {!loading && list.length === 0 ? (
             <Empty info="暂无照片" />
           ) : (
             <>
@@ -190,14 +182,7 @@ export default function AlbumPage(props: Props) {
               </Masonry>
 
               {/* 加载更多状态 */}
-              {loading && list.length > 0 && (
-                <div className="flex justify-center items-center py-8">
-                  <div className="relative">
-                    <div className="w-12 h-12 border-4 border-gray-200 rounded-full"></div>
-                    <div className="w-12 h-12 border-4 border-blue-500 rounded-full animate-spin absolute top-0 left-0 border-t-transparent"></div>
-                  </div>
-                </div>
-              )}
+              {loading && list.length > 0 && <Loading />}
               {!hasMore && list.length > 0 && (
                 <div className="text-center text-gray-500 py-4">没有更多照片了</div>
               )}

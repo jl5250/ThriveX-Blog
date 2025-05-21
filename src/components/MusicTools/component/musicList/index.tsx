@@ -12,6 +12,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { getPlayListTrack, getLike } from '@/api/music'
 import useSwitchCurrentMusic from '@/hooks/useSwitchCurrentMusic'
 import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from '@heroui/react'
+import Loading from '@/components/Loading'
 
 interface Props {
   id?: number // 传入各个排行版的id
@@ -193,15 +194,7 @@ export default function MusicList(props: Props) {
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody
-        emptyContent={LIST_NULL_TEXT}
-        isLoading={loading}
-        loadingContent={
-          <div className="flex items-center justify-center h-full">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-          </div>
-        }
-      >
+      <TableBody emptyContent={LIST_NULL_TEXT} isLoading={loading} loadingContent={<Loading />}>
         {list.map((item) => (
           <TableRow
             key={item.key}

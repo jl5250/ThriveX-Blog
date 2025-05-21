@@ -23,10 +23,11 @@ import { formatTime } from '@/utils/dayFormat'
 import { useState, useCallback, useMemo } from 'react'
 import dynamic from 'next/dynamic'
 import { imgUrl } from '@/utils'
+import Loading from '../Loading'
 
 // 动态导入组件以优化加载性能
 const DynamicMusicRecords = dynamic(() => import('./component/musicRecords'), {
-  loading: () => <div className="w-16 h-16 rounded-full bg-gray-200 animate-pulse" />
+  loading: () => <Loading />
 })
 
 export default function MusicTools() {

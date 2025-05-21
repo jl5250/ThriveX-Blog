@@ -11,6 +11,7 @@ import {
   FaRegWindowMaximize
 } from 'react-icons/fa'
 import { formatDate, formatDay } from '@/utils/dayFormat'
+import Loading from '../Loading'
 
 interface WeatherData {
   temperature: number //实时气温，单位：摄氏度
@@ -67,14 +68,7 @@ export default () => {
   }, [])
 
   if (loading) {
-    return (
-      <div className="flex flex-col w-full px-4 py-3 border dark:border-none rounded-lg bg-white dark:bg-black-b mb-2 transition-all">
-        <div className="flex items-center justify-center space-x-2 py-2">
-          <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-red-500"></div>
-          <span className="text-gray-600 dark:text-gray-300">正在加载中...</span>
-        </div>
-      </div>
-    )
+    return <Loading title="正在加载天气信息..." />
   }
 
   return (
@@ -107,31 +101,27 @@ export default () => {
           <div className="flex items-center space-x-2">
             <FaCloudSun className="text-red-500" />
             <span className="text-gray-600 dark:text-gray-300">
-              今天的天气<span className="text-red-500 font-bold">{weather.description}</span>
+              今天是<span className="text-red-500 font-bold">{weather.description}天</span>
             </span>
           </div>
           <div className="flex items-center space-x-2">
             <FaRegCalendarAlt className="text-red-500" />
             <span className="text-gray-600 dark:text-gray-300">
-              日期：<span className="text-red-500 font-bold">{formatDate()}</span>
-            </span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <FaRegWindowMaximize className="text-red-500" />
-            <span className="text-gray-600 dark:text-gray-300">
-              今天星期<span className="text-red-500 font-bold">{formatDay()}</span>
+              日期：<span className="text-red-500 font-bold">{formatDate()}</span>&nbsp;&nbsp;
+              <span className="text-red-500 font-bold">星期{formatDay()}</span>
             </span>
           </div>
           <div className="flex items-center space-x-2">
             <FaTemperatureHigh className="text-red-500" />
             <span className="text-gray-600 dark:text-gray-300">
-              温度<span className="text-red-500 font-bold">{weather.temperature}°C</span>
+              温度：<span className="text-red-500 font-bold">{weather.temperature}°C</span>
             </span>
           </div>
           <div className="flex items-center space-x-2">
             <FaWind className="text-red-500" />
             <span className="text-gray-600 dark:text-gray-300">
-              今天是<span className="text-red-500 font-bold">{weather.winddirection}</span>风， 风速
+              风向：<span className="text-red-500 font-bold">{weather.winddirection}风</span>
+              ，风速：
               <span className="text-red-500 font-bold">{weather.windpower}</span>级
             </span>
           </div>

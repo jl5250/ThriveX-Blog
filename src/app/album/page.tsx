@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { useRouter } from 'next/navigation'
 import { Cate } from '@/types/app/album'
 import { getAlbumCatePagingAPI } from '@/api/album'
 import Masonry from 'react-masonry-css'
 import './page.scss'
+import Link from 'next/link'
 
 const breakpointColumnsObj = {
   default: 4,
@@ -15,8 +15,6 @@ const breakpointColumnsObj = {
 }
 
 export default function AlbumPage() {
-  const router = useRouter()
-
   const [list, setList] = useState<Cate[]>([])
 
   const getAlbumCatePaging = async () => {
@@ -27,10 +25,6 @@ export default function AlbumPage() {
   useEffect(() => {
     getAlbumCatePaging()
   }, [])
-
-  const handleClick = (data: Cate) => {
-    router.push(`/album/${data.id}?name=${data.name}`)
-  }
 
   return (
     <>
@@ -126,29 +120,28 @@ export default function AlbumPage() {
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   className="mb-6"
                 >
-                  <div
-                    className="relative group overflow-hidden rounded-lg shadow-lg cursor-pointer transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl"
-                    onClick={() => handleClick(cate)}
-                  >
-                    {/* 图片容器 */}
-                    <div className="aspect-w-1 aspect-h-1 w-full">
-                      <img
-                        src={cate.cover}
-                        alt={cate.name}
-                        className="w-full h-full object-cover transform transition-transform duration-300 group-hover:scale-110"
-                      />
-                    </div>
+                  <Link href={`/album/${cate.id}?name=${cate.name}`}>
+                    <div className="relative group overflow-hidden rounded-lg shadow-lg cursor-pointer transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
+                      {/* 图片容器 */}
+                      <div className="aspect-w-1 aspect-h-1 w-full">
+                        <img
+                          src={cate.cover}
+                          alt={cate.name}
+                          className="w-full h-full object-cover transform transition-transform duration-300 group-hover:scale-110"
+                        />
+                      </div>
 
-                    {/* 分类标签 */}
-                    <div className="absolute top-4 left-4 bg-black/20 backdrop-blur-md text-white px-3 py-1 rounded-full text-sm">
-                      {cate.name}
-                    </div>
+                      {/* 分类标签 */}
+                      <div className="absolute top-4 left-4 bg-black/20 backdrop-blur-md text-white px-3 py-1 rounded-full text-sm">
+                        {cate.name}
+                      </div>
 
-                    {/* 标题遮罩 */}
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-                      <h3 className="text-white font-medium text-lg">{cate.name}</h3>
+                      {/* 标题遮罩 */}
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                        <h3 className="text-white font-medium text-lg">{cate.name}</h3>
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 </motion.div>
               ))}
             </Masonry>
