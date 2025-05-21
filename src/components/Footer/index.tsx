@@ -6,7 +6,8 @@ import { User } from '@/types/app/user'
 import { Web } from '@/types/app/project'
 import Tooltip from './components/Tooltip'
 
-import animals from './images/animals.webp'
+import animals from './images/animals.webp';
+import ICP from './images/ICP.png';
 
 export default async () => {
   const { data: user } = (await getUserDataAPI()) || { data: {} as User }
@@ -28,14 +29,8 @@ export default async () => {
 
       <div className="absolute z-10 w-full bg-white dark:bg-black-b border-t dark:border-black-b px-10 transition-colors">
         <div className="flex justify-center items-center py-4">
-          <img
-            src={user?.avatar}
-            alt="作者头像"
-            className="w-20 h-20 rounded-full mr-8 avatar-animation shadow-[5px_11px_30px_20px_rgba(255,255,255,0.1)]"
-          />
-          <h2 className="w-[90%] xl:w-3/6 text-sm sm:text-base dark:text-[#8c9ab1] line-clamp-4">
-            {web?.footer}
-          </h2>
+          <img src={user?.avatar} alt='作者头像' className='w-20 h-20 rounded-full mr-8 avatar-animation shadow-[5px_11px_30px_20px_rgba(255,255,255,0.1)]' />
+          <h2 className="w-[90%] xl:w-3/6 text-sm sm:text-base dark:text-[#8c9ab1] line-clamp-4">{web?.footer}</h2>
         </div>
 
         {/* 
@@ -60,17 +55,6 @@ export default async () => {
               </Link>
             </div>
           </Tooltip>
-        </div>
-        <div className="text-center text-xs text-gray-400 py-2">
-          © {new Date().getFullYear()} loong极客笔记 保留所有权利
-          <a
-            href="https://beian.miit.gov.cn/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="ml-2 underline"
-          >
-            粤ICP备2025392562号-1
-          </a>
         </div>
       </div>
     </>
