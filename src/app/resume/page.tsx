@@ -148,7 +148,7 @@ export default () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 p-10"
+          className="max-w-4xl mx-auto bg-white dark:!bg-black-b rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 p-10"
         >
           {/* 个人信息头部 */}
           <div className="flex items-center space-x-8 mb-12">
@@ -166,20 +166,11 @@ export default () => {
             </motion.div>
 
             <div>
-              <h1 className="text-3xl font-bold text-gray-800 mb-2">
-                {personalInfo.personalInfo.name}
-              </h1>
-              <h2 className="text-xl font-semibold text-gray-700 mb-6">
-                {personalInfo.personalInfo.title} | {personalInfo.personalInfo.age} |{' '}
-                {personalInfo.personalInfo.location}
-              </h2>
-              <div className="flex flex-wrap gap-6 text-gray-600">
-                <a
-                  href={`tel:${personalInfo.personalInfo.contact.phone}`}
-                  className="flex items-center hover:text-blue-600 transition-colors font-medium"
-                >
-                  <FaPhone className="mr-2 text-blue-500" />{' '}
-                  {personalInfo.personalInfo.contact.phone}
+              <h1 className="text-3xl font-bold text-gray-800 dark:!text-white mb-2">{personalInfo.personalInfo.name}</h1>
+              <h2 className="text-xl font-semibold text-gray-700 dark:!text-gray-300 mb-6">{personalInfo.personalInfo.title} | {personalInfo.personalInfo.age} | {personalInfo.personalInfo.location}</h2>
+              <div className="flex flex-wrap gap-6 text-gray-600 dark:!text-white">
+                <a href={`tel:${personalInfo.personalInfo.contact.phone}`} className="flex items-center hover:text-blue-600 transition-colors font-medium">
+                  <FaPhone className="mr-2 text-blue-500" /> {personalInfo.personalInfo.contact.phone}
                 </a>
                 <a
                   href={`mailto:${personalInfo.personalInfo.contact.email}`}
@@ -207,13 +198,13 @@ export default () => {
             transition={{ delay: 0.2 }}
             className="mb-12"
           >
-            <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <h3 className="text-2xl font-bold text-gray-900 dark:!text-white mb-6 flex items-center">
               <span className="w-1 h-8 bg-blue-600 mr-3 rounded-full"></span>
               个人优势
             </h3>
 
             <div className="flex">
-              <div className="text-gray-700 leading-relaxed space-y-3">
+              <div className="text-gray-700 dark:!text-gray-300 leading-relaxed space-y-3">
                 {personalInfo.advantages.map((advantage, index) => (
                   <p key={index} className="text-base font-medium flex items-center">
                     <span className="text-blue-500 text-3xl mr-2">•</span>
@@ -225,21 +216,21 @@ export default () => {
 
             <div className="mt-8 space-y-3">
               <p className="flex items-center">
-                <span className="text-gray-800 font-semibold mr-3">GitHub 社区地址：</span>
+                <span className="text-gray-800 dark:!text-white font-semibold mr-3">GitHub 社区地址：</span>
                 <a href={personalInfo.links.github} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium">
                   {personalInfo.links.github}
                 </a>
               </p>
 
               <p className="flex items-center">
-                <span className="text-gray-800 font-semibold mr-3">CSDN 技术博客：</span>
+                <span className="text-gray-800 dark:!text-white font-semibold mr-3">CSDN 技术博客：</span>
                 <a href={personalInfo.links.csdn} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium">
                   {personalInfo.links.csdn}
                 </a>
               </p>
 
               <p className="flex items-center">
-                <span className="text-gray-800 font-semibold mr-3">开源项目作品：</span>
+                <span className="text-gray-800 dark:!text-white font-semibold mr-3">开源项目作品：</span>
                 <a href={personalInfo.links.project} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium">
                   {personalInfo.links.project}
                 </a>
@@ -254,12 +245,12 @@ export default () => {
             transition={{ delay: 0.4 }}
             className="mb-12"
           >
-            <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <h3 className="text-2xl font-bold text-gray-900 dark:!text-white mb-6 flex items-center">
               <span className="w-1 h-8 bg-blue-600 mr-3 rounded-full"></span>
               专业技能
             </h3>
 
-            <div className="space-y-4 text-gray-600">
+            <div className="space-y-4 text-gray-600 dark:!text-gray-300">
               <div className="flex flex-col space-y-2">
                 {personalInfo.skills.map((skill, index) => (
                   <p key={index} className="text-base font-medium flex items-center">
@@ -278,22 +269,20 @@ export default () => {
             transition={{ delay: 0.8 }}
             className="mb-12"
           >
-            <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <h3 className="text-2xl font-bold text-gray-900 dark:!text-white mb-6 flex items-center">
               <span className="w-1 h-8 bg-blue-600 mr-3 rounded-full"></span>
               工作经历
             </h3>
 
             <div className="space-y-4">
               {personalInfo.workExperience.map((job, index) => (
-                <div key={index} className="group bg-gray-50 p-6 rounded-xl">
-                  <div className="flex justify-between items-center mb-3">
-                    <h4 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors duration-300">
-                      {job.company}
-                    </h4>
-                    <p className="text-gray-600 font-medium">{job.period}</p>
+                <div key={index} className="group bg-gray-50 dark:!bg-[#373f4b] p-6 rounded-xl">
+                  <div className='flex justify-between items-center mb-3'>
+                    <h4 className="text-lg font-bold text-gray-800 dark:!text-white group-hover:text-blue-600 transition-colors duration-300">{job.company}</h4>
+                    <p className="text-gray-600 dark:!text-gray-300 font-medium">{job.period}</p>
                   </div>
-                  <p className="text-gray-700 font-semibold mb-4">{job.position}</p>
-                  <ul className="list-disc list-inside text-gray-600 space-y-2">
+                  <p className="text-gray-700 dark:!text-gray-300 font-semibold mb-4">{job.position}</p>
+                  <ul className="list-disc list-inside text-gray-600 dark:!text-gray-300 space-y-2">
                     {job.responsibilities.map((responsibility, i) => (
                       <li key={i} className="text-base">
                         {responsibility}
@@ -312,43 +301,35 @@ export default () => {
             transition={{ delay: 0.7 }}
             className="mb-12"
           >
-            <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <h3 className="text-2xl font-bold text-gray-900 dark:!text-white mb-6 flex items-center">
               <span className="w-1 h-8 bg-blue-600 mr-3 rounded-full"></span>
               项目经历
             </h3>
 
             <div className="space-y-8">
               {personalInfo.projects.map((project, index) => (
-                <div key={index} className="group bg-gray-50 p-6 rounded-xl">
-                  <div className="flex justify-between items-center mb-3">
-                    <h4 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors duration-300">
-                      {project.name}
-                    </h4>
-                    <p className="text-gray-600 font-medium">{project.period}</p>
+                <div key={index} className="group bg-gray-50 dark:!bg-[#373f4b] p-6 rounded-xl">
+                  <div className='flex justify-between items-center mb-3'>
+                    <h4 className="text-lg font-bold text-gray-800 dark:!text-white group-hover:text-blue-600 transition-colors duration-300">{project.name}</h4>
+                    <p className="text-gray-600 dark:!text-gray-300 font-medium">{project.period}</p>
                   </div>
-                  <p className="text-gray-700 font-semibold mb-4">{project.role}</p>
+                  <p className="text-gray-700 dark:!text-gray-300 font-semibold mb-4">{project.role}</p>
 
                   <div className="space-y-6">
                     <div>
-                      <h5 className="font-bold text-gray-800 mb-3 text-base">项目描述：</h5>
-                      <div className="text-gray-600 text-base">
-                        {Array.isArray(project.description)
-                          ? project.description.map((desc, i) => (
-                              <div key={i} className="mb-2">
-                                {desc}
-                              </div>
-                            ))
-                          : project.description}
+                      <h5 className="font-bold text-gray-800 dark:!text-white mb-3 text-base">项目描述：</h5>
+                      <div className="text-gray-600 dark:!text-gray-300 text-base">
+                        {Array.isArray(project.description) ? project.description.map((desc, i) => (
+                          <div key={i} className="mb-2">{desc}</div>
+                        )) : project.description}
                       </div>
                     </div>
 
                     {project.techStack && (
                       <div>
-                        <h5 className="font-bold text-gray-800 mb-3 text-base">技术栈：</h5>
-                        <div className="text-gray-600 text-base">
-                          {typeof project.techStack === 'string' ? (
-                            project.techStack
-                          ) : (
+                        <h5 className="font-bold text-gray-800 dark:!text-white mb-3 text-base">技术栈：</h5>
+                        <div className="text-gray-600 dark:!text-gray-300 text-base">
+                          {typeof project.techStack === 'string' ? project.techStack : (
                             <>
                               <div className="mb-2">• 前端技术栈：{project.techStack.frontend}</div>
                               <div className="mb-2">• 后端技术栈：{project.techStack.backend}</div>
@@ -361,8 +342,8 @@ export default () => {
 
                     {project.highlights && (
                       <div>
-                        <h5 className="font-bold text-gray-800 mb-3 text-base">项目亮点：</h5>
-                        <div className="space-y-2 text-gray-600 text-base">
+                        <h5 className="font-bold text-gray-800 dark:!text-white mb-3 text-base">项目亮点：</h5>
+                        <div className="space-y-2 text-gray-600 dark:!text-gray-300 text-base">
                           {project.highlights.map((highlight, i) => (
                             <div key={i}>• {highlight}</div>
                           ))}
@@ -372,8 +353,8 @@ export default () => {
 
                     {project.links && (
                       <div>
-                        <h5 className="font-bold text-gray-800 mb-3 text-base">项目地址：</h5>
-                        <div className="space-y-2 text-gray-600 text-base">
+                        <h5 className="font-bold text-gray-800 dark:!text-white mb-3 text-base">项目地址：</h5>
+                        <div className="space-y-2 text-gray-600 dark:!text-gray-300 text-base">
                           {Object.entries(project.links).map(([key, value]) => (
                             <div key={key}>
                               •{' '}
@@ -405,8 +386,8 @@ export default () => {
 
                     {project.repositories && (
                       <div>
-                        <h5 className="font-bold text-gray-800 mb-3 text-base">项目仓库：</h5>
-                        <div className="space-y-2 text-gray-600 text-base">
+                        <h5 className="font-bold text-gray-800 dark:!text-white mb-3 text-base">项目仓库：</h5>
+                        <div className="space-y-2 text-gray-600 dark:!text-gray-300 text-base">
                           {Object.entries(project.repositories).map(([key, value]) => (
                             <div key={key}>
                               • {key === 'frontend' ? '前端' : key === 'admin' ? '控制端' : '后端'}
@@ -427,30 +408,26 @@ export default () => {
 
                     {project.achievements && (
                       <div>
-                        <h5 className="font-bold text-gray-800 mb-3 text-base">业绩：</h5>
-                        <div className="space-y-2 text-gray-600 text-base">
-                          {Array.isArray(project.achievements) ? (
-                            project.achievements.map((achievement, i) => (
-                              <div key={i}>• {achievement}</div>
-                            ))
-                          ) : (
-                            <div>• {project.achievements}</div>
-                          )}
+                        <h5 className="font-bold text-gray-800 dark:!text-white mb-3 text-base">业绩：</h5>
+                        <div className="space-y-2 text-gray-600 dark:!text-gray-300 text-base">
+                          {Array.isArray(project.achievements) ? project.achievements.map((achievement, i) => (
+                            <div key={i}>• {achievement}</div>
+                          )) : <div>• {project.achievements}</div>}
                         </div>
                       </div>
                     )}
 
                     {project.challenges && (
                       <div>
-                        <h5 className="font-bold text-gray-800 mb-3 text-base">项目难点：</h5>
-                        <div className="text-gray-600 text-base">{project.challenges}</div>
+                        <h5 className="font-bold text-gray-800 dark:!text-white mb-3 text-base">项目难点：</h5>
+                        <div className="text-gray-600 dark:!text-gray-300 text-base">{project.challenges}</div>
                       </div>
                     )}
 
                     {project.responsibilities && (
                       <div>
-                        <h5 className="font-bold text-gray-800 mb-3 text-base">主要工作：</h5>
-                        <div className="space-y-2 text-gray-600 text-base">
+                        <h5 className="font-bold text-gray-800 dark:!text-white mb-3 text-base">主要工作：</h5>
+                        <div className="space-y-2 text-gray-600 dark:!text-gray-300 text-base">
                           {project.responsibilities.map((responsibility, i) => (
                             <div key={i}>• {responsibility}</div>
                           ))}
@@ -470,24 +447,19 @@ export default () => {
             transition={{ delay: 0.6 }}
             className="mb-12"
           >
-            <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <h3 className="text-2xl font-bold text-gray-900 dark:!text-white mb-6 flex items-center">
               <span className="w-1 h-8 bg-blue-600 mr-3 rounded-full"></span>
               教育背景
             </h3>
 
-            <div className="group bg-gray-50 p-6 rounded-xl">
+            <div className="group bg-gray-50 dark:!bg-[#373f4b] p-6 rounded-xl">
               <div>
-                <div className="flex justify-between items-center mb-3">
-                  <h4 className="text-lg font-bold text-gray-800 group-hover:!text-blue-600 transition-colors">
-                    {personalInfo.education.school}
-                  </h4>
-                  <p className="text-gray-600 font-medium">
-                    {personalInfo.education.major} | {personalInfo.education.degree} |{' '}
-                    {personalInfo.education.period}
-                  </p>
+                <div className='flex justify-between items-center mb-3'>
+                  <h4 className="text-lg font-bold text-gray-800 dark:!text-white group-hover:!text-blue-600 transition-colors">{personalInfo.education.school}</h4>
+                  <p className="text-gray-600 dark:!text-gray-300 font-medium">{personalInfo.education.major} | {personalInfo.education.degree} | {personalInfo.education.period}</p>
                 </div>
 
-                <ul className="list-disc list-inside text-gray-600 space-y-2 text-base">
+                <ul className="list-disc list-inside text-gray-600 dark:!text-gray-300 space-y-2 text-base">
                   {personalInfo.education.achievements.map((achievement, index) => (
                     <li key={index}>{achievement}</li>
                   ))}
