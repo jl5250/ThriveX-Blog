@@ -14,9 +14,9 @@ import { Swiper as SwiperType } from '@/types/app/swiper'
 import { getSwiperListAPI } from '@/api/swiper'
 
 export default async ({ page }: { page: number }) => {
-  const { data: swiper } = (await getSwiperListAPI()) || { data: [] as SwiperType[] }
-  const { data: theme } = (await getConfigDataAPI<Theme>('layout')) || { data: {} as Theme }
-  const sidebar: string[] = JSON.parse(theme?.right_sidebar)
+  const { data: swiper } = await getSwiperListAPI() || { data: [] as SwiperType[] }
+  const { data: theme } = await getConfigDataAPI<Theme>("layout") || { data: {} as Theme }
+  const sidebar: string[] = theme?.right_sidebar && JSON.parse(theme?.right_sidebar)
 
   // 如果是瀑布流布局就显示28条数据，否则显示8条
   const { data } = (await getArticlePagingAPI({
@@ -25,13 +25,7 @@ export default async ({ page }: { page: number }) => {
   data.result = data?.result?.filter((item) => item.config.status !== 'no_home')
 
   return (
-    <div
-      className={`w-full md:w-[90%] ${
-        sidebar.length ? 'lg:w-[68%] xl:w-[73%]' : 'w-full'
-      } mx-auto transition-width`}
-    >
-      {/* 游客信息 */}
-      <Visitor />
+    <div className={`w-full md:w-[90%] ${sidebar?.length ? 'lg:w-[68%] xl:w-[73%]' : 'w-full'} mx-auto transition-width`}>
       {swiper?.length && <Swiper data={swiper} />}
       <Dynamic className="my-2" />
 
