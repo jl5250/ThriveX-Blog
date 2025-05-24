@@ -26,7 +26,7 @@ const AnimatedNumber = ({ value, suffix, onComplete }: { value: number, suffix: 
   }, [isInView, value]);
 
   return (
-    <span ref={ref} className="inline-block">
+    <span ref={ref} className="inline-block dark:text-gray-400">
       <motion.span>{rounded}</motion.span>
       {suffix}
     </span>
