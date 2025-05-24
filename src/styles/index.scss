@@ -1,5 +1,10 @@
 @use "./fun.scss";
 
+html.dark {
+    // 闪念编辑器主题
+    --w-e-textarea-color: #fff;
+}
+
 body {
     background-color: #f9f9f9;
     font-weight: normal;

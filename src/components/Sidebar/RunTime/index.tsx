@@ -1,10 +1,10 @@
 "use client"
 
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import Timer from '@/assets/svg/other/timer.svg';
 import { useConfigStore } from '@/stores';
 import { motion, useMotionValue, useTransform, animate, useInView } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+import Timer from '@/assets/svg/other/timer.svg';
 
 const AnimatedNumber = ({ value, suffix, onComplete }: { value: number, suffix: string, onComplete?: () => void }) => {
   const ref = useRef(null);
