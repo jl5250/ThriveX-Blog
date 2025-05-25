@@ -105,17 +105,23 @@ export default function MapContainer() {
 
                                             <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;">
                                                 <div style="display: flex; align-items: center; color: rgba(255,255,255,0.8); font-size: 13px;">
-                                                    <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; margin-right: 6px; fill: currentColor;">
-                                                        <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z"/>
-                                                    </svg>
-                                                    ${dayjs(+data?.createTime).format('YYYY-MM-DD HH:mm')}
+                                                    <span>
+                                                        <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; margin-right: 6px; fill: currentColor;">
+                                                            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z"/>
+                                                        </svg>
+                                                    </span>
+                                                   
+                                                    <span>${dayjs(+data?.createTime).format('YYYY-MM-DD HH:mm')}</span>
                                                 </div>
 
                                                 <div style="display: flex; align-items: center; color: rgba(255,255,255,0.8); font-size: 13px;">
-                                                    <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; margin-right: 6px; fill: currentColor;">
-                                                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                                                    </svg>
-                                                    ${data?.address}
+                                                     <span>
+                                                        <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; margin-right: 6px; fill: currentColor;">
+                                                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                                                        </svg>
+                                                     </span>
+                                                     
+                                                    <span>${data?.address}</span>
                                                 </div>
                                             </div>
                                         </div>
