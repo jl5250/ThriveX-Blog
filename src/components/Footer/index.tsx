@@ -41,7 +41,13 @@ export default async () => {
 
         <div className="group flex justify-center space-x-2 pb-4 cursor-pointer">
           <Image src={ICP} alt="ICP" width={20} height={22} className="w-5 h-[22px]" />
-          <span className="group-hover:text-primary transition-colors">{web.icp}</span>
+          <a
+            className="group-hover:text-primary transition-colors"
+            href="https://beian.miit.gov.cn/"
+            target="_blank"
+          >
+            {web.icp}
+          </a>
         </div>
 
         {/* 
