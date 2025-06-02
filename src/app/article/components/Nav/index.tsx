@@ -112,7 +112,7 @@ const ContentNav = () => {
                 )
             }
 
-            <div className={`ContentNavComponent overflow-auto fixed top-0 z-40 max-w-0 h-screen bg-[rgba(255,255,255,0.9)] dark:bg-[rgba(30,36,46,0.9)] backdrop-blur-sm shadow-[16px_0px_15px_-3px_rgba(101,155,246,0.1)] ${open ? 'min-w-[300px] p-[20px_10px]' : 'min-w-0'} transition-[min-width] hide_sliding`}>
+            <div className={`ContentNavComponent overflow-auto fixed top-0 z-[60] max-w-0 h-screen bg-[rgba(255,255,255,0.9)] dark:bg-[rgba(30,36,46,0.9)] backdrop-blur-sm shadow-[16px_0px_15px_-3px_rgba(101,155,246,0.1)] ${open ? 'min-w-[300px] p-[20px_10px]' : 'min-w-0'} transition-[min-width] hide_sliding`}>
                 <div className="flex justify-center items-center mt-5">
                     <Image src={directory} alt="" width={23} height={23} className="mr-2" /> 目录
                 </div>
