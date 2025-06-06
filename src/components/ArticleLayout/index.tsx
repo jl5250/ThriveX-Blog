@@ -33,7 +33,7 @@ export default async ({ page }: { page: number }) => {
       {theme.is_article_layout === 'card' && <Card data={data} />}
       {theme.is_article_layout === 'waterfall' && <Waterfall data={data} />}
 
-      <Pagination total={data?.pages} page={page} className="flex justify-center mt-5" />
+      {data.total && <Pagination total={data?.pages} page={page} className="flex justify-center mt-5" />}
     </div>
   )
 }

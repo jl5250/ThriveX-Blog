@@ -201,16 +201,21 @@ const CommentList = forwardRef(({ id, reply }: Props, ref) => {
                 </ul>
             } />
 
-            <Show is={!data.result?.length} children={<Empty info='评论列表为空~'></Empty>} />
 
-            <Pagination
-                showControls
-                total={data.pages}
-                page={page}
-                onChange={onPaginateChange}
-                className='flex justify-center mt-2'
-                classNames={{ item: "shadow-none bg-transparent dark:hover:!bg-black-b transition-colors", prev: "dark:bg-black-b transition-colors", next: "dark:bg-black-b transition-colors" }}
-            />
+            {
+                !data.result?.length
+                    ? <Empty info='评论列表为空~'></Empty>
+                    : (
+                        <Pagination
+                            showControls
+                            total={data.pages}
+                            page={page}
+                            onChange={onPaginateChange}
+                            className='flex justify-center mt-2'
+                            classNames={{ item: "shadow-none bg-transparent dark:hover:!bg-black-b transition-colors", prev: "dark:bg-black-b transition-colors", next: "dark:bg-black-b transition-colors" }}
+                        />
+                    )
+            }
         </div >
     );
 })

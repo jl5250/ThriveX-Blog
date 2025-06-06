@@ -1,12 +1,17 @@
 {
-  "name": "thrive",
-  "version": "0.1.0",
+  "name": "thrive-blog",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start -p 9001",
     "lint": "next lint"
+  },
+  "author": {
+    "name": "刘宇阳",
+    "email": "liuyuyang1024@yeah.net",
+    "url": "https://liuyuyang.net"
   },
   "dependencies": {
     "@amap/amap-jsapi-loader": "^1.0.1",

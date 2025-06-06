@@ -38,7 +38,7 @@ export default async (props: Props) => {
         <div className="md:w-full lg:w-[900px] lg:mx-auto px-4 lg:p-0 my-5">
           <Classics data={data} />
 
-          <Pagination total={data?.pages} page={page} path={`?name=${name}`} className="flex justify-center mt-5" />
+          {data.total && <Pagination total={data?.pages} page={page} path={`?name=${name}`} className="flex justify-center mt-5" />}
         </div>
       </div>
     </>

@@ -71,7 +71,7 @@ export default async (props: Props) => {
             <Show is={!record?.result?.length} children={<Empty info='闪念列表为空~' />} />
           </div>
 
-          <Pagination total={record?.pages} page={page} className="flex justify-center mt-5" />
+          {record?.total && <Pagination total={record?.pages} page={page} className="flex justify-center mt-5" />}
         </div>
       </div>
     </>
