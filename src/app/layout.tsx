@@ -39,6 +39,8 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <meta name="description" content={data?.description} />
         <meta name="keywords" content={data?.keyword} />
         <link rel="icon" href={data?.favicon || '/favicon.ico'} />
+        {/* 统计鸟 */}
+        <script type="text/javascript" src="//api.tongjiniao.com/c?_=793517014552158208" async></script>
 
         {/* 字体 */}
         {/* 霞鹜文楷 */}
