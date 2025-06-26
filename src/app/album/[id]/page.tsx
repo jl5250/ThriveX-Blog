@@ -143,7 +143,7 @@ export default function AlbumPage(props: Props) {
       {/* 主要内容区域 */}
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* 加载状态 */}
-        {loading && list.length === 0 && <Loading title="正在加载相册内容..." />}
+        {loading && list.length === 0 && <Loading />}
 
         {/* 照片网格 */}
         <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl shadow-lg p-6 md:p-8 border border-gray-100 dark:border-gray-700">

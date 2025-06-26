@@ -18,7 +18,7 @@ export default ({ data }: { data: InfoTwo }) => {
             <div className="about-me">
                 <div className="info-left">
                     {data.left_tags.map((t, index) => (
-                        <span key={index} className="tag dark:text-white dark:bg-[#36404d] dark:border-[#4e5969] transition-colors">{t}</span>
+                        <span key={index} className="tag dark:text-white dark:bg-[#36404d] dark:border-[#4e5969]  ">{t}</span>
                     ))}
                 </div>
 
@@ -28,7 +28,7 @@ export default ({ data }: { data: InfoTwo }) => {
 
                 <div className="info-right">
                     {data.right_tags.map((t, index) => (
-                        <span key={index} className="tag dark:text-white dark:bg-[#36404d] dark:border-[#4e5969] transition-colors">{t}</span>
+                        <span key={index} className="tag dark:text-white dark:bg-[#36404d] dark:border-[#4e5969]  ">{t}</span>
                     ))}
                 </div>
             </div>

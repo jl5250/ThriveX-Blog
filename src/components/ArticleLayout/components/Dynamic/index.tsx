@@ -6,6 +6,7 @@ import Link from 'next/link'
 import dynamic from '../../svg/dynamic.svg'
 import { getRecordPagingAPI } from "@/api/record"
 import { Record } from "@/types/app/record"
+import { extractText } from "@/utils"
 
 export default function Dynamic({ className }: { className?: string }) {
     const [list, setList] = useState<Record[]>([])
@@ -45,7 +46,7 @@ export default function Dynamic({ className }: { className?: string }) {
             </div>
 
             <Link href="/record" className={`flex-1 line-clamp-1 hover:text-primary cursor-pointer ${fade ? 'opacity-100' : 'opacity-0'} transition-all`}>
-                {list[currentContentIndex]?.content}
+                {extractText(list[currentContentIndex]?.content || '')}
             </Link>
         </div>
     )

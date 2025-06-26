@@ -126,7 +126,7 @@ const ContentNav = () => {
                                 e.preventDefault();
                                 onHandleToNavItem(index, item.href);
                             }}
-                            className={`nav_item overflow-hidden relative block p-1 pl-5 mb-[5px] hover:text-primary transition-all ${active === index ? 'text-primary pl-[30px] rounded-[10px] text-[15px] dark:bg-[#313d4e99] before:!left-4' : ''} ${item.className}`}
+                            className={`nav_item overflow-hidden relative block p-1 pl-5 mb-[5px] hover:text-primary ${active === index ? 'text-primary pl-[30px] rounded-[10px] text-[15px] dark:bg-[#313d4e99] before:!left-4' : ''} ${item.className}`}
                         >
                             {item.name}
                         </a>

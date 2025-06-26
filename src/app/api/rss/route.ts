@@ -36,11 +36,11 @@ export async function GET() {
         generator: '为爱发电',
         docs: "https://github.com/LiuYuYang01/ThriveX-Blog",
         author: {
-            name: user.name,
+            name: user?.name,
             email: user.email,
             link: web.url
         },
-        image: user.avatar,
+        image: user?.avatar,
         feed: web.url + '/api/rss'
     });
 

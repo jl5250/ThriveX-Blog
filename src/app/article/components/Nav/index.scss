@@ -8,7 +8,7 @@
 
 .ContentNavComponent {
     .nav_item ::before {
-        @apply content-[''] -left-2.5 absolute top-1/2 -translate-y-1/2 w-1 h-[15px] rounded-[20px] bg-primary transition-all;
+        @apply content-[''] -left-2.5 absolute top-1/2 -translate-y-1/2 w-1 h-[15px] rounded-[20px] bg-primary transition-transform;
     }
 
     .h2 {

@@ -29,7 +29,7 @@ export default ({ data }: WaterfallProps) => {
             >
                 {
                     data.result.map(item => (
-                        <div key={item.id} className='group overflow-hidden mt-2.5 rounded-xl bg-white dark:bg-black-b border dark:border-black-b hover:shadow-[0_10px_20px_1px_rgb(83,157,253,.1)] transition-colors cursor-pointer'>
+                        <div key={item.id} className='group overflow-hidden mt-2.5 rounded-xl bg-white dark:bg-black-b border dark:border-black-b hover:shadow-[0_10px_20px_1px_rgb(83,157,253,.1)]   cursor-pointer'>
                             <Link href={`/article/${item.id}`}>
                                 <div className='overflow-hidden h-32'>
                                     <div
@@ -39,7 +39,7 @@ export default ({ data }: WaterfallProps) => {
                                 </div>
 
                                 <div className='py-2 px-4'>
-                                    <h1 className='mb-2 text-black dark:text-white group-hover:text-primary line-clamp-2 transition-colors'>{item.title}</h1>
+                                    <h1 className='mb-2 text-black dark:text-white group-hover:text-primary line-clamp-2  '>{item.title}</h1>
 
                                     <div className='text-sm text-gray-500 dark:text-[#8c9ab1] line-clamp-4'>{item.description}</div>
                                 </div>

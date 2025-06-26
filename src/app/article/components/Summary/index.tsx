@@ -35,7 +35,7 @@ export default function Summary({ content }: SummaryProps) {
     <div className="post-ai" data-nosnippet="" style={{ display: content.length ? 'block' : 'none' }}>
       <div className="ai-title">
         <div className="ai-title-left">
-          <div className="ai-title-text">AI总结</div>
+          <div className="ai-title-text">文章摘要</div>
         </div>
 
         <div
@@ -43,7 +43,7 @@ export default function Summary({ content }: SummaryProps) {
           id="ai-tag"
           title="了解助理"
           onClick={handleThriveGPTClick}
-        >ThriveX GPT</div>
+        >DeepSeek R1</div>
       </div>
 
       <div className="ai-explanation">

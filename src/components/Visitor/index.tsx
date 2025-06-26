@@ -68,7 +68,7 @@ export default () => {
   }, [])
 
   if (loading) {
-    return <Loading title="正在加载天气信息..." />
+    return <Loading />
   }
 
   return (

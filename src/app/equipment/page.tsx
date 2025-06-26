@@ -84,9 +84,9 @@ export default () => {
                                         </div>
 
                                         <div className="p-4">
-                                            <h3 className="group-hover:text-primary transition-colors">{item.name}</h3>
+                                            <h3 className="group-hover:text-primary  ">{item.name}</h3>
                                             <p className="text-gray-500 text-sm pt-2 mb-4 line-clamp-2">{item.description}</p>
-                                            <span className="mt-2 py-1 px-1.5 rounded-md text-white bg-gray-300 group-hover:bg-primary transition-colors">￥{item.price}</span>
+                                            <span className="mt-2 py-1 px-1.5 rounded-md text-white bg-gray-300 group-hover:bg-primary  ">￥{item.price}</span>
                                         </div>
                                     </div>
                                 ))}

@@ -60,7 +60,7 @@ const ContentMD = ({ data }: Props) => {
     if (!isClient) {
         return (
             <div className="ContentMdComponent">
-                <div className="content markdown-body transition-colors space-y-6 p-4">
+                <div className="content markdown-body   space-y-6 p-4">
                     {/* 标题骨架屏 */}
                     <Skeleton className="h-10 w-3/4" />
 

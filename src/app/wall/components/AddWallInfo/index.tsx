@@ -99,7 +99,6 @@ export default () => {
           group
         "
         onClick={onOpen}
-        aria-label="添加留言"
       >
         <MdOutlineAdd
           className="

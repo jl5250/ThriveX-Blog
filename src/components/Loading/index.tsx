@@ -1,16 +1,33 @@
-type Props = {
-  title?: string
-}
+import './index.scss'
 
-export default (props: Props) => {
+export default () => {
   return (
     <>
-      <div className="min-h-[60vh] flex flex-col items-center justify-center">
-        <div className="relative">
-          <div className="w-16 h-16 border-4 border-gray-200 rounded-full"></div>
-          <div className="w-16 h-16 border-4 border-blue-500 rounded-full animate-spin absolute top-0 left-0 border-t-transparent"></div>
-        </div>
-        {props.title && <p className="mt-4 text-gray-500">{props.title}</p>}
+      <div className="LoadingComponent fixed w-full h-full z-50 bg-[rgb(255,255,255,0.5)] dark:bg-[rgb(36,41,38,0.5)] rounded-lg flex justify-center items-center">
+        <svg
+          className="container"
+          x="0px"
+          y="0px"
+          viewBox="0 0 50 31.25"
+          height="31.25"
+          width="50"
+          preserveAspectRatio="xMidYMid meet"
+        >
+          <path
+            className="track"
+            strokeWidth="4" // Corrected here
+            fill="none"
+            pathLength="100"
+            d="M0.625 21.5 h10.25 l3.75 -5.875 l7.375 15 l9.75 -30 l7.375 20.875 v0 h10.25"
+          />
+          <path
+            className="car"
+            strokeWidth="4" // Corrected here
+            fill="none"
+            pathLength="100"
+            d="M0.625 21.5 h10.25 l3.75 -5.875 l7.375 15 l9.75 -30 l7.375 20.875 v0 h10.25"
+          />
+        </svg>
       </div>
     </>
   )

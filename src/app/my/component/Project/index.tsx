@@ -26,10 +26,10 @@ export default ({ data }: { data: Project[] }) => {
                                 data?.map((item, index) => (
                                     <Tab key={index} title={item.name}>
                                         <Card>
-                                            <CardBody className="flex-col md:flex-row md:space-x-10 py-5 dark:bg-black-b transition-colors">
+                                            <CardBody className="flex-col md:flex-row md:space-x-10 py-5 dark:bg-black-b  ">
                                                 <div className="sticky top-0 w-full md:w-2/6 px-4">
                                                     <h3 className="text-[18px] mb-4">作品预览：</h3>
-                                                    <div className="grid grid-cols-2 gap-2 p-2.5 border dark:border-[#444e5d] rounded-xl transition-colors">
+                                                    <div className="grid grid-cols-2 gap-2 p-2.5 border dark:border-[#444e5d] rounded-xl  ">
                                                         <PhotoProvider>
                                                             {
                                                                 item.images?.map((img, index) => (

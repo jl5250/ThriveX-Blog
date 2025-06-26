@@ -2,11 +2,10 @@
 @use "@/styles/fun" as *;
 
 .ContentMdComponent {
-
     // 自定义文章内容样式
     .markdown-body {
         // 继承父级字体：font-family: inherit;
-        @apply font-[inherit] dark:bg-transparent dark:text-gray-400 !transition-colors;
+        @apply font-[inherit] dark:bg-transparent dark:text-gray-400 !important;
 
         pre {
             display: flex;
@@ -48,7 +47,7 @@
         h6 {
             font-weight: bold;
             scroll-margin-top: 100px !important;
-            @apply dark:text-white dark:border-black-b transition-colors;
+            @apply dark:text-white dark:border-black-b;
         }
 
         h1 {
@@ -74,14 +73,14 @@
         }
 
         hr {
-            @apply my-5 border dark:border-[#4e5969] transition-colors;
+            @apply my-5 border dark:border-[#4e5969];
         }
 
         // 行内代码
         p code,
         ul code,
         ol code {
-            @apply bg-[rgba(13,110,253,0.1)] dark:bg-[#334052] text-[#0d6efd] rounded-md py-1 px-2 text-sm transition-colors;
+            @apply bg-[rgba(13,110,253,0.1)] dark:bg-[#334052] text-[#0d6efd] rounded-md py-1 px-2 text-sm;
         }
 
         // 任务列表

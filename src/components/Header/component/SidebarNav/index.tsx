@@ -16,10 +16,10 @@ export default ({ list, open, onClose }: Props) => {
         <div className={`overflow-auto ${open ? 'w-8/12 p-5' : 'w-0'} dark:border-[#2b333e] bg-[rgba(255,255,255,0.9)] dark:bg-[rgba(44,51,62,0.9)] backdrop-blur-[5px] transition-width hide_sliding`}>
           <ul className="flex flex-col space-y-2">
             {list?.map(one => (
-              <li key={one.id} className="group/one relative hover:bg-[#e0e6ec] dark:hover:bg-[#495362] rounded-md transition-colors">
+              <li key={one.id} className="group/one relative hover:bg-[#e0e6ec] dark:hover:bg-[#495362] rounded-md  ">
                 <Link
                   href={`${one.type === 'cate' ? `/cate/${one.id}?name=${one.name}` : one.url}`}
-                  className={`flex justify-between items-center p-3 px-5 text-[15px] group-hover/one:!text-primary transition-colors text-[#333] dark:text-white whitespace-nowrap`}
+                  className={`flex justify-between items-center p-3 px-5 text-[15px] group-hover/one:!text-primary   text-[#333] dark:text-white whitespace-nowrap`}
                   onClick={onClose}
                 >
                   {one.icon} {one.name}

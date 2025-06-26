@@ -16,6 +16,7 @@ import { Web } from '@/types/app/project'
 import '@/styles/index.scss'
 import '@/styles/tailwind.scss'
 import BaiduStatis from '@/components/BaiduStatis'
+import FloatingBlock from '@/components/FloatingBlock'
 
 // 加载本地字体
 const LXGWWenKai = localFont({
@@ -40,7 +41,11 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <meta name="keywords" content={data?.keyword} />
         <link rel="icon" href={data?.favicon || '/favicon.ico'} />
         {/* 统计鸟 */}
-        <script type="text/javascript" src="//api.tongjiniao.com/c?_=793517014552158208" async></script>
+        <script
+          type="text/javascript"
+          src="//api.tongjiniao.com/c?_=793517014552158208"
+          async
+        ></script>
 
         {/* 字体 */}
         {/* 霞鹜文楷 */}
@@ -58,7 +63,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       {/* 监听路由变化 */}
       <RouteChangeHandler />
 
-      <body id='root' className={`dark:!bg-black-a transition-all`}>
+      <body id="root" className={`dark:!bg-black-a`}>
         {/* 🎉 礼花效果 */}
         {/* <Confetti /> */}
 
@@ -74,10 +79,13 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 
         {/* 底部组件 */}
         <Footer />
-        {/* 右侧工具栏组件 */}
-        <Tools />
+
         {/* 左侧音乐组件 */}
         <MusicTools />
+
+        {/* 右侧工具栏组件 */}
+        {/* <Tools /> */}
+        <FloatingBlock />
       </body>
     </html>
   )

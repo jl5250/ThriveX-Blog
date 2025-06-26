@@ -80,7 +80,7 @@ const CommentForm = ({ articleId }: Props) => {
     return (
         (<div className='CommentComponent'>
             <div className="mt-[70px]">
-                <div className="title relative top-0 left-0 w-full h-[1px] mb-10 bg-[#f7f7f7] dark:bg-black-b transition-colors"></div>
+                <div className="title relative top-0 left-0 w-full h-[1px] mb-10 bg-[#f7f7f7] dark:bg-black-b  "></div>
 
                 <form className="flex flex-wrap justify-between mt-4 space-y-2 text-xs xs:text-sm" onSubmit={handleSubmit(onSubmit)}>
                     <div className='w-full'>

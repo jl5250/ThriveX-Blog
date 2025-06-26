@@ -169,22 +169,13 @@ export default () => {
               <h1 className="text-3xl font-bold text-gray-800 dark:!text-white mb-2">{personalInfo.personalInfo.name}</h1>
               <h2 className="text-xl font-semibold text-gray-700 dark:!text-gray-300 mb-6">{personalInfo.personalInfo.title} | {personalInfo.personalInfo.age} | {personalInfo.personalInfo.location}</h2>
               <div className="flex flex-wrap gap-6 text-gray-600 dark:!text-white">
-                <a href={`tel:${personalInfo.personalInfo.contact.phone}`} className="flex items-center hover:text-blue-600 transition-colors font-medium">
+                <a href={`tel:${personalInfo.personalInfo.contact.phone}`} className="flex items-center hover:text-blue-600   font-medium">
                   <FaPhone className="mr-2 text-blue-500" /> {personalInfo.personalInfo.contact.phone}
                 </a>
-                <a
-                  href={`mailto:${personalInfo.personalInfo.contact.email}`}
-                  className="flex items-center hover:text-blue-600 transition-colors font-medium"
-                >
-                  <FaEnvelope className="mr-2 text-blue-500" />{' '}
-                  {personalInfo.personalInfo.contact.email}
+                <a href={`mailto:${personalInfo.personalInfo.contact.email}`} className="flex items-center hover:text-blue-600   font-medium">
+                  <FaEnvelope className="mr-2 text-blue-500" /> {personalInfo.personalInfo.contact.email}
                 </a>
-                <a
-                  href={personalInfo.personalInfo.contact.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center hover:text-blue-600 transition-colors font-medium"
-                >
+                <a href={personalInfo.personalInfo.contact.github} target="_blank" rel="noopener noreferrer" className="flex items-center hover:text-blue-600   font-medium">
                   <FaGithub className="mr-2 text-blue-500" /> GitHub
                 </a>
               </div>
@@ -278,7 +269,7 @@ export default () => {
               {personalInfo.workExperience.map((job, index) => (
                 <div key={index} className="group bg-gray-50 dark:!bg-[#373f4b] p-6 rounded-xl">
                   <div className='flex justify-between items-center mb-3'>
-                    <h4 className="text-lg font-bold text-gray-800 dark:!text-white group-hover:text-blue-600 transition-colors duration-300">{job.company}</h4>
+                    <h4 className="text-lg font-bold text-gray-800 dark:!text-white group-hover:text-blue-600   duration-300">{job.company}</h4>
                     <p className="text-gray-600 dark:!text-gray-300 font-medium">{job.period}</p>
                   </div>
                   <p className="text-gray-700 dark:!text-gray-300 font-semibold mb-4">{job.position}</p>
@@ -310,7 +301,7 @@ export default () => {
               {personalInfo.projects.map((project, index) => (
                 <div key={index} className="group bg-gray-50 dark:!bg-[#373f4b] p-6 rounded-xl">
                   <div className='flex justify-between items-center mb-3'>
-                    <h4 className="text-lg font-bold text-gray-800 dark:!text-white group-hover:text-blue-600 transition-colors duration-300">{project.name}</h4>
+                    <h4 className="text-lg font-bold text-gray-800 dark:!text-white group-hover:text-blue-600   duration-300">{project.name}</h4>
                     <p className="text-gray-600 dark:!text-gray-300 font-medium">{project.period}</p>
                   </div>
                   <p className="text-gray-700 dark:!text-gray-300 font-semibold mb-4">{project.role}</p>
@@ -455,7 +446,7 @@ export default () => {
             <div className="group bg-gray-50 dark:!bg-[#373f4b] p-6 rounded-xl">
               <div>
                 <div className='flex justify-between items-center mb-3'>
-                  <h4 className="text-lg font-bold text-gray-800 dark:!text-white group-hover:!text-blue-600 transition-colors">{personalInfo.education.school}</h4>
+                  <h4 className="text-lg font-bold text-gray-800 dark:!text-white group-hover:!text-blue-600  ">{personalInfo.education.school}</h4>
                   <p className="text-gray-600 dark:!text-gray-300 font-medium">{personalInfo.education.major} | {personalInfo.education.degree} | {personalInfo.education.period}</p>
                 </div>
 

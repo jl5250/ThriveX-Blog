@@ -45,14 +45,14 @@ const Author = async () => {
 
             {/* 作者介绍 */}
             <div className="info text-center mt-4">
-                <h3 className="text-lg text-[#333] dark:text-white transition-colors">{user?.name}</h3>
-                <p className="w-[90%] mx-auto mt-2 text-sm text-[#686868] dark:text-[#cecece] transition-colors">{user?.info}</p>
+                <h3 className="text-lg text-[#333] dark:text-white  ">{user?.name}</h3>
+                <p className="w-[90%] mx-auto mt-2 text-sm text-[#686868] dark:text-[#cecece]  ">{user?.info}</p>
             </div>
 
             {/* 社交账号 */}
             <div className="socializing w-full pt-8">
-                <div className="title relative w-full h-[1px] bg-[#eee] dark:bg-black-a transition-colors">
-                    <span className="absolute top-[-10px] left-1/2 transform -translate-x-1/2 w-[110px] bg-white dark:bg-black-b text-center text-sm text-[#666] dark:text-[#979797] transition-colors">社交账号</span>
+                <div className="title relative w-full h-[1px] bg-[#eee] dark:bg-black-a  ">
+                    <span className="absolute top-[-10px] left-1/2 transform -translate-x-1/2 w-[110px] bg-white dark:bg-black-b text-center text-sm text-[#666] dark:text-[#979797]  ">社交账号</span>
                 </div>
 
                 <div className="list flex justify-evenly w-[70%] mx-auto pt-6">

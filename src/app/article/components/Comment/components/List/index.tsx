@@ -212,7 +212,7 @@ const CommentList = forwardRef(({ id, reply }: Props, ref) => {
                             page={page}
                             onChange={onPaginateChange}
                             className='flex justify-center mt-2'
-                            classNames={{ item: "shadow-none bg-transparent dark:hover:!bg-black-b transition-colors", prev: "dark:bg-black-b transition-colors", next: "dark:bg-black-b transition-colors" }}
+                            classNames={{ item: "shadow-none bg-transparent dark:hover:!bg-black-b  ", prev: "dark:bg-black-b  ", next: "dark:bg-black-b  " }}
                         />
                     )
             }

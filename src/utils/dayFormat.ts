@@ -26,9 +26,9 @@ dayjs.updateLocale('en', {
   }
 })
 
-export default function dayFormat(timestamp: number | string) {
-  const now = dayjs()
-  const target = dayjs(+timestamp)
+export function dayFormat(timestamp: number | string) {
+    const now = dayjs();
+    const target = dayjs(+timestamp);
 
   if (now.isSame(target, 'day')) {
     return '今天'

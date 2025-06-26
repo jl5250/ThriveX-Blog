@@ -36,7 +36,7 @@ const Card = async ({ data }: CardProps) => {
                 <div key={item.id} className="relative overflow-hidden flex h-[190px] md:h-60 lg:h-52 xl:h-60 bg-black-b tw_container">
                     <div className="relative w-full py-5 px-5 sm:px-10 lg:px-5 xl:px-10 z-20">
                         <Link href={`/article/${item.id}`} className='flex flex-col justify-between h-full text-center sm:text-start'>
-                            <h3 className='overflow-hidden relative w-full my-2.5 text_shadow text-white hover:text-primary text-center text-lg md:text-xl lg:text-[22px] xl:text-2xl transition-colors line-clamp-1'>{item.title}</h3>
+                            <h3 className='overflow-hidden relative w-full my-2.5 text_shadow text-white hover:text-primary text-center text-lg md:text-xl lg:text-[22px] xl:text-2xl   line-clamp-1'>{item.title}</h3>
                             <p className='text-center text-[#cecece] text-sm sm:text-[15px] leading-7 sm:indent-8 line-clamp-2 xl:line-clamp-3'>{genArticleInfo(item)}</p>
 
                             <div className={`flex justify-center pt-5 text-end space-x-4 sm:space-x-8`}>

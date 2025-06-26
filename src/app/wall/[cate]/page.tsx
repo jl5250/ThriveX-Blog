@@ -92,10 +92,10 @@ export default async (props: Props) => {
           ))}
         </div>
 
-                {tallList.total && <Pagination total={tallList.pages} page={page} className="flex justify-center mt-5" />}
-
-                <AddWallInfo />
-            </div>
-        </>
-    )
-};
+        {tallList.total && (
+          <Pagination total={tallList.pages} page={page} className="flex justify-center mt-5" />
+        )}
+      </div>
+    </>
+  )
+}

@@ -6,8 +6,7 @@ import ArticleLayout from '@/components/ArticleLayout'
 import Sidebar from '@/components/Sidebar'
 
 import { getConfigDataAPI } from '@/api/project'
-import { Theme } from '@/types/app/project'
-import Lantern from '@/components/Lantern'
+import { Theme } from "@/types/app/project"
 
 interface Props {
   searchParams: Promise<{ page: number }>

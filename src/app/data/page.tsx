@@ -22,7 +22,7 @@ export default async () => {
                 </div>
             </Slide>
 
-            <div className="w-[90%] xl:w-[1200px] my-10 mx-auto bg-white dark:bg-black-b p-6 sm:p-10 rounded-xl border dark:border-black-b transition-colors">
+            <div className="w-[90%] xl:w-[1200px] my-10 mx-auto bg-white dark:bg-black-b p-6 sm:p-10 rounded-xl border dark:border-black-b  ">
                 <Statis aTotal={data.length} />
                 <Archiving list={data} />
             </div>

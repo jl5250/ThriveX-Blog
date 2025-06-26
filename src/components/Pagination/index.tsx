@@ -30,7 +30,7 @@ export default ({ total, page, path, className }: Props) => {
                 total={total}
                 page={+page}
                 onChange={onChange}
-                classNames={{ item: "shadow-none bg-transparent dark:hover:!bg-black-b transition-colors", prev: "dark:bg-black-b transition-colors", next: "dark:bg-black-b transition-colors" }}
+                classNames={{ item: "shadow-none bg-transparent dark:hover:!bg-black-b  ", prev: "dark:bg-black-b  ", next: "dark:bg-black-b  " }}
             />
         </div>
     )
