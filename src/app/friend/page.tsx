@@ -85,7 +85,7 @@ export default async () => {
               <p>
                 <FaUserCircle className="inline mr-2 text-primary" />
                 站点图标：
-                <span className="hover:text-primary cursor-pointer select-all">{user.avatar}</span>
+                <span className="hover:text-primary cursor-pointer select-all break-all">{user.avatar}</span>
               </p>
               <p>
                 <FaLink className="inline mr-2 text-primary" />
@@ -131,13 +131,13 @@ export default async () => {
                 {data[type].list?.length ? (
                   data[type].list.map((item: WebLink) => (
                     <Link key={item.id} href={item.url} target="_blank" className="group">
-                      <div className="flex flex-col sm:flex-row items-center p-4 border border-gray-200 dark:border-[#3d4653] rounded-xl transition-all duration-200 bg-white/80 dark:bg-[#232931]/80 shadow-md h-[120px] group-hover:scale-105 group-hover:-translate-y-1 group-hover:shadow-xl will-change-transform">
+                      <div className="flex flex-col sm:flex-row items-center p-4 border border-gray-200 dark:border-[#3d4653] rounded-xl transition-all duration-200 bg-white/80 dark:bg-[#232931]/80 shadow-md h-[140px] group-hover:scale-105 group-hover:-translate-y-1 group-hover:shadow-xl will-change-transform">
                         <img
                           src={item.image}
                           alt={item.title}
                           className="w-14 h-14 mb-2 sm:mb-0 sm:mr-4 rounded-full border-2 border-primary transition-transform shadow"
                         />
-                        <div className="flex flex-col space-y-2 items-center sm:items-start w-full h-[56px] justify-center">
+                        <div className="flex flex-col space-y-2 items-center sm:items-start w-full h-full justify-center">
                           <h4 className="text-base font-bold text-gray-700 dark:text-white group-hover:text-primary truncate w-full">
                             {item.title}
                           </h4>
