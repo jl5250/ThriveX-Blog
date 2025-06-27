@@ -34,7 +34,7 @@ export default ({ data }: { data: Project[] }) => {
                                                             {
                                                                 item.images?.map((img, index) => (
                                                                     <PhotoView key={index} src={img || ''}>
-                                                                        <img src={img} alt="作品图片" className="border dark:border-[#444e5d] dark hover:scale-[1.2] rounded-lg cursor-pointer transition-all" />
+                                                                        <img src={img} alt="作品图片" className="border dark:border-[#444e5d] dark hover:scale-[1.2] rounded-lg cursor-pointer transition-transform" />
                                                                     </PhotoView>
                                                                 ))
                                                             }

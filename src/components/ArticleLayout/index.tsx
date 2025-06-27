@@ -16,7 +16,7 @@ import { getSwiperListAPI } from '@/api/swiper'
 export default async ({ page }: { page: number }) => {
   const { data: swiper } = await getSwiperListAPI() || { data: [] as SwiperType[] }
   const { data: theme } = await getConfigDataAPI<Theme>("layout") || { data: {} as Theme }
-  const sidebar: string[] = theme?.right_sidebar && JSON.parse(theme?.right_sidebar)
+  const sidebar: string[] = JSON.parse(theme?.right_sidebar || '[]')
 
   // 如果是瀑布流布局就显示28条数据，否则显示8条
   const { data } = (await getArticlePagingAPI({
@@ -26,8 +26,8 @@ export default async ({ page }: { page: number }) => {
 
   return (
     <div className={`w-full md:w-[90%] ${sidebar?.length ? 'lg:w-[68%] xl:w-[73%]' : 'w-full'} mx-auto transition-width`}>
-      {swiper?.length && <Swiper data={swiper} />}
-      <Dynamic className="my-2" />
+      {!!swiper?.length && <Swiper data={swiper} />}
+      <Dynamic className='my-2' />
 
       {theme.is_article_layout === 'classics' && <Classics data={data} />}
       {theme.is_article_layout === 'card' && <Card data={data} />}

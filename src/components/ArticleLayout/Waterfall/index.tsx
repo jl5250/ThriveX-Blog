@@ -33,7 +33,7 @@ export default ({ data }: WaterfallProps) => {
                             <Link href={`/article/${item.id}`}>
                                 <div className='overflow-hidden h-32'>
                                     <div
-                                        className="relative h-full bg-cover bg-no-repeat bg-center scale-100 hover:scale-125 z-10 transition-all"
+                                        className="relative h-full bg-cover bg-no-repeat bg-center scale-100 hover:scale-125 z-10 transition-transform"
                                         style={{ backgroundImage: `url(${item.cover || covers[getRandom(0, covers.length - 1)]})` }}
                                     />
                                 </div>

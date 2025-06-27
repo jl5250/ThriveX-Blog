@@ -8,7 +8,7 @@ import { Theme } from "@/types/app/project"
 
 export default async () => {
   const { data: theme } = await getConfigDataAPI<Theme>("layout") || { data: {} as Theme }
-  const sidebar: string[] = JSON.parse(theme?.right_sidebar)
+  const sidebar: string[] = JSON.parse(theme?.right_sidebar || '[]')
 
   return (
     <>

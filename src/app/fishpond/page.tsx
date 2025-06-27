@@ -96,7 +96,7 @@ export default function FishpondPage() {
             >
               {rssData.map((item, index) => {
                 return (
-                  <div key={`${item.url}-${index}`} className="border border-[#eee] dark:border-black-b rounded-md transition-all hover:shadow-[0_2px_8px_rgba(186,186,186,0.15)] bg-white dark:bg-black-b p-5 pb-3 hover:-translate-y-0.5 mb-3 break-inside-avoid">
+                  <div key={`${item.url}-${index}`} className="border border-[#eee] dark:border-black-b rounded-md transition-shadow hover:shadow-[0_2px_8px_rgba(186,186,186,0.15)] bg-white dark:bg-black-b p-5 pb-3 hover:-translate-y-0.5 mb-3 break-inside-avoid">
                     <div className="flex justify-between items-center mb-3.75">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#eee] dark:border-black-b">

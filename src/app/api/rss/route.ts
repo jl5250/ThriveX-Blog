@@ -26,10 +26,10 @@ export async function GET() {
     });
 
     const feed = new Feed({
-        title: `${web.title} - ${web.subhead}`,
-        description: web.description,
-        id: web.url,
-        link: web.url,
+        title: `${web?.title} - ${web?.subhead}`,
+        description: web?.description,
+        id: web?.url,
+        link: web?.url,
         language: 'zh-CN',
         copyright: 'ThriveX 现代化博客管理系统',
         updated: new Date(),
@@ -37,22 +37,22 @@ export async function GET() {
         docs: "https://github.com/LiuYuYang01/ThriveX-Blog",
         author: {
             name: user?.name,
-            email: user.email,
-            link: web.url
+            email: user?.email,
+            link: web?.url
         },
         image: user?.avatar,
-        feed: web.url + '/api/rss'
+        feed: web?.url + '/api/rss'
     });
 
     list.forEach(item => {
         feed.addItem({
             id: item.id + '',
-            title: 'title' in item ? item.title : truncateContent(item.content),
-            link: 'title' in item ? web.url + '/article/' + item.id : web.url + '/record',
-            description: 'title' in item ? item.description : item.content,
-            content: item.content,
+            title: 'title' in item ? item?.title : truncateContent(item?.content),
+            link: 'title' in item ? web?.url + '/article/' + item?.id : web?.url + '/record',
+            description: 'title' in item ? item?.description : item?.content,
+            content: item?.content,
             copyright: 'ThriveX 现代化博客管理系统',
-            date: new Date(+item.createTime!)
+            date: new Date(+item?.createTime!)
         });
     });
 

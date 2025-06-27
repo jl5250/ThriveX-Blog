@@ -67,7 +67,7 @@ export default ({ disclosure }: Props) => {
                                                 <Link
                                                     key={item.id}
                                                     href={`/article/${item.id}`}
-                                                    className="inline-block w-full py-2 px-4 mb-1 text-gray-700 dark:text-[#8c9ab1] hover:!text-primary hover:bg-[#f0f7ff] dark:hover:bg-[#25282d] hover:pl-8 rounded-md transition-all"
+                                                    className="inline-block w-full py-2 px-4 mb-1 text-gray-700 dark:text-[#8c9ab1] hover:!text-primary hover:bg-[#f0f7ff] dark:hover:bg-[#25282d] hover:pl-8 rounded-md transition-[padding]"
                                                     onClick={onClose}
                                                 >
                                                     {item.title}

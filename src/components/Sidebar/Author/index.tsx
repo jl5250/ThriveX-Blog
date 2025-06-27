@@ -18,7 +18,7 @@ const Author = async () => {
     const { data: user } = await getUserDataAPI() || { data: {} as User }
     const { data: { social } } = await getConfigDataAPI<Theme>("layout") || { data: {} as Theme }
 
-    const socialList = JSON.parse(social)?.map((item: string) => JSON.parse(item))
+    const socialList = JSON.parse(social || '[]')?.map((item: string) => JSON.parse(item))
 
     // 图标列表
     const images: { [string: string]: string } = {
@@ -46,19 +46,19 @@ const Author = async () => {
             {/* 作者介绍 */}
             <div className="info text-center mt-4">
                 <h3 className="text-lg text-[#333] dark:text-white  ">{user?.name}</h3>
-                <p className="w-[90%] mx-auto mt-2 text-sm text-[#686868] dark:text-[#cecece]  ">{user?.info}</p>
+                <p className="w-[90%] mx-auto mt-2 text-sm text-[#686868] dark:text-[#cecece]">{user?.info}</p>
             </div>
 
             {/* 社交账号 */}
             <div className="socializing w-full pt-8">
-                <div className="title relative w-full h-[1px] bg-[#eee] dark:bg-black-a  ">
+                <div className="title relative w-full h-[1px] bg-[#eee] dark:bg-black-a">
                     <span className="absolute top-[-10px] left-1/2 transform -translate-x-1/2 w-[110px] bg-white dark:bg-black-b text-center text-sm text-[#666] dark:text-[#979797]  ">社交账号</span>
                 </div>
 
                 <div className="list flex justify-evenly w-[70%] mx-auto pt-6">
                     {socialList?.map((item: Social, index: number) => (
-                        <a key={index} href={item.url} target="_blank" rel="noopener noreferrer">
-                            <Image src={getIcon(item.name)} alt={item.name} title={item.name} className="w-[23px] h-[23px]" />
+                        <a key={index} href={item?.url} target="_blank" rel="noopener noreferrer">
+                            <Image src={getIcon(item?.name)} alt={item?.name} title={item?.name} className="w-[23px] h-[23px]" />
                         </a>
                     ))}
                 </div>

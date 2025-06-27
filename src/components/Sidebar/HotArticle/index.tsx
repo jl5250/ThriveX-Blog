@@ -27,7 +27,7 @@ const RandomArticle = async () => {
                 <div className='w-full'>
                     {list?.map((item: Article) => (
                         <div key={item.id}>
-                            <Link href={`/article/${item.id}`} target='_blank' className='w-full flex items-center py-2 text-gray-600 dark:text-[#8c9ab1] text-sm transition-all hover:!text-primary hover:pl-2'>
+                            <Link href={`/article/${item.id}`} target='_blank' className='w-full flex items-center py-2 text-gray-600 dark:text-[#8c9ab1] text-sm transition-[padding] hover:!text-primary hover:pl-2'>
                                 <IoIosArrowForward className="text-lg mr-1" />
                                 <span className='w-full line-clamp-1'>{item.title}</span>
                             </Link>

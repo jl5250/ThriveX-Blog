@@ -169,7 +169,7 @@ export default function AlbumPage(props: Props) {
                       <img
                         src={photo.image}
                         alt={photo.name}
-                        className="w-full h-auto object-cover transform transition-transform duration-300 group-hover:scale-110"
+                        className="w-full h-auto object-cover transform transition-transform   group-hover:scale-110"
                       />
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

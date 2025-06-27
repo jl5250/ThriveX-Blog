@@ -125,6 +125,7 @@ const FloatingBlock = () => {
                                             dark:hover:bg-gray-700 -translate-x-5 -translate-y-5"
                                             onPress={item.onClick}
                                             title={item.label}
+                                            aria-label={item.label}
                                         >
                                             <item.icon className="w-5 h-5" />
                                         </Button>
@@ -148,6 +149,8 @@ const FloatingBlock = () => {
                     size="lg"
                     className="bg-blue-500 hover:bg-blue-600 text-white shadow-lg rounded-full"
                     onPress={toggleExpanded}
+                    aria-label={isExpanded ? "收起功能菜单" : "展开功能菜单"}
+                    title={isExpanded ? "收起功能菜单" : "展开功能菜单"}
                 >
                     <motion.div
                         animate={{ rotate: isExpanded ? 180 : 0 }}

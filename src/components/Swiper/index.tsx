@@ -54,7 +54,7 @@ export default ({ data, className }: { data: SwiperType[], className?: string })
 
                 {data?.map((item, index) => (
                     <div key={index} className={`absolute top-0 left-0 w-full h-full ${index === current ? 'opacity-100' : 'opacity-0'} transition-opacity`}>
-                        <img key={index} src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                        <img key={index} src={item.image} alt={item.title} className="w-full h-full object-cover" width={1694} height={700} />
 
                         <div className="flex flex-col absolute bottom-7 left-5 z-10 gap-2 animation_bottom">
                             <h2 className="text-white text-xl lg:text-2xl font-bold text_shadow">{item.title}</h2>
@@ -75,7 +75,7 @@ export default ({ data, className }: { data: SwiperType[], className?: string })
                         <div
                             key={index}
                             onClick={() => setCurrent(index)}
-                            className={`w-6 h-1 rounded-full hover:bg-white hover:w-8 ${index === current ? '!bg-[#539dfd] w-8 shadow-[0_0_10px_#539dfd]' : 'bg-[#fff5]'} transition-all cursor-pointer`}
+                            className={`w-6 h-1 rounded-full hover:bg-white hover:w-8 ${index === current ? '!bg-[#539dfd] w-8 shadow-[0_0_10px_#539dfd]' : 'bg-[#fff5]'} transition-shadow cursor-pointer`}
                         />
                     ))}
                 </div>

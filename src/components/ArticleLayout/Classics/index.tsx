@@ -36,7 +36,7 @@ const Classics = async ({ data }: ClassicsProps) => {
                 <div key={item.id} className="relative overflow-hidden flex h-[190px] md:h-60 lg:h-52 xl:h-60 bg-black-b tw_container">
                     {index % 2 === 0 && (
                         <div
-                            className="hidden sm:block relative min-w-[45%] bg-cover bg-no-repeat bg-center scale-100 hover:scale-125 z-10 transition-all"
+                            className="hidden sm:block relative min-w-[45%] bg-cover bg-no-repeat bg-center scale-100 hover:scale-125 z-10 transition-transform"
                             style={{
                                 clipPath: 'polygon(0 0, 100% 0, 90% 100%, 0 100%)',
                                 backgroundImage: `url(${item.cover || covers[getRandom(0, covers.length - 1)]})`,
@@ -79,7 +79,7 @@ const Classics = async ({ data }: ClassicsProps) => {
 
                     {index % 2 !== 0 && (
                         <div
-                            className="relative min-w-[45%] bg-cover bg-no-repeat bg-center scale-100 z-10 transition-all hover:scale-125 hidden sm:block"
+                            className="relative min-w-[45%] bg-cover bg-no-repeat bg-center scale-100 z-10 hover:scale-125 transition-transform hidden sm:block"
                             style={{
                                 clipPath: 'polygon(10% 0, 100% 0, 100% 100%, 0 100%)',
                                 backgroundImage: `url(${item.cover || covers[getRandom(0, covers.length - 1)]})`,

@@ -148,7 +148,7 @@ export default () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="max-w-4xl mx-auto bg-white dark:!bg-black-b rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 p-10"
+          className="max-w-4xl mx-auto bg-white dark:!bg-black-b rounded-2xl shadow-xl hover:shadow-2xl transition-shadow p-10"
         >
           {/* 个人信息头部 */}
           <div className="flex items-center space-x-8 mb-12">
@@ -161,7 +161,7 @@ export default () => {
               <img
                 src={personalInfo.personalInfo.avatar}
                 alt={personalInfo.personalInfo.name}
-                className="object-cover transition-transform duration-300 group-hover:scale-110"
+                className="object-cover transition-transform   group-hover:scale-110"
               />
             </motion.div>
 
@@ -269,7 +269,7 @@ export default () => {
               {personalInfo.workExperience.map((job, index) => (
                 <div key={index} className="group bg-gray-50 dark:!bg-[#373f4b] p-6 rounded-xl">
                   <div className='flex justify-between items-center mb-3'>
-                    <h4 className="text-lg font-bold text-gray-800 dark:!text-white group-hover:text-blue-600   duration-300">{job.company}</h4>
+                    <h4 className="text-lg font-bold text-gray-800 dark:!text-white group-hover:text-blue-600    ">{job.company}</h4>
                     <p className="text-gray-600 dark:!text-gray-300 font-medium">{job.period}</p>
                   </div>
                   <p className="text-gray-700 dark:!text-gray-300 font-semibold mb-4">{job.position}</p>
@@ -301,7 +301,7 @@ export default () => {
               {personalInfo.projects.map((project, index) => (
                 <div key={index} className="group bg-gray-50 dark:!bg-[#373f4b] p-6 rounded-xl">
                   <div className='flex justify-between items-center mb-3'>
-                    <h4 className="text-lg font-bold text-gray-800 dark:!text-white group-hover:text-blue-600   duration-300">{project.name}</h4>
+                    <h4 className="text-lg font-bold text-gray-800 dark:!text-white group-hover:text-blue-600    ">{project.name}</h4>
                     <p className="text-gray-600 dark:!text-gray-300 font-medium">{project.period}</p>
                   </div>
                   <p className="text-gray-700 dark:!text-gray-300 font-semibold mb-4">{project.role}</p>
