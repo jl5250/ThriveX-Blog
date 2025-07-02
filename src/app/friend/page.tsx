@@ -6,9 +6,10 @@ import { getConfigDataAPI } from '@/api/project'
 import { getWebListAPI, getWebTypeListAPI } from '@/api/web'
 import { Web as WebLink, WebType } from '@/types/app/web'
 
-import Slide from '@/components/Slide'
-import Starry from '@/components/Starry'
-import ApplyForAdd from './components/ApplyForAdd'
+import Slide from "@/components/Slide";
+import Starry from "@/components/Starry";
+import ApplyForAdd from "./components/ApplyForAdd";
+import CopyableText from "./components/CopyableText";
 
 import { ToastContainer } from 'react-toastify'
 import { getUserDataAPI } from '@/api/user'
@@ -63,44 +64,19 @@ export default async () => {
         </div>
       </Slide>
 
-      <div className="bg-[linear-gradient(180deg,#edf6ff_0%,#ffffff_100%)] dark:bg-[linear-gradient(to_right,#232931_0%,#232931_100%)]">
-        <div className="relative -top-0 w-[90%] xl:w-[1200px] p-4 sm:p-10 pt-2 mx-auto bg-white dark:bg-black-b border dark:border-black-b rounded-2xl space-y-8 transition-colors">
-          <div>
-            <h3 className="w-full text-center text-xl p-4 dark:text-white transition-colors flex items-center justify-center gap-2">
-              <FaInfoCircle className="text-primary" /> 本站信息
-            </h3>
-            <div className="mx-auto p-3 space-y-2 border-l-[3px] border-primary bg-[#ecf7fe] rounded-md text-sm text-black-b">
-              <p>
-                <FaLink className="inline mr-2 text-primary" />
-                站点名称：
-                <span className="hover:text-primary cursor-pointer select-all">{web.title}</span>
-              </p>
-              <p>
-                <FaInfoCircle className="inline mr-2 text-primary" />
-                站点介绍：
-                <span className="hover:text-primary cursor-pointer select-all">
-                  {web.description}
-                </span>
-              </p>
-              <p>
-                <FaUserCircle className="inline mr-2 text-primary" />
-                站点图标：
-                <span className="hover:text-primary cursor-pointer select-all break-all">{user.avatar}</span>
-              </p>
-              <p>
-                <FaLink className="inline mr-2 text-primary" />
-                站点地址：
-                <span className="hover:text-primary cursor-pointer select-all">{web.url}</span>
-              </p>
-              <p>
-                <FaRss className="inline mr-2 text-primary" />
-                Rss地址：
-                <span className="hover:text-primary cursor-pointer select-all">
-                  {web.url + '/api/rss'}
-                </span>
-              </p>
-            </div>
-          </div>
+            <div className="bg-[linear-gradient(180deg,#edf6ff_0%,#ffffff_100%)] dark:bg-[linear-gradient(to_right,#232931_0%,#232931_100%)]">
+                <div className="relative -top-0 w-[90%] xl:w-[1200px] p-4 sm:p-10 pt-2 mx-auto bg-white dark:bg-black-b border dark:border-black-b rounded-2xl space-y-8  ">
+                    <div>
+                        <h3 className="w-full text-center text-xl p-4 dark:text-white  ">本站信息</h3>
+
+                        <div className="mx-auto p-3 space-y-2 border-l-[3px] border-primary bg-[#ecf7fe] dark:bg-[#333b48] rounded-md text-sm text-black-b dark:text-gray-300">
+                            <p>站点名称：<CopyableText text={web.title}>{web.title}</CopyableText></p>
+                            <p>站点介绍：<CopyableText text={web.description}>{web.description}</CopyableText></p>
+                            <p>站点图标：<CopyableText text={user?.avatar || ''}>{user?.avatar}</CopyableText></p>
+                            <p>站点地址：<CopyableText text={web.url}>{web.url}</CopyableText></p>
+                            <p>Rss地址：<CopyableText text={web.url + '/api/rss'}>{web.url + '/api/rss'}</CopyableText></p>
+                        </div>
+                    </div>
 
           {Object.keys(data)?.map((type, index) => (
             <div key={index}>

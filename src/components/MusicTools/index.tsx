@@ -116,6 +116,7 @@ export default function MusicTools() {
       <audio
         ref={audioRef}
         src={url}
+        aria-label='music-player'
         onTimeUpdate={(e) => lyricInfo.updateTime(e)}
         onCanPlay={(e) => canplay(e)}
         onEnded={() => onEnd()}
