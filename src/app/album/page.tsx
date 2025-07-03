@@ -127,7 +127,7 @@ export default function AlbumPage() {
                         <img
                           src={cate.cover}
                           alt={cate.name}
-                          className="w-full h-full object-cover transform transition-transform duration-300 group-hover:scale-110"
+                          className="w-full h-full object-cover transform transition-transform group-hover:scale-110"
                         />
                       </div>
 

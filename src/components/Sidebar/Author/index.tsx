@@ -45,7 +45,7 @@ const Author = async () => {
 
             {/* 作者介绍 */}
             <div className="info text-center mt-4">
-                <h3 className="text-lg text-[#333] dark:text-white  ">{user?.name}</h3>
+                <h3 className="text-lg text-[#333] dark:text-white">{user?.name}</h3>
                 <p className="w-[90%] mx-auto mt-2 text-sm text-[#686868] dark:text-[#cecece]">{user?.info}</p>
             </div>
 
