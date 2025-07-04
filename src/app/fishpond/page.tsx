@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Rss } from '@/types/app/rss';
-import { getRssListAPI } from '@/api/Rss';
+import { getRssListAPI } from '@/api/rss';
 import Loading from '@/components/Loading';
 import Empty from '@/components/Empty';
 import RandomAvatar from '@/components/RandomAvatar';

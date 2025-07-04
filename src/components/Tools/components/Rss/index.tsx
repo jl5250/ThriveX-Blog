@@ -1,6 +1,6 @@
 "use client"
 
-import { Web } from "@/types/app/project";
+import { Web } from "@/types/app/config";
 import { Modal, ModalContent, ModalHeader, ModalBody, UseDisclosureProps, Snippet } from "@heroui/react"
 
 interface Props {

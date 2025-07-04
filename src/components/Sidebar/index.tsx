@@ -3,11 +3,11 @@ import HotArticle from "./HotArticle"
 import RandomArticle from "./RandomArticle"
 import Comment from "./Comment"
 import RunTime from "./RunTime"
-import { getConfigDataAPI } from '@/api/project'
-import { Theme } from "@/types/app/project"
+import { getWebConfigDataAPI } from '@/api/config'
+import { Theme } from "@/types/app/config"
 
 export default async () => {
-  const { data: theme } = await getConfigDataAPI<Theme>("layout") || { data: {} as Theme }
+  const { data: theme } = await getWebConfigDataAPI<Theme>("layout") || { data: {} as Theme }
   const sidebar: string[] = JSON.parse(theme?.right_sidebar || '[]')
 
   return (

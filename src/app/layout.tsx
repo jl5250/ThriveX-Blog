@@ -9,8 +9,8 @@ import Confetti from '@/components/Confetti'
 import RouteChangeHandler from '@/components/RouteChangeHandler'
 import MusicTools from '@/components/MusicTools'
 
-import { getConfigDataAPI } from '@/api/project'
-import { Web } from '@/types/app/project'
+import { getWebConfigDataAPI } from '@/api/config'
+import { Web } from '@/types/app/config';
 
 // 加载样式文件
 import "@/styles/index.scss";
@@ -26,7 +26,7 @@ const LXGWWenKai = localFont({
 })
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const { data } = (await getConfigDataAPI<Web>('web')) || { data: {} as Web }
+  const { data } = (await getWebConfigDataAPI<Web>("web")) || { data: {} as Web };
 
   // 尊重开源，禁止删除此版权信息！！！
   console.log('🚀 欢迎使用 ThriveX 现代化博客管理系统')

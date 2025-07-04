@@ -1,8 +1,8 @@
 import { ReactNode } from 'react'
 import Ripple from '@/components/Ripple'
 import { getRandom } from '@/utils'
-import { getConfigDataAPI } from '@/api/project'
-import { Theme } from '@/types/app/project'
+import { getWebConfigDataAPI } from '@/api/config'
+import { Theme } from '@/types/app/config'
 
 interface Props {
   src?: string // 图片列表
@@ -11,8 +11,8 @@ interface Props {
 }
 
 export default async ({ src, isRipple = true, children }: Props) => {
-  const { data } = (await getConfigDataAPI<Theme>('layout')) || { data: {} as Theme }
-  const covers = JSON.parse(data.covers || '[]')
+    const { data } = await getWebConfigDataAPI<Theme>("layout") || { data: {} as Theme }
+    const covers = JSON.parse(data.covers || '[]')
 
   const sty = {
     backgroundImage: `url(${src ? src : covers[getRandom(0, covers.length - 1)]})`

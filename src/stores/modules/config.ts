@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import { Theme, Web } from '@/types/app/project';
+import { Theme, Web } from '@/types/app/config';
 
 interface ConfigState {
   // 是否暗黑模式

@@ -7,15 +7,15 @@ import Pagination from '../Pagination'
 import Visitor from '../Visitor'
 
 import { getArticlePagingAPI } from '@/api/article'
-import { getConfigDataAPI } from '@/api/project'
-import { Theme } from '@/types/app/project'
+import { getWebConfigDataAPI } from '@/api/config'
+import { Theme } from '@/types/app/config'
 import { Article } from '@/types/app/article'
 import { Swiper as SwiperType } from '@/types/app/swiper'
 import { getSwiperListAPI } from '@/api/swiper'
 
 export default async ({ page }: { page: number }) => {
   const { data: swiper } = await getSwiperListAPI() || { data: [] as SwiperType[] }
-  const { data: theme } = await getConfigDataAPI<Theme>("layout") || { data: {} as Theme }
+  const { data: theme } = await getWebConfigDataAPI<Theme>("layout") || { data: {} as Theme }
   const sidebar: string[] = JSON.parse(theme?.right_sidebar || '[]')
 
   // 如果是瀑布流布局就显示28条数据，否则显示8条

@@ -10,13 +10,13 @@ import QQ from '@/assets/svg/socializing/QQ.svg'
 import Weixin from '@/assets/svg/socializing/Weixin.svg'
 
 import { getUserDataAPI } from '@/api/user';
-import { getConfigDataAPI } from '@/api/project'
+import { getWebConfigDataAPI } from '@/api/config'
 import { User } from '@/types/app/user';
-import { Social, Theme } from '@/types/app/project';
+import { Social, Theme } from '@/types/app/config';
 
 const Author = async () => {
     const { data: user } = await getUserDataAPI() || { data: {} as User }
-    const { data: { social } } = await getConfigDataAPI<Theme>("layout") || { data: {} as Theme }
+    const { data: { social } } = await getWebConfigDataAPI<Theme>("layout") || { data: {} as Theme }
 
     const socialList = JSON.parse(social || '[]')?.map((item: string) => JSON.parse(item))
 

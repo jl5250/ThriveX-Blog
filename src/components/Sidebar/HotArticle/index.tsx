@@ -1,15 +1,15 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { getConfigDataAPI } from '@/api/project'
+import { getWebConfigDataAPI } from '@/api/config'
 import { getArticleListAPI } from '@/api/article';
 import { IoIosArrowForward } from "react-icons/io";
 import fire from '@/assets/svg/other/fire.svg';
 import "./index.scss";
-import { Theme } from '@/types/app/project';
+import { Theme } from '@/types/app/config';
 import { Article } from '@/types/app/article';
 
 const RandomArticle = async () => {
-    const { data: theme } = await getConfigDataAPI<Theme>("layout") || { data: {} as Theme }
+    const { data: theme } = await getWebConfigDataAPI<Theme>("layout") || { data: {} as Theme }
     const { data: article } = await getArticleListAPI() || { data: [] as Article[] }
 
     const ids = JSON.parse(theme.reco_article ? theme.reco_article : '[]')

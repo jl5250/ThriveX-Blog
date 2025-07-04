@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
+import { getGaodeMapConfigDataAPI } from "@/api/config";
+
 export default function MapContainer() {
     let map: any;
 
@@ -12,14 +14,17 @@ export default function MapContainer() {
         AOS.init()
 
         // 确保代码仅在客户端执行
-        import('@amap/amap-jsapi-loader').then(AMapLoader => {
+        import('@amap/amap-jsapi-loader').then(async AMapLoader => {
+            const { data } = await getGaodeMapConfigDataAPI() || { data: {} }
+            const { key_code, security_code } = data as { key_code: string, security_code: string }
+
             // @ts-ignore
             window._AMapSecurityConfig = {
-                securityJsCode: process.env.NEXT_PUBLIC_GAODE_SECURITYJS_CODE,
+                securityJsCode: security_code,
             };
 
             AMapLoader.load({
-                key: process.env.NEXT_PUBLIC_GAODE_KEY_CODE!, // 申请好的Web端开发者Key，首次调用 load 时必填
+                key: key_code,
                 version: "2.0",
                 plugins: ["AMap.Scale", "AMap.Marker"],
             })
@@ -47,7 +52,7 @@ export default function MapContainer() {
         <>
             <div data-aos="zoom-in" className="w-full md:w-5/12 flex flex-col mr-0 md:mr-20">
                 <div className="text-center text-xl mb-8">我的家乡</div>
-                
+
                 <div id="container" className="w-full h-60 sm:h-80 border rounded-3xl"></div>
             </div>
         </>

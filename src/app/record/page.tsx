@@ -7,8 +7,8 @@ import { dayFormat } from '@/utils'
 import Pagination from "@/components/Pagination";
 import Empty from "@/components/Empty";
 import Show from "@/components/Show";
-import { getConfigDataAPI } from "@/api/project";
-import { Theme } from "@/types/app/project";
+import { getWebConfigDataAPI } from "@/api/config";
+import { Theme } from "@/types/app/config";
 import Editor from "./components/Editor";
 
 interface Props {
@@ -21,7 +21,7 @@ export default async (props: Props) => {
 
   const { data: user } = (await getUserDataAPI()) || { data: {} as User }
   const { data: record } = (await getRecordPagingAPI({ pagination: { page, size: 8 } })) || { data: {} as Paginate<Record[]> }
-  const { data: theme } = (await getConfigDataAPI<Theme>("layout")) || { data: {} as Theme }
+  const { data: theme } = (await getWebConfigDataAPI<Theme>("layout")) || { data: {} as Theme }
 
   return (
     <>

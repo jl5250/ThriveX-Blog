@@ -12,25 +12,25 @@ import { IoIosArrowDown } from 'react-icons/io'
 import { FaRegSun } from 'react-icons/fa'
 import { BsFillMoonStarsFill, BsTextIndentLeft } from 'react-icons/bs'
 
-import { Cate } from '@/types/app/cate'
-import { getCateListAPI } from '@/api/cate'
-import { getConfigDataAPI } from '@/api/project'
+import { Cate } from '@/types/app/cate';
+import { getCateListAPI } from '@/api/cate';
+import { getWebConfigDataAPI } from '@/api/config';
 
-import { useConfigStore } from '@/stores'
-import { Theme, Web } from '@/types/app/project'
+import { useConfigStore } from '@/stores';
+import { Theme, Web } from '@/types/app/config';
 
 const Header = () => {
   // 是否暗黑模式
   const { isDark, setIsDark, setWeb, theme, setTheme } = useConfigStore()
 
-  // 获取项目配置
-  const getConfigData = async () => {
-    const { data: web } = (await getConfigDataAPI<Web>('web')) || { data: {} as Web }
-    setWeb(web)
+    // 获取项目配置
+    const getConfigData = async () => {
+        const { data: web } = (await getWebConfigDataAPI<Web>("web")) || { data: {} as Web };
+        setWeb(web)
 
-    const { data: theme } = (await getConfigDataAPI<Theme>('layout')) || { data: {} as Theme }
-    setTheme(theme)
-  }
+        const { data: theme } = (await getWebConfigDataAPI<Theme>("layout")) || { data: {} as Theme };
+        setTheme(theme)
+    }
 
   const patchName = usePathname()
   // 这些路径段不需要改变导航样式
