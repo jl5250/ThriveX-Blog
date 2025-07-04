@@ -7,7 +7,6 @@ import { getRssListAPI } from '@/api/rss';
 import Loading from '@/components/Loading';
 import Empty from '@/components/Empty';
 import RandomAvatar from '@/components/RandomAvatar';
-import dayjs from 'dayjs';
 import parse from 'html-react-parser';
 import { HTMLParser } from '@/utils/htmlParser';
 import Masonry from 'react-masonry-css';
