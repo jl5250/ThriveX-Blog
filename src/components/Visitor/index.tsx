@@ -7,11 +7,11 @@ import {
   FaCloudSun,
   FaTemperatureHigh,
   FaWind,
-  FaRegCalendarAlt,
-  FaRegWindowMaximize
+  FaRegCalendarAlt
 } from 'react-icons/fa'
 import { formatDate, formatDay } from '@/utils/dayFormat'
 import Loading from '../Loading'
+import { getGaodeIpConfigDataAPI } from '@/api/config'
 
 interface WeatherData {
   temperature: number //实时气温，单位：摄氏度
@@ -33,10 +33,11 @@ export default () => {
   useEffect(() => {
     const fetchVisitorInfo = async () => {
       try {
+        const { data } = (await getGaodeIpConfigDataAPI()) || { data: {} }
+        const { key } = data as { key: string }
+        console.log('高德： ', data)
         // 获取地理位置
-        const ipResponse = await fetch(
-          `https://restapi.amap.com/v3/ip?key=${process.env.NEXT_PUBLIC_GAODE_KEY_IP}`
-        )
+        const ipResponse = await fetch(`https://restapi.amap.com/v3/ip?key=${key}`)
         const locationData = await ipResponse.json()
 
         setLocation({
@@ -46,7 +47,7 @@ export default () => {
 
         // 获取天气信息
         const weatherResponse = await fetch(
-          `https://restapi.amap.com/v3/weather/weatherInfo?key=${process.env.NEXT_PUBLIC_GAODE_KEY_IP}&city=${locationData.adcode}`
+          `https://restapi.amap.com/v3/weather/weatherInfo?key=${key}&city=${locationData.adcode}`
         )
         const weatherData = await weatherResponse.json()
         if (weatherData.status === '1') {

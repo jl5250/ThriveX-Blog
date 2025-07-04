@@ -10,7 +10,6 @@ import dayjs from 'dayjs'
 import Masonry from "react-masonry-css";
 import "./page.scss";
 import { getGaodeMapConfigDataAPI } from "@/api/config";
-import { EnvConfig } from "@/types/app/config";
 
 const breakpointColumnsObj = {
     default: 4,

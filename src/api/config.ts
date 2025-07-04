@@ -9,3 +9,6 @@ export const editWebConfigDataAPI = (type: string, data: object) => Request<{ [s
 
 // 获取高德地图配置
 export const getGaodeMapConfigDataAPI = () => Request("GET", `/env_config/gaode_map`)
+
+// 获取高德地图IP定位API配置
+export const getGaodeIpConfigDataAPI = () => Request("GET", `/env_config/gaode_ip`)
