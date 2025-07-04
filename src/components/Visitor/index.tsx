@@ -35,7 +35,6 @@ export default () => {
       try {
         const { data } = (await getGaodeIpConfigDataAPI()) || { data: {} }
         const { key } = data as { key: string }
-        console.log('高德： ', data)
         // 获取地理位置
         const ipResponse = await fetch(`https://restapi.amap.com/v3/ip?key=${key}`)
         const locationData = await ipResponse.json()
