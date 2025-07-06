@@ -1,37 +1,28 @@
-@use "@/styles/var" as *;
+@use '@/styles/var' as *;
 
 :target::before {
-    content: "";
-    display: block;
-    // height: 80px;
+  content: '';
+  display: block;
+  height: 80px; // 防止锚点被顶部遮挡
 }
 
 .ContentNavComponent {
-    .nav_item ::before {
-        @apply content-[''] -left-2.5 absolute top-1/2 -translate-y-1/2 w-1 h-[15px] rounded-[20px] bg-primary transition-transform;
-    }
+  .nav_item::before {
+    @apply content-[''] -left-2.5 absolute top-1/2 -translate-y-1/2 w-1 h-[15px] rounded-[20px] bg-primary transition-transform;
+  }
 
-    .h2 {
-        padding-left: 35px;
+  // 动态支持 h1~h6 样式缩进
+  @for $i from 1 through 6 {
+    .h#{$i} {
+      padding-left: #{15 + $i * 10}px;
 
-        &.active {
-            padding-left: 45px;
+      &.active {
+        padding-left: #{25 + $i * 10}px;
 
-            &::before {
-                left: 30px;
-            }
+        &::before {
+          left: #{10 + $i * 10}px;
         }
+      }
     }
-
-    .h3 {
-        padding-left: 55px;
-
-        &.active {
-            padding-left: 65px;
-
-            &::before {
-                left: 50px;
-            }
-        }
-    }
+  }
 }
