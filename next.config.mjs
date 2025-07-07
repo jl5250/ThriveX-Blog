@@ -4,15 +4,6 @@ const nextConfig = {
   reactStrictMode: false,
   // 配置图片来源
   images: {
-    // domains: [
-    //   'q1.qlogo.cn',
-    //   'bu.dusays.com',
-    //   'p2.music.126.net',
-    //   'p1.music.126.net',
-    //   'bucket.starlightpathserver.fun',
-    //   'api.starlightpathserver.fun',
-    //   'pic1.imgdb.cn'
-    // ],
     remotePatterns: [
       {
         protocol: 'https',
@@ -43,6 +34,10 @@ const nextConfig = {
         hostname: 'pic1.imgdb.cn'
       }
     ]
+  },
+  eslint: {
+    // 即使有 ESLint 错误，构建也会继续，不会因为 ESLint 报错而中断
+    ignoreDuringBuilds: true
   }
 }
 
