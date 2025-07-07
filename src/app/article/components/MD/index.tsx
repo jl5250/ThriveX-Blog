@@ -97,7 +97,7 @@ const ContentMD = ({ data }: Props) => {
         if (hljs.getLanguage(language)) {
           return hljs.highlight(value, { language }).value;
         }
-      } catch {}
+      } catch { }
       return hljs.highlightAuto(value).value;
     }, [value, language]);
 
@@ -110,9 +110,8 @@ const ContentMD = ({ data }: Props) => {
 
     return (
       <pre
-        className={`mac-style ${
-          isLong ? (expanded ? "expanded" : "collapsed") : ""
-        }`}
+        className={`mac-style ${isLong ? (expanded ? "expanded" : "collapsed") : ""
+          }`}
         onClick={() => {
           if (isLong && !expanded) setExpanded(true);
         }}

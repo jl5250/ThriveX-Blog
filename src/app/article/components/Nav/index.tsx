@@ -18,7 +18,7 @@ interface NavItem {
 const OFFSET = 85;
 
 const ContentNav = () => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [navs, setNavs] = useState<NavItem[]>([]);
   const [active, setActive] = useState(0);
 
@@ -109,7 +109,7 @@ const ContentNav = () => {
       )}
 
       <div
-        className={`ContentNavComponent overflow-auto fixed top-16 z-[60] max-w-0 h-screen bg-[rgba(255,255,255,0.9)] dark:bg-[rgba(30,36,46,0.9)] backdrop-blur-sm shadow-[16px_0px_15px_-3px_rgba(101,155,246,0.1)] ${
+        className={`ContentNavComponent overflow-auto fixed top-0 z-[60] max-w-0 h-screen bg-[rgba(255,255,255,0.9)] dark:bg-[rgba(30,36,46,0.9)] backdrop-blur-sm shadow-[16px_0px_15px_-3px_rgba(101,155,246,0.1)] ${
           open ? "min-w-[300px] p-[20px_10px]" : "min-w-0"
         } transition-[min-width] hide_sliding`}
       >
