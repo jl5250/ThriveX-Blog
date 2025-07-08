@@ -6,6 +6,15 @@
   height: 80px; // 防止锚点被顶部遮挡
 }
 
+.content-nav-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 49;
+  background: #000;
+  opacity: 0.4;
+  pointer-events: auto;
+}
+
 .ContentNavComponent {
   .nav_item::before {
     @apply content-[''] -left-2.5 absolute top-1/2 -translate-y-1/2 w-1 h-[15px] rounded-[20px] bg-primary transition-transform;
