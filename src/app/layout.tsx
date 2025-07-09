@@ -17,7 +17,6 @@ import "@/styles/index.scss";
 import "@/styles/tailwind.scss";
 import BaiduStatis from '@/components/BaiduStatis';
 import FloatingBlock from '@/components/FloatingBlock';
-import Empty from '@/components/Empty';
 
 // 加载本地字体
 const LXGWWenKai = localFont({
@@ -47,15 +46,6 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
           src="//api.tongjiniao.com/c?_=793517014552158208"
           async
         ></script>
-
-        {/* 字体 */}
-        {/* 霞鹜文楷 */}
-        {/* <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@callmebill/lxgw-wenkai-web@latest/style.css" /> */}
-        {/* <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@callmebill/lxgw-wenkai-web@latest/lxgwwenkai-regular/result.css" /> */}
-        {/* 原俠正楷 */}
-        {/* <link rel="stylesheet" href="https://chinese-fonts-cdn.deno.dev/packages/GuanKiapTsingKhai/dist/GuanKiapTsingKhai/result.css" /> */}
-        {/* 悠哉 */}
-        {/* <link rel="stylesheet" href="https://chinese-fonts-cdn.deno.dev/packages/yozai/dist/Yozai-Medium/result.css" /> */}
 
         {/* 百度统计 */}
         <BaiduStatis />

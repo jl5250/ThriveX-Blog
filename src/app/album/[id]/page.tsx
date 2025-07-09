@@ -49,8 +49,7 @@ export default function AlbumPage(props: Props) {
   const getImagesByAlbumId = async (id: number, page: number = 1, isLoadMore: boolean = false) => {
     try {
       const response = await getImagesByAlbumIdAPI(id, page)
-      console.log(response)
-
+      
       if (!response) return
 
       const { data } = response

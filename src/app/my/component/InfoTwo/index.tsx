@@ -1,12 +1,11 @@
 "use client"
 
 import { useEffect } from 'react';
-
+import Link from 'next/link';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { InfoTwo } from '@/types/app/my';
 import "./index.scss"
-import Link from 'next/link';
 
 export default ({ data }: { data: InfoTwo }) => {
     useEffect(() => {

@@ -4,9 +4,9 @@ import { useEffect } from 'react';
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { Info } from '@/types/app/my';
+import { InfoOne } from '@/types/app/my';
 
-export default ({ data }: { data: Info }) => {
+export default ({ data }: { data: InfoOne }) => {
     useEffect(() => {
         AOS.init()
     }, [])

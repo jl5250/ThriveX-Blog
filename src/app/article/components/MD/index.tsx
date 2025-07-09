@@ -82,13 +82,7 @@ const ContentMD = ({ data }: Props) => {
   }
 
   // 代码块组件，带行号、折叠、复制
-  const CodeBlock = ({
-    language,
-    value,
-  }: {
-    language: string;
-    value: string;
-  }) => {
+  const CodeBlock = ({ language, value }: { language: string; value: string }) => {
     const [expanded, setExpanded] = useState(false);
     const isLong = value.split("\n").length > 10;
 
@@ -98,6 +92,7 @@ const ContentMD = ({ data }: Props) => {
           return hljs.highlight(value, { language }).value.split("\n");
         }
       } catch { }
+      
       return hljs.highlightAuto(value).value.split("\n");
     }, [value, language]);
 
