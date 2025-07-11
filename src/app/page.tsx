@@ -15,8 +15,8 @@ interface Props {
 export default async (props: Props) => {
   const searchParams = await props.searchParams;
   const page = searchParams.page || 1;
-  const { data } = (await getWebConfigDataAPI<Theme>("layout")) || { data: {} as Theme }
-
+  const { data: { value: data } } = (await getWebConfigDataAPI<{ value: Theme }>("theme")) || { data: { value: {} as Theme } };
+ 
   return (
     <>
       {/* <Lantern data={['新', '春', '快', '乐']} /> */}

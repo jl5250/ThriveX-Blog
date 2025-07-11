@@ -12,7 +12,7 @@ import { getUserDataAPI } from '@/api/user'
 import { getRecordPagingAPI } from '@/api/record';
 
 export async function GET() {
-    const { data: web } = await getWebConfigDataAPI<Web>("web") || { data: {} as Web }
+    const { data: { value: web } } = (await getWebConfigDataAPI<{ value: Web }>("web")) || { data: { value: {} as Web } };
     const { data: user } = await getUserDataAPI() || { data: {} as User }
     const { data: article } = await getArticlePagingAPI({ pagination: { page: 1, size: 8 } }) || { data: {} as Paginate<Article[]> }
     const { data: record } = await getRecordPagingAPI({ pagination: { page: 1, size: 8 } }) || { data: {} as Paginate<Record[]> }

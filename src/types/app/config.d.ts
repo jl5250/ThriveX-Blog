@@ -26,18 +26,18 @@ export interface Web {
 }
 
 export type ArticleLayout = "classics" | "card" | "waterfall" | ""
-export type RightSidebar = "author" | "hotArticle" | "randomArticle" | "newComments"
+export type RightSidebar = "author" | "hotArticle" | "randomArticle" | "newComments" | "runTime"
 
 // 主题配置
 export interface Theme {
     is_article_layout: string,
-    right_sidebar: string,
+    right_sidebar: RightSidebar[],
     light_logo: string,
     dark_logo: string,
     swiper_image: string,
-    swiper_text: string,
-    reco_article: string,
-    social: string,
+    swiper_text: string[],
+    reco_article: number[],
+    social: Social[],
     covers: string,
     record_name: string,
     record_info: string

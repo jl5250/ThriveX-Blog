@@ -11,10 +11,8 @@ export default ({ className }: { className?: string }) => {
 
     useEffect(() => {
         if (theme.swiper_text) {
-            const strings = JSON.parse(theme.swiper_text || '{}')
-
             const typed = new Typed(el.current, {
-                strings,
+                strings: theme.swiper_text,
                 typeSpeed: 100,
                 backSpeed: 30,
                 loop: true

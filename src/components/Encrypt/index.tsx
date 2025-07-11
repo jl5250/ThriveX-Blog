@@ -58,6 +58,7 @@ export default function Encrypt({ id }: Props) {
                   classNames={{ inputWrapper }}
                   endContent={<MdEnhancedEncryption className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />}
                   label="访问密码"
+                  type="password"
                   placeholder="文章受保护，请输入密码"
                   variant="bordered"
                   value={password}

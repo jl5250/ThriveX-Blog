@@ -11,8 +11,9 @@ interface Props {
 }
 
 export default async ({ src, isRipple = true, children }: Props) => {
-    const { data } = await getWebConfigDataAPI<Theme>("layout") || { data: {} as Theme }
-    const covers = JSON.parse(data.covers || '[]')
+    const { data: { value: data } } = (await getWebConfigDataAPI<{ value: Theme }>("theme")) || { data: { value: {} as Theme } };
+
+    const covers = data.covers || []
 
   const sty = {
     backgroundImage: `url(${src ? src : covers[getRandom(0, covers.length - 1)]})`

@@ -25,7 +25,7 @@ const LXGWWenKai = localFont({
 })
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const { data } = (await getWebConfigDataAPI<Web>("web")) || { data: {} as Web };
+  const { data: { value: data } } = (await getWebConfigDataAPI<{ value: Web }>("web")) || { data: { value: {} as Web } };
 
   // 尊重开源，禁止删除此版权信息！！！
   console.log('🚀 欢迎使用 ThriveX 现代化博客管理系统')

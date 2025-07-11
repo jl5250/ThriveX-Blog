@@ -16,9 +16,9 @@ import { Social, Theme } from '@/types/app/config';
 
 const Author = async () => {
     const { data: user } = await getUserDataAPI() || { data: {} as User }
-    const { data: { social } } = await getWebConfigDataAPI<Theme>("layout") || { data: {} as Theme }
+    const { data: { value: theme } } = (await getWebConfigDataAPI<{ value: Theme }>("theme")) || { data: { value: {} as Theme } };
 
-    const socialList = JSON.parse(social || '[]')?.map((item: string) => JSON.parse(item))
+    const socialList = theme?.social || []
 
     // 图标列表
     const images: { [string: string]: string } = {

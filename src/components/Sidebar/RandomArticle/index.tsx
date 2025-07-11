@@ -12,7 +12,7 @@ import "./index.scss"
 
 const HotArticle = () => {
     const { theme } = useConfigStore()
-    const covers = JSON.parse(theme.covers || '[]')
+    const covers = theme.covers || []
 
     const [list, setList] = useState<Article[]>([])
 

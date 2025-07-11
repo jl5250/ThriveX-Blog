@@ -25,10 +25,10 @@ const Header = () => {
 
     // 获取项目配置
     const getConfigData = async () => {
-        const { data: web } = (await getWebConfigDataAPI<Web>("web")) || { data: {} as Web };
+        const { data: { value: web } } = (await getWebConfigDataAPI<{ value: Web }>("web")) || { data: { value: {} as Web } };
         setWeb(web)
 
-        const { data: theme } = (await getWebConfigDataAPI<Theme>("layout")) || { data: {} as Theme };
+        const { data: { value: theme } } = (await getWebConfigDataAPI<{ value: Theme }>("theme")) || { data: { value: {} as Theme } };
         setTheme(theme)
     }
 
@@ -217,14 +217,10 @@ const Header = () => {
         </div>
       </div>
 
-      {/* 侧边导航：移动端时候显示 */}
-      <SidebarNav
-        list={cateList}
-        open={isOpenSidebarNav}
-        onClose={() => setIsOpenSidebarNav(false)}
-      />
-    </>
-  )
-}
+            {/* 侧边导航：移动端时候显示 */}
+            <SidebarNav list={cateList} open={isOpenSidebarNav} onClose={() => setIsOpenSidebarNav(false)} />
+        </>
+    );
+};
 
 export default Header

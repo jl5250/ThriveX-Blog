@@ -18,7 +18,7 @@ const breakpointColumnsObj = {
 
 export default ({ data }: WaterfallProps) => {
     const { theme } = useConfigStore()
-    const covers = JSON.parse(theme.covers || '[]')
+    const covers = theme.covers || []
 
     return (
         <>
