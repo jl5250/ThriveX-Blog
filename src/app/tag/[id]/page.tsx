@@ -1,14 +1,14 @@
-import Starry from "@/components/Starry"
-import Slide from "@/components/Slide"
-import Classics from "@/components/ArticleLayout/Classics";
-import Pagination from "@/components/Pagination";
-import { Article } from "@/types/app/article";
-import { getTagArticleListAPI } from "@/api/tag";
+import Starry from '@/components/Starry';
+import Slide from '@/components/Slide';
+import Classics from '@/components/ArticleLayout/Classics';
+import Pagination from '@/components/Pagination';
+import { Article } from '@/types/app/article';
+import { getTagArticleListAPI } from '@/api/tag';
 
 interface Props {
   params: Promise<{ id: number }>;
   searchParams: Promise<{ page: number; name: string }>;
-};
+}
 
 export default async (props: Props) => {
   const searchParams = await props.searchParams;
@@ -17,7 +17,7 @@ export default async (props: Props) => {
   const page = searchParams.page || 1;
   const name = searchParams.name;
 
-  const { data } = (await getTagArticleListAPI(id, page)) || { data: {} as Paginate<Article[]> }
+  const { data } = (await getTagArticleListAPI(id, page)) || { data: {} as Paginate<Article[]> };
 
   return (
     <>
@@ -31,7 +31,9 @@ export default async (props: Props) => {
 
           {/* 标签信息 */}
           <div className="absolute top-[40%] left-[50%] transform -translate-x-1/2 w-[80%] text-center text-white text-[20px] xs:text-[25px] sm:text-[30px] custom_text_shadow">
-            <span>该标签：{name} ~ 共计{data?.total}篇文章</span>
+            <span>
+              该标签：{name} ~ 共计{data?.total}篇文章
+            </span>
           </div>
         </Slide>
 
@@ -42,5 +44,5 @@ export default async (props: Props) => {
         </div>
       </div>
     </>
-  )
+  );
 };

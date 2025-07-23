@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import { MdOutlineKeyboardDoubleArrowLeft } from "react-icons/md";
-import directory from "@/assets/svg/other/directory.svg";
-import { motion, AnimatePresence } from "framer-motion";
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { MdOutlineKeyboardDoubleArrowLeft } from 'react-icons/md';
+import directory from '@/assets/svg/other/directory.svg';
+import { motion, AnimatePresence } from 'framer-motion';
 
-import "./index.scss";
+import './index.scss';
 
 interface NavItem {
   name: string;
@@ -26,13 +26,13 @@ const ContentNav = () => {
   useEffect(() => {
     setTimeout(() => {
       const list = document.querySelectorAll<HTMLHeadingElement>(
-        ".content h1, .content h2, .content h3, .content h4, .content h5, .content h6"
+        '.content h1, .content h2, .content h3, .content h4, .content h5, .content h6'
       );
 
       list?.forEach((nav, index) => {
         const tag = nav.tagName.toLowerCase(); // "h1"~"h6"
-        nav.setAttribute("id", nav.textContent! + index);
-        nav.setAttribute("class", tag);
+        nav.setAttribute('id', nav.textContent! + index);
+        nav.setAttribute('class', tag);
       });
 
       const titles = Array.from(list).map((t) => {
@@ -66,8 +66,8 @@ const ContentNav = () => {
       };
 
       onScroll();
-      window.addEventListener("scroll", onScroll);
-      return () => window.removeEventListener("scroll", onScroll);
+      window.addEventListener('scroll', onScroll);
+      return () => window.removeEventListener('scroll', onScroll);
     }, 0);
   }, []);
 
@@ -77,7 +77,7 @@ const ContentNav = () => {
       const top = element.getBoundingClientRect().top + window.scrollY - OFFSET;
       window.scrollTo({
         top,
-        behavior: "instant", // 可改为 "smooth" 实现平滑滚动
+        behavior: 'instant', // 可改为 "smooth" 实现平滑滚动
       });
       setActive(index);
     }
@@ -158,8 +158,8 @@ const ContentNav = () => {
                   }}
                   className={`nav_item overflow-hidden relative block p-1 pl-5 mb-[5px] hover:text-primary ${
                     active === index
-                      ? "text-primary pl-[30px] rounded-[10px] text-[15px] dark:bg-[#313d4e99] before:!left-4"
-                      : ""
+                      ? 'text-primary pl-[30px] rounded-[10px] text-[15px] dark:bg-[#313d4e99] before:!left-4'
+                      : ''
                   } ${item.className}`}
                 >
                   {item.name}

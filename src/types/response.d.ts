@@ -27,8 +27,8 @@ interface FilterData {
 
 interface QueryData {
     // 通用的
-    sort?: "asc" | "desc",
-    pattern?: "list" | "tree",
+    sort?: 'asc' | 'desc',
+    pattern?: 'list' | 'tree',
     query?: FilterData,
     pagination?: Page,
 }

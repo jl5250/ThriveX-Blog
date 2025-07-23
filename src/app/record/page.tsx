@@ -1,27 +1,29 @@
-import ImageList from "./components/ImageList"
-import { getRecordPagingAPI } from '@/api/record'
+import ImageList from './components/ImageList';
+import { getRecordPagingAPI } from '@/api/record';
 import { getUserDataAPI } from '@/api/user';
-import { Record } from "@/types/app/record"
-import { User } from "@/types/app/user";
-import { dayFormat } from '@/utils'
-import Pagination from "@/components/Pagination";
-import Empty from "@/components/Empty";
-import Show from "@/components/Show";
-import { getWebConfigDataAPI } from "@/api/config";
-import { Theme } from "@/types/app/config";
-import Editor from "./components/Editor";
+import { Record } from '@/types/app/record';
+import { User } from '@/types/app/user';
+import { dayFormat } from '@/utils';
+import Pagination from '@/components/Pagination';
+import Empty from '@/components/Empty';
+import Show from '@/components/Show';
+import { getWebConfigDataAPI } from '@/api/config';
+import { Theme } from '@/types/app/config';
+import Editor from './components/Editor';
 
 interface Props {
   searchParams: Promise<{ page: number }>;
-};
+}
 
 export default async (props: Props) => {
   const searchParams = await props.searchParams;
   const page = searchParams.page || 1;
 
-  const { data: user } = (await getUserDataAPI()) || { data: {} as User }
-  const { data: record } = (await getRecordPagingAPI({ pagination: { page, size: 8 } })) || { data: {} as Paginate<Record[]> }
-  const { data: { value: theme } } = (await getWebConfigDataAPI<{ value: Theme }>("theme")) || { data: { value: {} as Theme } };
+  const { data: user } = (await getUserDataAPI()) || { data: {} as User };
+  const { data: record } = (await getRecordPagingAPI({ pagination: { page, size: 8 } })) || { data: {} as Paginate<Record[]> };
+  const {
+    data: { value: theme },
+  } = (await getWebConfigDataAPI<{ value: Theme }>('theme')) || { data: { value: {} as Theme } };
 
   return (
     <>
@@ -37,8 +39,8 @@ export default async (props: Props) => {
           </div>
 
           <div className="space-y-12">
-            {
-              !!record?.result?.length && record?.result.map(item => (
+            {!!record?.result?.length &&
+              record?.result.map((item) => (
                 <div key={item.id} className="flex flex-col sm:flex-row">
                   <img src={user?.avatar} alt="作者头像" width={56} height={56} className="hidden sm:block rounded-lg border dark:border-black-b h-14 mr-2  " />
 
@@ -60,20 +62,21 @@ export default async (props: Props) => {
                     <div className="w-full p-4 border dark:border-black-b rounded-3xl rounded-tl-none bg-[rgba(255,255,255,0.7)] dark:bg-[rgba(30,36,46,0.9)] backdrop-blur-sm  ">
                       <Editor value={item?.content} />
 
-                      <ImageList list={JSON.parse(item?.images as string || '[]')} />
+                      <ImageList list={JSON.parse((item?.images as string) || '[]')} />
                       {/* <Comment /> */}
                     </div>
                   </div>
                 </div>
-              ))
-            }
+              ))}
 
-            <Show is={!record?.result?.length} children={<Empty info='闪念列表为空~' />} />
+            <Show is={!record?.result?.length}>
+              <Empty info="闪念为空~" />
+            </Show>
           </div>
 
           {record?.total && <Pagination total={record?.pages} page={page} className="flex justify-center mt-5" />}
         </div>
       </div>
     </>
-  )
+  );
 };

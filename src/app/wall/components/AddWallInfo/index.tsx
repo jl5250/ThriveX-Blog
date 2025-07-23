@@ -1,28 +1,14 @@
-'use client'
+'use client';
 
-import { useEffect, useState } from 'react'
-import {
-  Input,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  useDisclosure,
-  Select,
-  SelectItem,
-  Textarea,
-  RadioGroup,
-  Radio
-} from '@heroui/react'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import { Wall, Cate } from '@/types/app/wall'
-import { addWallDataAPI, getCateListAPI } from '@/api/wall'
-import { Bounce, toast, ToastContainer, ToastOptions } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import { MdOutlineAdd, MdPerson, MdEmail } from 'react-icons/md'
-import { BsFillChatDotsFill } from 'react-icons/bs'
+import { useEffect, useState } from 'react';
+import { Input, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Select, SelectItem, Textarea, RadioGroup, Radio } from '@heroui/react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Wall, Cate } from '@/types/app/wall';
+import { addWallDataAPI, getCateListAPI } from '@/api/wall';
+import { Bounce, toast, ToastContainer, ToastOptions } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { MdOutlineAdd } from 'react-icons/md';
+import { BsFillChatDotsFill } from 'react-icons/bs';
 
 const toastConfig: ToastOptions = {
   position: 'top-right',
@@ -33,56 +19,50 @@ const toastConfig: ToastOptions = {
   draggable: true,
   progress: undefined,
   theme: 'colored',
-  transition: Bounce
-}
+  transition: Bounce,
+};
 
 export default () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
   // 获取留言分类列表
-  const [cateList, setCateList] = useState<Cate[]>([])
+  const [cateList, setCateList] = useState<Cate[]>([]);
   const getCateList = async () => {
-    const { data } = (await getCateListAPI()) || { data: [] as Cate[] }
-    setCateList(data?.filter((item) => item.id !== 1))
-  }
+    const { data } = (await getCateListAPI()) || { data: [] as Cate[] };
+    setCateList(data?.filter((item) => item.id !== 1));
+  };
   useEffect(() => {
-    getCateList()
-  }, [])
+    // 页面加载后检查是否有需要显示的消息
+    const message = localStorage.getItem('toastMessage');
+    if (message) {
+      toast.success(message, toastConfig);
+      localStorage.removeItem('toastMessage'); // 显示后删除消息
+    }
 
+    getCateList();
+  }, []);
+
+  const [defaultValues] = useState<Wall>({} as Wall);
   const {
     handleSubmit,
     control,
-    formState: { errors, isValid },
+    formState: { errors },
     trigger,
-    reset
-  } = useForm<Wall>({ defaultValues: {}, mode: 'onChange' })
-  const [contentCount, setContentCount] = useState(0)
-  const [loading, setLoading] = useState(false)
+  } = useForm<Wall>({ defaultValues });
+  const onSubmit: SubmitHandler<Wall> = async (data, event) => {
+    event?.preventDefault();
+    const { code, message } = (await addWallDataAPI({ ...data, createTime: Date.now().toString() })) || { code: 0, message: '' };
 
-  const onSubmit: SubmitHandler<Wall> = async (data) => {
-    setLoading(true)
-    const { code, message } = (await addWallDataAPI({
-      ...data,
-      createTime: Date.now().toString()
-    })) || { code: 0, message: '' }
-    setLoading(false)
-    if (code !== 200) return toast.error(message, toastConfig)
-    toast.success('🎉 提交成功, 请等待审核!', toastConfig)
-    onOpenChange()
-    reset()
-    // 可在此处触发父组件刷新留言列表
-  }
+    if (code !== 200) return toast.error(message, toastConfig);
 
-  // ESC关闭弹窗
-  useEffect(() => {
-    if (!isOpen) {
-      reset()
-      setContentCount(0)
-    }
-  }, [isOpen, reset])
+    // 提交成功后存储消息
+    localStorage.setItem('toastMessage', '🎉 提交成功, 请等待审核!');
+    window.location.reload();
+    onOpenChange();
+  };
 
   // 表单样式
-  const inputWrapper = 'hover:!border-primary group-data-[focus=true]:border-primary rounded-md'
+  const inputWrapper = 'hover:!border-primary group-data-[focus=true]:border-primary rounded-md';
 
   return (
     <>
@@ -115,11 +95,11 @@ export default () => {
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         classNames={{
-          backdrop: 'bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20'
+          backdrop: 'bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20',
         }}
       >
         <ModalContent>
-          {(onClose) => (
+          {() => (
             <>
               <ModalHeader className="flex flex-col gap-1">
                 <span>
@@ -138,27 +118,9 @@ export default () => {
                     maxLength: { value: 200, message: '内容不能超过200字' }
                   }}
                   render={({ field }) => (
-                    <div className="relative">
-                      <Textarea
-                        {...field}
-                        label="留言内容"
-                        variant="bordered"
-                        placeholder="示例：你好呀！"
-                        isInvalid={!!errors.content?.message}
-                        errorMessage={errors.content?.message}
-                        onBlur={() => trigger('content')}
-                        onChange={(e) => {
-                          field.onChange(e)
-                          setContentCount(e.target.value.length)
-                        }}
-                        classNames={{ inputWrapper: `pl-10 ${inputWrapper}` }}
-                        aria-label="留言内容"
-                        maxLength={200}
-                      />
-                      <span className="absolute right-2 bottom-2 text-xs text-gray-400 select-none">
-                        {contentCount}/200
-                      </span>
-                    </div>
+                    <>
+                      <Textarea {...field} label="留言内容" variant="bordered" placeholder="示例：你好呀！" isInvalid={!!errors.content?.message} errorMessage={errors.content?.message} onBlur={() => trigger('content')} classNames={{ inputWrapper }} />
+                    </>
                   )}
                 />
 
@@ -166,21 +128,9 @@ export default () => {
                   name="name"
                   control={control}
                   render={({ field }) => (
-                    <div className="relative">
-                      <MdPerson className="absolute left-3 top-1/2 -translate-y-1/2 text-xl text-gray-400 pointer-events-none" />
-                      <Input
-                        {...field}
-                        type="text"
-                        label="你的名称（选填）"
-                        variant="bordered"
-                        placeholder="示例：宇阳"
-                        isInvalid={!!errors.name?.message}
-                        errorMessage={errors.name?.message}
-                        onBlur={() => trigger('name')}
-                        classNames={{ inputWrapper: 'pl-10 ' + inputWrapper }}
-                        aria-label="你的名称"
-                      />
-                    </div>
+                    <>
+                      <Input {...field} type="text" label="你的名称（选填）" variant="bordered" placeholder="示例：宇阳" isInvalid={!!errors.name?.message} errorMessage={errors.name?.message} onBlur={() => trigger('name')} classNames={{ inputWrapper }} />
+                    </>
                   )}
                 />
 
@@ -194,21 +144,9 @@ export default () => {
                     }
                   }}
                   render={({ field }) => (
-                    <div className="relative">
-                      <MdEmail className="absolute left-3 top-1/2 -translate-y-1/2 text-xl text-gray-400 pointer-events-none" />
-                      <Input
-                        {...field}
-                        type="text"
-                        label="你的邮箱（选填）"
-                        variant="bordered"
-                        placeholder="示例：3311118881@qq.com"
-                        isInvalid={!!errors.email?.message}
-                        errorMessage={errors.email?.message}
-                        onBlur={() => trigger('email')}
-                        classNames={{ inputWrapper: 'pl-10 ' + inputWrapper }}
-                        aria-label="你的邮箱"
-                      />
-                    </div>
+                    <>
+                      <Input {...field} type="text" label="你的邮箱（选填）" variant="bordered" placeholder="示例：3311118881@qq.com" isInvalid={!!errors.email?.message} errorMessage={errors.email?.message} onBlur={() => trigger('email')} classNames={{ inputWrapper }} />
+                    </>
                   )}
                 />
 
@@ -228,8 +166,7 @@ export default () => {
                         isInvalid={!!errors.cateId?.message}
                         errorMessage={errors.cateId?.message}
                         classNames={{
-                          trigger:
-                            'hover:!border-primary data-[focus=true]:!border-primary data-[open=true]:!border-primary rounded-md'
+                          trigger: 'hover:!border-primary data-[focus=true]:!border-primary data-[open=true]:!border-primary rounded-md',
                         }}
                         aria-label="留言分类"
                         disabled={!cateList?.length}
@@ -269,15 +206,8 @@ export default () => {
               </ModalBody>
 
               <ModalFooter>
-                <Button
-                  color="primary"
-                  onPress={() => handleSubmit(onSubmit)()}
-                  className="w-full flex justify-center items-center"
-                  isDisabled={!isValid || loading}
-                  isLoading={loading}
-                  aria-label="提交留言"
-                >
-                  {loading ? '提交中...' : '提交'}
+                <Button color="primary" onPress={() => handleSubmit(onSubmit)()} className="w-full">
+                  提交
                 </Button>
               </ModalFooter>
             </>
@@ -287,5 +217,5 @@ export default () => {
 
       <ToastContainer />
     </>
-  )
-}
+  );
+};

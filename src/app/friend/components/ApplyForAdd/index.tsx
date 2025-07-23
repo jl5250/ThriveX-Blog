@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useEffect, useState } from 'react'
 import {
@@ -30,23 +30,30 @@ const toastConfig: ToastOptions = {
   draggable: true,
   progress: undefined,
   theme: 'colored',
-  transition: Bounce
-}
+  transition: Bounce,
+};
 
 export default () => {
-  const [loading, setLoading] = useState(false)
-  const { isOpen, onOpen, onOpenChange } = useDisclosure()
+  const [loading, setLoading] = useState(false);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   // 获取网站类型列表
-  const [typeList, setTypeList] = useState<WebType[]>([])
+  const [typeList, setTypeList] = useState<WebType[]>([]);
   const getWebTypeList = async () => {
-    const { data } = (await getWebTypeListAPI()) || { data: [] as WebType[] }
-    setTypeList(data.filter((item) => !item.isAdmin))
-  }
+    const { data } = (await getWebTypeListAPI()) || { data: [] as WebType[] };
+    setTypeList(data.filter((item) => !item.isAdmin));
+  };
 
   useEffect(() => {
-    getWebTypeList()
-  }, [])
+    // 页面加载后检查是否有需要显示的消息
+    const message = localStorage.getItem('toastMessage');
+    if (message) {
+      toast.success(message, toastConfig);
+      localStorage.removeItem('toastMessage'); // 显示后删除消息
+    }
+
+    getWebTypeList();
+  }, []);
 
   const {
     handleSubmit,

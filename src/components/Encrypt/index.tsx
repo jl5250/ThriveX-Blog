@@ -1,21 +1,21 @@
-"use client"
+'use client';
 
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure, Button, Input } from "@heroui/react";
-import { MdEnhancedEncryption } from "react-icons/md";
-import { useEffect, useRef, useState } from "react";
-import { useRouter, usePathname } from "next/navigation"
-import { getArticleDataAPI } from "@/api/article";
-import { toast, ToastContainer } from "react-toastify";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure, Button, Input } from '@heroui/react';
+import { MdEnhancedEncryption } from 'react-icons/md';
+import { useEffect, useRef, useState } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
+import { getArticleDataAPI } from '@/api/article';
+import { toast, ToastContainer } from 'react-toastify';
 
 interface Props {
-  id: number
+  id: number;
 }
 
 export default function Encrypt({ id }: Props) {
-  const router = useRouter()
-  const pathname = usePathname()
+  const router = useRouter();
+  const pathname = usePathname();
 
-  const [password, setPassword] = useState("")
+  const [password, setPassword] = useState('');
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -31,24 +31,23 @@ export default function Encrypt({ id }: Props) {
 
   // 验证访问密码
   const handleVerifyPassword = async () => {
-    const res = await getArticleDataAPI(id, password)
-    res?.code === 200 ? router.push(`${pathname}?password=${password}`) : toast.error("访问密码错误，请重新输入");
+    const res = await getArticleDataAPI(id, password);
+    
+    if (res?.code === 200) {
+      router.push(`${pathname}?password=${password}`);
+    } else {
+      toast.error('访问密码错误，请重新输入');
+    }
   };
 
   // 表单样式
-  const inputWrapper = "hover:!border-primary group-data-[focus=true]:border-primary rounded-md"
+  const inputWrapper = 'hover:!border-primary group-data-[focus=true]:border-primary rounded-md';
 
   return (
     <>
-      <Modal
-        isOpen={isOpen}
-        backdrop="blur"
-        placement="top-center"
-        isDismissable={false}
-        hideCloseButton={true}
-        onOpenChange={onOpenChange}>
+      <Modal isOpen={isOpen} backdrop="blur" placement="top-center" isDismissable={false} hideCloseButton={true} onOpenChange={onOpenChange}>
         <ModalContent>
-          {(onClose) => (
+          {() => (
             <>
               <ModalHeader className="flex flex-col gap-1">🔑 该文章已加密</ModalHeader>
 
@@ -64,15 +63,15 @@ export default function Encrypt({ id }: Props) {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   onKeyDown={(e) => {
-                    if(e.key === "Enter" || e.code === "Enter") {
-                      handleVerifyPassword()
+                    if (e.key === 'Enter' || e.code === 'Enter') {
+                      handleVerifyPassword();
                     }
                   }}
                 />
               </ModalBody>
 
               <ModalFooter>
-                <Button color="default" onPress={() => router.push("/")}>返回</Button>
+                <Button color="default" onPress={() => router.push('/')}>返回</Button>
                 <Button color="primary" onPress={handleVerifyPassword}>校验</Button>
               </ModalFooter>
             </>

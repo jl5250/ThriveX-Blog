@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
@@ -6,7 +6,7 @@ import { useConfigStore } from '@/stores';
 import { motion, useMotionValue, useTransform, animate, useInView } from 'framer-motion';
 import Timer from '@/assets/svg/other/timer.svg';
 
-const AnimatedNumber = ({ value, suffix, onComplete }: { value: number, suffix: string, onComplete?: () => void }) => {
+const AnimatedNumber = ({ value, suffix, onComplete }: { value: number; suffix: string; onComplete?: () => void }) => {
   const ref = useRef(null);
   const isInView = useInView(ref);
   const count = useMotionValue(0);
@@ -16,10 +16,10 @@ const AnimatedNumber = ({ value, suffix, onComplete }: { value: number, suffix: 
     if (isInView) {
       const animation = animate(count, value, {
         duration: 2,
-        ease: "easeOut",
+        ease: 'easeOut',
         onComplete: () => {
           onComplete?.();
-        }
+        },
       });
       return animation.stop;
     }
@@ -40,11 +40,11 @@ export default () => {
   const calculateTimeDifference = (startTimestamp: number) => {
     const startDate = new Date(+startTimestamp);
     const currentDate = new Date();
-    
+
     let years = currentDate.getFullYear() - startDate.getFullYear();
     let months = currentDate.getMonth() - startDate.getMonth();
     let days = currentDate.getDate() - startDate.getDate();
-    
+
     if (days < 0) {
       const lastMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
       days += lastMonth.getDate();
@@ -76,17 +76,9 @@ export default () => {
 
       <div className="mt-2.5">
         {!showDetailed ? (
-          <AnimatedNumber 
-            value={timeDiff.totalDays} 
-            suffix="天" 
-            onComplete={handleTotalDaysComplete}
-          />
+          <AnimatedNumber value={timeDiff.totalDays} suffix="天" onComplete={handleTotalDaysComplete} />
         ) : (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-          >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
             <AnimatedNumber value={timeDiff.years} suffix="年 " />
             <AnimatedNumber value={timeDiff.months} suffix="个月 " />
             <AnimatedNumber value={timeDiff.days} suffix="天" />
@@ -94,5 +86,5 @@ export default () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};

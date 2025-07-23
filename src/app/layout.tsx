@@ -1,37 +1,41 @@
-import localFont from 'next/font/local'
+import localFont from 'next/font/local';
 
-import HeroUIProvider from '@/components/HeroUIProvider'
-import NProgress from '@/components/NProgress'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import Tools from '@/components/Tools'
-import Confetti from '@/components/Confetti'
-import RouteChangeHandler from '@/components/RouteChangeHandler'
+import HeroUIProvider from '@/components/HeroUIProvider';
+import NProgress from '@/components/NProgress';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import Tools from '@/components/Tools';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import Confetti from '@/components/Confetti';
+import RouteChangeHandler from '@/components/RouteChangeHandler';
 import MusicTools from '@/components/MusicTools'
 
-import { getWebConfigDataAPI } from '@/api/config'
+import { getWebConfigDataAPI } from '@/api/config';
 import { Web } from '@/types/app/config';
 
 // 加载样式文件
-import "@/styles/index.scss";
-import "@/styles/tailwind.scss";
+import '@/styles/index.scss';
+import '@/styles/tailwind.scss';
 import BaiduStatis from '@/components/BaiduStatis';
 import FloatingBlock from '@/components/FloatingBlock';
 
 // 加载本地字体
 const LXGWWenKai = localFont({
   src: '../assets/font/LXGWWenKai-Regular.ttf',
-  display: 'swap'
-})
+  display: 'swap',
+});
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const { data: { value: data } } = (await getWebConfigDataAPI<{ value: Web }>("web")) || { data: { value: {} as Web } };
+  const {
+    data: { value: data },
+  } = (await getWebConfigDataAPI<{ value: Web }>('web')) || { data: { value: {} as Web } };
 
   // 尊重开源，禁止删除此版权信息！！！
-  console.log('🚀 欢迎使用 ThriveX 现代化博客管理系统')
-  console.log('🎉 开源地址：https://github.com/LiuYuYang01/ThriveX-Blog')
-  console.log('🏕 作者主页：https://liuyuyang.net')
-  console.log('🌟 觉得好用的话记得点个 Star 哦 🙏')
+  console.log('🚀 欢迎使用 ThriveX 现代化博客管理系统');
+  console.log('🎉 开源地址：https://github.com/LiuYuYang01/ThriveX-Blog');
+  console.log('🏕 作者主页：https://liuyuyang.net');
+  console.log('🌟 觉得好用的话记得点个 Star 哦 🙏');
 
   return (
     <html lang="zh-CN" className={LXGWWenKai.className}>

@@ -1,24 +1,24 @@
-"use client";
-import { useEffect, useState } from "react";
-import "./index.scss";
+'use client';
+import { useEffect, useState } from 'react';
+import './index.scss';
 
 interface SummaryProps {
   content: string;
 }
 
 const suggestions = [
-  "谁是刘宇阳？",
-  "这篇文章讲了什么？",
-  "带我去看看其他文章",
+  '谁是刘宇阳？',
+  '这篇文章讲了什么？',
+  '带我去看看其他文章',
 ];
 
 export default function Summary({ content }: SummaryProps) {
-  const [displayText, setDisplayText] = useState("");
+  const [displayText, setDisplayText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [showSuggestions] = useState(false);
 
   const handleThriveGPTClick = () => {
-    // TODO: 调用逻辑
+    
   };
 
   useEffect(() => {

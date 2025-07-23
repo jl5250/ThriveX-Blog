@@ -1,44 +1,35 @@
-import Link from 'next/link'
-import Pagination from '@/components/Pagination'
-import AddWallInfo from '../components/AddWallInfo'
-import { getCateListAPI, getCateWallListAPI } from '@/api/wall'
-import dayjs from 'dayjs'
-import { Cate } from '@/types/app/cate'
-import { Wall } from '@/types/app/wall'
-import { FaTag } from 'react-icons/fa'
+import Link from 'next/link';
+import Pagination from '@/components/Pagination';
+import AddWallInfo from '../components/AddWallInfo';
+import { getCateListAPI, getCateWallListAPI } from '@/api/wall';
+import dayjs from 'dayjs';
+import { Cate } from '@/types/app/cate';
+import { Wall } from '@/types/app/wall';
+import { FaTag } from 'react-icons/fa';
 
 interface Props {
-  params: Promise<{ cate: string }>
-  searchParams: Promise<{ page: number }>
+  params: Promise<{ cate: string }>;
+  searchParams: Promise<{ page: number }>;
 }
 
 export default async (props: Props) => {
-  const searchParams = await props.searchParams
-  const params = await props.params
-  const cate = params.cate
-  const page = searchParams.page || 1
+  const searchParams = await props.searchParams;
+  const params = await props.params;
+  const cate = params.cate;
+  const page = searchParams.page || 1;
 
-  const active = '!text-primary !border-primary'
+  const active = '!text-primary !border-primary';
 
   // 提前把颜色写好，否则会导致样式丢失
-  const colors = [
-    'bg-[#fcafa24d]',
-    'bg-[#a8ed8a4d]',
-    'bg-[#caa7f74d]',
-    'bg-[#ffe3944d]',
-    'bg-[#92e6f54d]'
-  ]
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const colors = ['bg-[#fcafa24d]', 'bg-[#a8ed8a4d]', 'bg-[#caa7f74d]', 'bg-[#ffe3944d]', 'bg-[#92e6f54d]'];
 
-  const { data: cateList } = (await getCateListAPI()) || { data: [] as Cate[] }
+  const { data: cateList } = (await getCateListAPI()) || { data: [] as Cate[] };
 
-  const id = cateList.find((item) => item.mark === cate)?.id!
-  const { data: tallList } = (await getCateWallListAPI(id, page)) || {
-    data: {} as Paginate<Wall[]>
-  }
+  const id = cateList.find((item) => item.mark === cate)?.id ?? 0;
+  const { data: tallList } = (await getCateWallListAPI(id, page)) || { data: {} as Paginate<Wall[]> };
 
-  console.log(cateList, tallList)
-
-  cateList.sort((a, b) => a.order - b.order)
+  cateList.sort((a, b) => a.order - b.order);
 
   return (
     <>
@@ -70,14 +61,13 @@ export default async (props: Props) => {
           ))}
         </ul>
 
-                <div className='w-[90%] xl:w-[1200px] mx-auto mt-12 grid grid-cols-1 gap-1 xs:grid-cols-2 xs:gap-2 md:grid-cols-3 md:gap-3 lg:grid-cols-4 lg:gap-4'>
-                    {
-                        tallList.result?.map(item => (
-                            <div key={item.id} className={`relative flex flex-col py-2 px-4 bg-[${item.color}] rounded-lg top-0 hover:-top-2 transition-[top]`}>
-                                <div className='flex justify-between items-center mt-2 text-xs text-gray-500 dark:text-[#8c9ab1]'>
-                                    <span>{dayjs(+item.createTime!).format('YYYY-MM-DD HH:mm')}</span>
-                                    <span>{item.cate.name}</span>
-                                </div>
+        <div className="w-[90%] xl:w-[1200px] mx-auto mt-12 grid grid-cols-1 gap-1 xs:grid-cols-2 xs:gap-2 md:grid-cols-3 md:gap-3 lg:grid-cols-4 lg:gap-4">
+          {tallList.result?.map((item) => (
+            <div key={item.id} className={`relative flex flex-col py-2 px-4 bg-[${item.color}] rounded-lg top-0 hover:-top-2 transition-[top]`}>
+              <div className="flex justify-between items-center mt-2 text-xs text-gray-500 dark:text-[#8c9ab1]">
+                <span>{dayjs(+item.createTime!).format('YYYY-MM-DD HH:mm')}</span>
+                <span>{item.cate.name}</span>
+              </div>
 
               <div className="hide_sliding overflow-auto h-32 text-sm my-4 text-gray-700 dark:text-[#cecece]">
                 {item.content}

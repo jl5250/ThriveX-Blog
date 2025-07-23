@@ -1,26 +1,29 @@
-'use client'
+'use client';
 
-import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
-import { Cate } from '@/types/app/album'
-import { getAlbumCatePagingAPI } from '@/api/album'
-import Masonry from 'react-masonry-css'
-import './page.scss'
-import Link from 'next/link'
+import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+import { Cate } from '@/types/app/album';
+import { getAlbumCatePagingAPI } from '@/api/album';
+import Masonry from 'react-masonry-css';
+import './page.scss';
+import Link from 'next/link';
 
 const breakpointColumnsObj = {
   default: 4,
   1024: 3,
-  700: 2
-}
+  700: 2,
+};
 
 export default function AlbumPage() {
-  const [list, setList] = useState<Cate[]>([])
+  const router = useRouter();
+
+  const [list, setList] = useState<Cate[]>([]);
 
   const getAlbumCatePaging = async () => {
-    const { data } = (await getAlbumCatePagingAPI(1, 9999)) || { data: {} as Paginate<Cate[]> }
-    setList(data.result)
-  }
+    const { data } = (await getAlbumCatePagingAPI(1, 9999)) || { data: {} as Paginate<Cate[]> };
+    setList(data.result);
+  };
 
   useEffect(() => {
     getAlbumCatePaging()
@@ -149,5 +152,5 @@ export default function AlbumPage() {
         </div>
       </div>
     </>
-  )
+  );
 }

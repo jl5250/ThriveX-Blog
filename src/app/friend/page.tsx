@@ -2,51 +2,53 @@ import Link from 'next/link'
 import { Metadata } from 'next'
 import { FaLink, FaInfoCircle, FaRss, FaUserCircle } from 'react-icons/fa'
 
-import { getWebConfigDataAPI } from "@/api/config";
-import { getWebListAPI, getWebTypeListAPI } from '@/api/web'
-import { Web as WebLink, WebType } from '@/types/app/web'
+import { getWebConfigDataAPI } from '@/api/config';
+import { getWebListAPI, getWebTypeListAPI } from '@/api/web';
+import { Web as WebLink, WebType } from '@/types/app/web';
 
-import Slide from "@/components/Slide";
-import Starry from "@/components/Starry";
-import ApplyForAdd from "./components/ApplyForAdd";
-import CopyableText from "./components/CopyableText";
+import Slide from '@/components/Slide';
+import Starry from '@/components/Starry';
+import ApplyForAdd from './components/ApplyForAdd';
+import CopyableText from './components/CopyableText';
 
-import { ToastContainer } from "react-toastify";
-import { getUserDataAPI } from "@/api/user";
-import { User } from "@/types/app/user";
-import { Web } from "@/types/app/config";
+import { ToastContainer } from 'react-toastify';
+import { getUserDataAPI } from '@/api/user';
+import { User } from '@/types/app/user';
+import { Web } from '@/types/app/config';
 
 export const metadata: Metadata = {
   title: '😇 朋友圈',
-  description: '😇 朋友圈'
-}
+  description: '😇 朋友圈',
+};
 
 export default async () => {
-    const { data: user } = await getUserDataAPI() || { data: {} as User }
-    const { data: { value: web } } = (await getWebConfigDataAPI<{ value: Web }>("web")) || { data: { value: {} as Web } };
-    const { data: linkList } = await getWebListAPI() || { data: [] as WebLink[] }
-    const { data: typeList } = await getWebTypeListAPI() || { data: [] as WebType[] }
+  const { data: user } = (await getUserDataAPI()) || { data: {} as User };
+  const {
+    data: { value: web },
+  } = (await getWebConfigDataAPI<{ value: Web }>('web')) || { data: { value: {} as Web } };
+  const { data: linkList } = (await getWebListAPI()) || { data: [] as WebLink[] };
+  const { data: typeList } = (await getWebTypeListAPI()) || { data: [] as WebType[] };
 
-  let data: { [string: string]: { order: number; list: WebLink[] } } = {}
+  let data: { [string: string]: { order: number; list: WebLink[] } } = {};
 
-  linkList.sort((a: WebLink, b: WebLink) => a.order - b.order)
+  linkList.sort((a: WebLink, b: WebLink) => a.order - b.order);
 
   // 给每个数据进行分组处理
   linkList?.forEach((item: WebLink) => {
     if (data[item.type.name]) {
-      data[item.type.name].list.push(item)
+      data[item.type.name].list.push(item);
     } else {
       // 查询出当前类型的排序
-      const order = typeList.find(({ name }) => name === item.type.name)?.order!
-      data[item.type.name] = { order, list: [] }
-      data[item.type.name].list = [item]
+      const order = typeList.find(({ name }) => name === item.type.name)?.order ?? 0;
+      data[item.type.name] = { order, list: [] };
+      data[item.type.name].list = [item];
     }
-  })
+  });
 
   // 根据order进行从小到大排序
-  const dataTemp = Object.entries(data)
-  dataTemp.sort((a, b) => a[1].order - b[1].order)
-  data = Object.fromEntries(dataTemp)
+  const dataTemp = Object.entries(data);
+  dataTemp.sort((a, b) => a[1].order - b[1].order);
+  data = Object.fromEntries(dataTemp);
 
   return (
     <>
@@ -55,9 +57,7 @@ export default async () => {
         <Starry />
 
         <div className="absolute top-[30%] left-[50%] transform -translate-x-1/2 flex flex-col items-center">
-          <div className="text-white text-[20px] xs:text-[25px] sm:text-[30px] whitespace-nowrap custom_text_shadow">
-            一个人的寂寞，一群人的狂欢！
-          </div>
+          <div className="text-white text-[20px] xs:text-[25px] sm:text-[30px] whitespace-nowrap custom_text_shadow">一个人的寂寞，一群人的狂欢！</div>
           <div className="mt-4 sm:mt-8">
             <ApplyForAdd />
           </div>
@@ -69,14 +69,24 @@ export default async () => {
                     <div>
                         <h3 className="w-full text-center text-xl p-4 dark:text-white  ">本站信息</h3>
 
-                        <div className="mx-auto p-3 space-y-2 border-l-[3px] border-primary bg-[#ecf7fe] dark:bg-[#333b48] rounded-md text-sm text-black-b dark:text-gray-300">
-                            <p>站点名称：<CopyableText text={web?.title}>{web?.title}</CopyableText></p>
-                            <p>站点介绍：<CopyableText text={web?.description}>{web?.description}</CopyableText></p>
-                            <p>站点图标：<CopyableText text={user?.avatar || ''}>{user?.avatar}</CopyableText></p>
-                            <p>站点地址：<CopyableText text={web?.url}>{web?.url}</CopyableText></p>
-                            <p>Rss地址：<CopyableText text={web?.url + '/api/rss'}>{web?.url + '/api/rss'}</CopyableText></p>
-                        </div>
-                    </div>
+            <div className="mx-auto p-3 space-y-2 border-l-[3px] border-primary bg-[#ecf7fe] dark:bg-[#333b48] rounded-md text-sm text-black-b dark:text-gray-300">
+              <p>
+                站点名称：<CopyableText text={web?.title}>{web?.title}</CopyableText>
+              </p>
+              <p>
+                站点介绍：<CopyableText text={web?.description}>{web?.description}</CopyableText>
+              </p>
+              <p>
+                站点图标：<CopyableText text={user?.avatar || ''}>{user?.avatar}</CopyableText>
+              </p>
+              <p>
+                站点地址：<CopyableText text={web?.url}>{web?.url}</CopyableText>
+              </p>
+              <p>
+                Rss地址：<CopyableText text={web?.url + '/api/rss'}>{web?.url + '/api/rss'}</CopyableText>
+              </p>
+            </div>
+          </div>
 
           {Object.keys(data)?.map((type, index) => (
             <div key={index}>
@@ -138,5 +148,5 @@ export default async () => {
 
       <ToastContainer />
     </>
-  )
-}
+  );
+};

@@ -12,7 +12,7 @@ import { getUserDataAPI } from '@/api/user'
 import { getRecordPagingAPI } from '@/api/record';
 
 export async function GET() {
-    const { data: { value: web } } = (await getWebConfigDataAPI<{ value: Web }>("web")) || { data: { value: {} as Web } };
+    const { data: { value: web } } = (await getWebConfigDataAPI<{ value: Web }>('web')) || { data: { value: {} as Web } };
     const { data: user } = await getUserDataAPI() || { data: {} as User }
     const { data: article } = await getArticlePagingAPI({ pagination: { page: 1, size: 8 } }) || { data: {} as Paginate<Article[]> }
     const { data: record } = await getRecordPagingAPI({ pagination: { page: 1, size: 8 } }) || { data: {} as Paginate<Record[]> }
@@ -34,7 +34,7 @@ export async function GET() {
         copyright: 'ThriveX 现代化博客管理系统',
         updated: new Date(),
         generator: '为爱发电',
-        docs: "https://github.com/LiuYuYang01/ThriveX-Blog",
+        docs: 'https://github.com/LiuYuYang01/ThriveX-Blog',
         author: {
             name: user?.name,
             email: user?.email,
@@ -52,7 +52,7 @@ export async function GET() {
             description: 'title' in item ? item?.description : item?.content,
             content: item?.content,
             copyright: 'ThriveX 现代化博客管理系统',
-            date: new Date(+item?.createTime!)
+            date: new Date(+item?.createTime)
         });
     });
 

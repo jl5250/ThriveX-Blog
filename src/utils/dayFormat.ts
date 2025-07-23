@@ -1,7 +1,7 @@
-const dayjs = require('dayjs')
-const relativeTime = require('dayjs/plugin/relativeTime')
-const localeData = require('dayjs/plugin/localeData')
-const updateLocale = require('dayjs/plugin/updateLocale')
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import localeData from 'dayjs/plugin/localeData';
+import updateLocale from 'dayjs/plugin/updateLocale';
 
 dayjs.extend(relativeTime)
 dayjs.extend(localeData)

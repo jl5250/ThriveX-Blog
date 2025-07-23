@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { Rss } from '@/types/app/rss';
 import { getRssListAPI } from '@/api/rss';
 import Loading from '@/components/Loading';
@@ -19,16 +18,14 @@ const breakpointColumnsObj = {
   1450: 4,
   1350: 3,
   1024: 2,
-  768: 1
+  768: 1,
 };
 
 export default function FishpondPage() {
   const [rssData, setRssData] = useState<Rss[] | null>(null);
   const [loading, setLoading] = useState(true);
-  const searchParams = useSearchParams();
-  const currentPage = Number(searchParams.get('page')) || 1;
 
-  const fetchRssData = async (page: number = 1) => {
+  const getRssList = async () => {
     try {
       setLoading(true);
       const response = await getRssListAPI();
@@ -44,38 +41,28 @@ export default function FishpondPage() {
   };
 
   useEffect(() => {
-    fetchRssData(currentPage);
-  }, [currentPage]);
+    getRssList();
+  }, []);
 
   // 渲染内容组件
-  const ContentRenderer = ({ content, mode = 'html' }: { content: string, mode?: 'html' | 'text' }) => {
+  const ContentRenderer = ({ content, mode = 'html' }: { content: string; mode?: 'html' | 'text' }) => {
     if (mode === 'text') {
       const summary = HTMLParser.getSummary(content, 150);
-      return (
-        <p className="m-0 my-2 text-sm leading-6 text-[#666] text-justify">
-          {summary.text}
-        </p>
-      );
+      return <p className="m-0 my-2 text-sm leading-6 text-[#666] text-justify">{summary.text}</p>;
     }
 
     // HTML模式：安全渲染
     const cleanHTML = HTMLParser.sanitize(content, {
       allowedTags: ['p', 'br', 'strong', 'em', 'u', 'a', 'span', 'div'],
       allowedAttributes: ['href', 'target', 'rel'],
-      maxLength: 150
+      maxLength: 150,
     });
 
-    return (
-      <div className="m-0 my-2 text-sm leading-6 text-[#666] dark:text-gray-400 text-justify">
-        {parse(cleanHTML)}
-      </div>
-    );
+    return <div className="m-0 my-2 text-sm leading-6 text-[#666] dark:text-gray-400 text-justify">{parse(cleanHTML)}</div>;
   };
 
   if (loading) {
-    return (
-      <Loading />
-    );
+    return <Loading />;
   }
 
   return (
@@ -88,32 +75,18 @@ export default function FishpondPage() {
 
         <div>
           {rssData && rssData.length > 0 ? (
-            <Masonry
-              breakpointCols={breakpointColumnsObj}
-              className="masonry-grid pl-10 pr-4"
-              columnClassName="masonry-grid_column"
-            >
+            <Masonry breakpointCols={breakpointColumnsObj} className="masonry-grid pl-10 pr-4" columnClassName="masonry-grid_column">
               {rssData.map((item, index) => {
                 return (
-                  <div key={`${item.url}-${index}`} className="border border-[#eee] dark:border-black-b rounded-md transition-shadow hover:shadow-[0_2px_8px_rgba(186,186,186,0.15)] bg-white dark:bg-black-b p-5 pb-3 hover:-translate-y-0.5 mb-3 break-inside-avoid">
+                  <div key={`${item.url}-${index}`} className="border border-[#eee] dark:border-black-b rounded-md transition-shadow hover:shadow-[0_2px_8px_rgba(186,186,186,0.15)] bg-white dark:bg-black-b p-5 pb-3 hover:-translate-y-0.5 transition-transform mb-3 break-inside-avoid">
                     <div className="flex justify-between items-center mb-3.75">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#eee] dark:border-black-b">
-                          {item.image ? (
-                            <img src={item.image} alt="avatar" className="w-full h-full object-cover" />
-                          ) : (
-                            <RandomAvatar className="w-full h-full rounded-full" />
-                          )}
-                        </div>
+                        <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#eee] dark:border-black-b">{item.image ? <img src={item.image} alt="avatar" className="w-full h-full object-cover" /> : <RandomAvatar className="w-full h-full rounded-full" />}</div>
 
-                        <div className="text-sm font-medium text-[#333]">
-                          {item.email ? item.email.split('@')[0] : '匿名用户'}
-                        </div>
+                        <div className="text-sm font-medium text-[#333]">{item.email ? item.email.split('@')[0] : '匿名用户'}</div>
                       </div>
 
-                      <div className="text-xs text-[#666] dark:text-gray-300 opacity-80">
-                        {item.createTime ? dayFormat(item.createTime) : ''}
-                      </div>
+                      <div className="text-xs text-[#666] dark:text-gray-300 opacity-80">{item.createTime ? dayFormat(item.createTime) : ''}</div>
                     </div>
 
                     <div>
@@ -128,9 +101,7 @@ export default function FishpondPage() {
 
                     <div className="flex justify-between items-center mt-2 pt-2 border-t border-[#eee] dark:border-black-b">
                       <div className="flex items-center gap-2">
-                        <span className="inline-block px-3 py-1 bg-gray-100 text-gray-800 dark:bg-slate-600 dark:text-white text-xs rounded-full font-medium">
-                          {item.type}
-                        </span>
+                        <span className="inline-block px-3 py-1 bg-gray-100 text-gray-800 dark:bg-slate-600 dark:text-white text-xs rounded-full font-medium">{item.type}</span>
                       </div>
                     </div>
                   </div>

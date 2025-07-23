@@ -1,7 +1,7 @@
-import { Cate } from "./cate"
-import { Tag } from "./tag"
+import { Cate } from './cate'
+import { Tag } from './tag'
 
-export type Status = "show" | "no_home" | "hide"
+export type Status = 'show' | 'no_home' | 'hide'
 
 export interface Config {
     id?: number,
@@ -28,5 +28,5 @@ export interface Article {
     config: Config,
     prev: { id: number, title: string },
     next: { id: number, title: string },
-    createTime?: string,
+    createTime: string,
 }
