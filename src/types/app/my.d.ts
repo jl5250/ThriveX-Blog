@@ -45,7 +45,7 @@ export interface Project {
 }
 
 export interface MyData {
-    info_style: "info_one" | "info_two",
+    info_style: 'info_one' | 'info_two',
     info_one: InfoOne,
     info_two: InfoTwo,
     character: Character[],
