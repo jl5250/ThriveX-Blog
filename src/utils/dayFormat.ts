@@ -3,9 +3,9 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import localeData from 'dayjs/plugin/localeData';
 import updateLocale from 'dayjs/plugin/updateLocale';
 
-dayjs.extend(relativeTime)
-dayjs.extend(localeData)
-dayjs.extend(updateLocale)
+dayjs.extend(relativeTime);
+dayjs.extend(localeData);
+dayjs.extend(updateLocale);
 
 // 更新 locale 配置以自定义显示
 dayjs.updateLocale('en', {
@@ -22,22 +22,22 @@ dayjs.updateLocale('en', {
     M: '1 个月',
     MM: '%d 个月',
     y: '1 年',
-    yy: '%d 年'
-  }
-})
+    yy: '%d 年',
+  },
+});
 
 export function dayFormat(timestamp: number | string) {
-    const now = dayjs();
-    const target = dayjs(+timestamp);
+  const now = dayjs();
+  const target = dayjs(+timestamp);
 
   if (now.isSame(target, 'day')) {
-    return '今天'
+    return '今天';
   } else if (now.subtract(1, 'day').isSame(target, 'day')) {
-    return '昨天'
+    return '昨天';
   } else if (now.subtract(2, 'day').isSame(target, 'day')) {
-    return '前天'
+    return '前天';
   } else {
-    return target.fromNow()
+    return target.fromNow();
   }
 }
 
@@ -47,24 +47,24 @@ export function dayFormat(timestamp: number | string) {
  * @returns
  */
 export const formatTime = (time: number) => {
-  const minutes = Math.floor(time / 60 / 1000)
-  let res = ''
+  const minutes = Math.floor(time / 60 / 1000);
+  let res = '';
   if (minutes < 10) {
-    res += '0'
-    res += minutes
+    res += '0';
+    res += minutes;
   } else {
-    res += minutes
+    res += minutes;
   }
-  res += ':'
-  const seconds = Math.floor((time / 1000) % 60)
+  res += ':';
+  const seconds = Math.floor((time / 1000) % 60);
   if (seconds < 10) {
-    res += '0'
-    res += seconds
+    res += '0';
+    res += seconds;
   } else {
-    res += seconds
+    res += seconds;
   }
-  return res
-}
+  return res;
+};
 
 /**
  * 给出日期，返回时间格式: yyyy-mm-dd
@@ -72,23 +72,23 @@ export const formatTime = (time: number) => {
  * @returns
  */
 export const formatDate = () => {
-  var date = new Date()
-  const year = date.getFullYear()
-  const month = String(date.getMonth() + 1).padStart(2, '0') // getMonth() 返回 0-11
-  const day = String(date.getDate()).padStart(2, '0')
-  return `${year}-${month}-${day}`
-}
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // getMonth() 返回 0-11
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
 
 export const formatDay = () => {
-  var d = new Date()
-  var weekday = new Array(7)
-  weekday[0] = '一'
-  weekday[1] = '二'
-  weekday[2] = '三'
-  weekday[3] = '四'
-  weekday[4] = '五'
-  weekday[5] = '六'
-  weekday[6] = '日'
+  const d = new Date();
+  const weekday = new Array(7);
+  weekday[0] = '一';
+  weekday[1] = '二';
+  weekday[2] = '三';
+  weekday[3] = '四';
+  weekday[4] = '五';
+  weekday[5] = '六';
+  weekday[6] = '日';
 
-  return weekday[d.getDay()]
-}
+  return weekday[d.getDay()];
+};

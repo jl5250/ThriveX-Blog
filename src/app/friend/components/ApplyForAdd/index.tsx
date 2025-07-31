@@ -1,25 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react'
-import {
-  Input,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  useDisclosure,
-  Select,
-  SelectItem,
-  Textarea
-} from '@heroui/react'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import { Web, WebType } from '@/types/app/web'
-import { addWebDataAPI, getWebTypeListAPI } from '@/api/web'
-import { Bounce, toast, ToastOptions } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import { FaPlus, FaInfoCircle, FaUser, FaLink, FaEnvelope, FaRss, FaImage } from 'react-icons/fa'
+import { useEffect, useState } from 'react';
+import { Input, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Select, SelectItem, Textarea } from '@heroui/react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Web, WebType } from '@/types/app/web';
+import { addWebDataAPI, getWebTypeListAPI } from '@/api/web';
+import { Bounce, toast, ToastOptions } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { FaPlus, FaInfoCircle, FaUser, FaLink, FaEnvelope, FaRss, FaImage } from 'react-icons/fa';
 
 const toastConfig: ToastOptions = {
   position: 'top-right',
@@ -60,43 +48,38 @@ export default () => {
     control,
     formState: { errors },
     trigger,
-    reset
-  } = useForm<Web>({ defaultValues: {} as Web })
+    reset,
+  } = useForm<Web>({ defaultValues: {} as Web });
 
   const onSubmit: SubmitHandler<Web> = async (data, event) => {
-    event?.preventDefault()
-    setLoading(true)
+    event?.preventDefault();
+    setLoading(true);
     const { code, message } = (await addWebDataAPI({
       ...data,
-      createTime: Date.now().toString()
-    })) || { code: 0, message: '' }
-    setLoading(false)
-    if (code !== 200) return toast.error(message, toastConfig)
-    toast.success('🎉 提交成功, 请等待审核!', toastConfig)
-    onOpenChange()
-    reset()
-  }
+      createTime: Date.now().toString(),
+    })) || { code: 0, message: '' };
+    setLoading(false);
+    if (code !== 200) return toast.error(message, toastConfig);
+    toast.success('🎉 提交成功, 请等待审核!', toastConfig);
+    onOpenChange();
+    reset();
+  };
 
   // ESC关闭弹窗
   useEffect(() => {
     if (!isOpen) {
-      reset()
+      reset();
     }
-  }, [isOpen, reset])
+  }, [isOpen, reset]);
 
   // 表单样式
-  const inputWrapper = 'hover:!border-primary group-data-[focus=true]:border-primary rounded-md'
+  const inputWrapper = 'hover:!border-primary group-data-[focus=true]:border-primary rounded-md';
 
-  const [descCount, setDescCount] = useState(0)
+  const [descCount, setDescCount] = useState(0);
 
   return (
     <>
-      <Button
-        color="primary"
-        variant="shadow"
-        onPress={onOpen}
-        className="flex items-center gap-2 px-5 py-2 text-base font-semibold shadow-md hover:scale-105 transition-transform"
-      >
+      <Button color="primary" variant="shadow" onPress={onOpen} className="flex items-center gap-2 px-5 py-2 text-base font-semibold shadow-md hover:scale-105 transition-transform">
         <FaPlus /> 申请加入
       </Button>
       <Modal
@@ -105,11 +88,11 @@ export default () => {
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         classNames={{
-          backdrop: 'bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20'
+          backdrop: 'bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20',
         }}
       >
         <ModalContent>
-          {(onClose) => (
+          {() => (
             <>
               <ModalHeader className="flex flex-col gap-1">
                 <span className="flex items-center gap-2">
@@ -143,17 +126,7 @@ export default () => {
                   render={({ field }) => (
                     <div className="relative">
                       <FaUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-                      <Input
-                        {...field}
-                        type="text"
-                        label="网站名称"
-                        variant="bordered"
-                        placeholder="示例：宇阳"
-                        isInvalid={!!errors.title?.message}
-                        errorMessage={errors.title?.message}
-                        onBlur={() => trigger('title')}
-                        classNames={{ inputWrapper: 'pl-10 ' + inputWrapper }}
-                      />
+                      <Input {...field} type="text" label="网站名称" variant="bordered" placeholder="示例：宇阳" isInvalid={!!errors.title?.message} errorMessage={errors.title?.message} onBlur={() => trigger('title')} classNames={{ inputWrapper: 'pl-10 ' + inputWrapper }} />
                     </div>
                   )}
                 />
@@ -172,15 +145,13 @@ export default () => {
                         errorMessage={errors.description?.message}
                         onBlur={() => trigger('description')}
                         onChange={(e) => {
-                          field.onChange(e)
-                          setDescCount(e.target.value.length)
+                          field.onChange(e);
+                          setDescCount(e.target.value.length);
                         }}
                         classNames={{ inputWrapper }}
                         maxLength={100}
                       />
-                      <span className="absolute right-2 bottom-2 text-xs text-gray-400 select-none">
-                        {descCount}/100
-                      </span>
+                      <span className="absolute right-2 bottom-2 text-xs text-gray-400 select-none">{descCount}/100</span>
                     </div>
                   )}
                 />
@@ -189,22 +160,12 @@ export default () => {
                   control={control}
                   rules={{
                     required: '请输入图片地址',
-                    pattern: { value: /^https?:\/\//, message: '请输入正确的图片地址' }
+                    pattern: { value: /^https?:\/\//, message: '请输入正确的图片地址' },
                   }}
                   render={({ field }) => (
                     <div className="relative">
                       <FaImage className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-                      <Input
-                        {...field}
-                        type="text"
-                        label="图片地址"
-                        variant="bordered"
-                        placeholder="示例：https://liuyuyang.net/avatar.jpg"
-                        isInvalid={!!errors.image?.message}
-                        errorMessage={errors.image?.message}
-                        onBlur={() => trigger('image')}
-                        classNames={{ inputWrapper: 'pl-10 ' + inputWrapper }}
-                      />
+                      <Input {...field} type="text" label="图片地址" variant="bordered" placeholder="示例：https://liuyuyang.net/avatar.jpg" isInvalid={!!errors.image?.message} errorMessage={errors.image?.message} onBlur={() => trigger('image')} classNames={{ inputWrapper: 'pl-10 ' + inputWrapper }} />
                     </div>
                   )}
                 />
@@ -213,22 +174,12 @@ export default () => {
                   control={control}
                   rules={{
                     required: '请输入网站地址',
-                    pattern: { value: /^https?:\/\//, message: '请输入正确的网站地址' }
+                    pattern: { value: /^https?:\/\//, message: '请输入正确的网站地址' },
                   }}
                   render={({ field }) => (
                     <div className="relative">
                       <FaLink className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-                      <Input
-                        {...field}
-                        type="text"
-                        label="网站地址"
-                        variant="bordered"
-                        placeholder="示例：https://liuyuyang.net/"
-                        isInvalid={!!errors.url?.message}
-                        errorMessage={errors.url?.message}
-                        onBlur={() => trigger('url')}
-                        classNames={{ inputWrapper: 'pl-10 ' + inputWrapper }}
-                      />
+                      <Input {...field} type="text" label="网站地址" variant="bordered" placeholder="示例：https://liuyuyang.net/" isInvalid={!!errors.url?.message} errorMessage={errors.url?.message} onBlur={() => trigger('url')} classNames={{ inputWrapper: 'pl-10 ' + inputWrapper }} />
                     </div>
                   )}
                 />
@@ -238,23 +189,13 @@ export default () => {
                   rules={{
                     pattern: {
                       value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                      message: '请输入正确的邮箱'
-                    }
+                      message: '请输入正确的邮箱',
+                    },
                   }}
                   render={({ field }) => (
                     <div className="relative">
                       <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-                      <Input
-                        {...field}
-                        type="text"
-                        label="邮箱（选填）"
-                        variant="bordered"
-                        placeholder="示例：liuyuyang1024@yeah.net"
-                        isInvalid={!!errors.email?.message}
-                        errorMessage={errors.email?.message}
-                        onBlur={() => trigger('email')}
-                        classNames={{ inputWrapper: 'pl-10 ' + inputWrapper }}
-                      />
+                      <Input {...field} type="text" label="邮箱（选填）" variant="bordered" placeholder="示例：liuyuyang1024@yeah.net" isInvalid={!!errors.email?.message} errorMessage={errors.email?.message} onBlur={() => trigger('email')} classNames={{ inputWrapper: 'pl-10 ' + inputWrapper }} />
                     </div>
                   )}
                 />
@@ -265,17 +206,7 @@ export default () => {
                   render={({ field }) => (
                     <div className="relative">
                       <FaRss className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-                      <Input
-                        {...field}
-                        type="text"
-                        label="订阅地址（选填）"
-                        variant="bordered"
-                        placeholder="示例：https://liuyuyang.net/index.php/feed/"
-                        isInvalid={!!errors.rss?.message}
-                        errorMessage={errors.rss?.message}
-                        onBlur={() => trigger('rss')}
-                        classNames={{ inputWrapper: 'pl-10 ' + inputWrapper }}
-                      />
+                      <Input {...field} type="text" label="订阅地址（选填）" variant="bordered" placeholder="示例：https://liuyuyang.net/index.php/feed/" isInvalid={!!errors.rss?.message} errorMessage={errors.rss?.message} onBlur={() => trigger('rss')} classNames={{ inputWrapper: 'pl-10 ' + inputWrapper }} />
                     </div>
                   )}
                 />
@@ -292,8 +223,7 @@ export default () => {
                       isInvalid={!!errors.typeId?.message}
                       errorMessage={errors.typeId?.message}
                       classNames={{
-                        trigger:
-                          'hover:!border-primary data-[focus=true]:!border-primary data-[open=true]:!border-primary rounded-md'
+                        trigger: 'hover:!border-primary data-[focus=true]:!border-primary data-[open=true]:!border-primary rounded-md',
                       }}
                     >
                       {typeList?.map((item) => (
@@ -304,13 +234,7 @@ export default () => {
                 />
               </ModalBody>
               <ModalFooter>
-                <Button
-                  color="primary"
-                  onPress={() => handleSubmit(onSubmit)()}
-                  className="w-full"
-                  isDisabled={loading}
-                  isLoading={loading}
-                >
+                <Button color="primary" onPress={() => handleSubmit(onSubmit)()} className="w-full" isDisabled={loading} isLoading={loading}>
                   {loading ? '提交中...' : '提交'}
                 </Button>
               </ModalFooter>
@@ -319,5 +243,5 @@ export default () => {
         </ModalContent>
       </Modal>
     </>
-  )
-}
+  );
+};
