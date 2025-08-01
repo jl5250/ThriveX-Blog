@@ -1,7 +1,7 @@
 import localFont from 'next/font/local';
 
 import HeroUIProvider from '@/components/HeroUIProvider';
-import NProgress from '@/components/NProgress';
+import Providers from './providers';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -9,7 +9,7 @@ import Tools from '@/components/Tools';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Confetti from '@/components/Confetti';
 import RouteChangeHandler from '@/components/RouteChangeHandler';
-import MusicTools from '@/components/MusicTools'
+import MusicTools from '@/components/MusicTools';
 
 import { getWebConfigDataAPI } from '@/api/config';
 import { Web } from '@/types/app/config';
@@ -45,11 +45,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <meta name="keywords" content={data?.keyword} />
         <link rel="icon" href={data?.favicon || '/favicon.ico'} />
         {/* 统计鸟 */}
-        <script
-          type="text/javascript"
-          src="//api.tongjiniao.com/c?_=793517014552158208"
-          async
-        ></script>
+        <script type="text/javascript" src="//api.tongjiniao.com/c?_=793517014552158208" async></script>
 
         {/* 百度统计 */}
         <BaiduStatis />
@@ -62,14 +58,15 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         {/* 🎉 礼花效果 */}
         {/* <Confetti /> */}
 
-        {/* 进度条组件 */}
-        <NProgress />
         {/* 顶部导航组件 */}
         <Header />
 
         {/* 主体内容 */}
         <HeroUIProvider>
-          <div className="min-h-[calc(100vh-300px)]">{children}</div>
+          {/* 进度条 */}
+          <Providers>
+            <div className="min-h-[calc(100vh-300px)]">{children}</div>
+          </Providers>
         </HeroUIProvider>
 
         {/* 底部组件 */}
@@ -83,5 +80,5 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <FloatingBlock />
       </body>
     </html>
-  )
+  );
 }
