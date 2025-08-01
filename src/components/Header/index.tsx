@@ -1,16 +1,18 @@
 'use client';
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import React, { useState, useEffect } from 'react'
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import React, { useState, useEffect } from 'react';
 
-import { Switch } from '@heroui/react';
+// import { Switch } from '@heroui/react';
+import Switch from './component/Switch';
 import Show from '@/components/Show';
 import SidebarNav from './component/SidebarNav';
 
 import { IoIosArrowDown } from 'react-icons/io';
-import { FaRegSun } from 'react-icons/fa';
-import { BsFillMoonStarsFill, BsTextIndentLeft } from 'react-icons/bs';
+// import { FaRegSun } from 'react-icons/fa';
+// import { BsFillMoonStarsFill } from 'react-icons/bs';
+import { BsTextIndentLeft } from 'react-icons/bs';
 
 import { Cate } from '@/types/app/cate';
 import { getCateListAPI } from '@/api/cate';
@@ -69,12 +71,12 @@ const Header = () => {
   }, []);
 
   // 手动切换主题
-  const toTheme = () => {
-    const html = document.querySelector('html');
-    if (html) {
-      setIsDark(html.classList.toggle('dark'));
-    }
-  };
+  // const toTheme = () => {
+  //   const html = document.querySelector('html');
+  //   if (html) {
+  //     setIsDark(html.classList.toggle('dark'));
+  //   }
+  // };
   // 判断当前主题
   useEffect(() => {
     const html = document.querySelector('html');
@@ -157,7 +159,8 @@ const Header = () => {
           </ul>
 
           {/* 主题切换开关 */}
-          <Switch size="lg" isSelected={isDark} onValueChange={toTheme} thumbIcon={({ isSelected }) => (isSelected ? <BsFillMoonStarsFill className="text-gray-500" /> : <FaRegSun className="text-gray-500" />)} className={`absolute top-0 right-7 h-full ${isDark ? '[&>.bg-default-200]:!bg-[#4e5969]' : '[&>.bg-default-200]:!bg-[#e1e1e1]'}`} />
+          <Switch />
+          {/* <Switch size="lg" isSelected={isDark} onValueChange={toTheme} thumbIcon={({ isSelected }) => (isSelected ? <BsFillMoonStarsFill className="text-gray-500" /> : <FaRegSun className="text-gray-500" />)} className={`absolute top-0 right-7 h-full ${isDark ? '[&>.bg-default-200]:!bg-[#4e5969]' : '[&>.bg-default-200]:!bg-[#e1e1e1]'}`} /> */}
         </div>
       </div>
 

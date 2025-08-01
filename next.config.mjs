@@ -7,7 +7,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'bucket.starlightpathserver.fun'
+        hostname: 'bucket.loongai.fun'
       },
       {
         protocol: 'https',
@@ -27,7 +27,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'api.starlightpathserver.fun'
+        hostname: 'api.loongai.fun'
       },
       {
         protocol: 'https',
