@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 // import { Switch } from '@heroui/react';
 import Switch from './component/Switch';
 import Show from '@/components/Show';
-import SidebarNav from './component/SidebarNav';
+import AAA from './component/AAA';
 
 import { IoIosArrowDown } from 'react-icons/io';
 // import { FaRegSun } from 'react-icons/fa';
@@ -165,7 +165,8 @@ const Header = () => {
       </div>
 
       {/* 侧边导航：移动端时候显示 */}
-      <SidebarNav list={cateList} open={isOpenSidebarNav} onClose={() => setIsOpenSidebarNav(false)} />
+      {/* <SidebarNav list={cateList} open={isOpenSidebarNav} onClose={() => setIsOpenSidebarNav(false)} /> */}
+      <AAA list={cateList} open={isOpenSidebarNav} onClose={() => setIsOpenSidebarNav(false)} />
     </>
   );
 };
