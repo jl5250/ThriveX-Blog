@@ -46,7 +46,7 @@ export default ({ data }: Props) => {
           {data?.map(({ value, text1, text2, content, color }, index) => {
             return (
               <div key={index} className="flex justify-center items-center">
-                <span className="min-w-[60px] dark:text-[#8c9ab1] text-xs sm:text-base">{text1}</span>
+                <span className="min-w-[80px] dark:text-[#8c9ab1] text-xs sm:text-base">{text1}</span>
 
                 <div className="relative w-full max-w-md">
                   <Progress value={value} className={`relative [&>div]:justify-center ${colors[index]}`} />
@@ -60,7 +60,7 @@ export default ({ data }: Props) => {
                   </div>
                 </div>
 
-                <span className="text-end min-w-[60px] dark:text-[#8c9ab1] text-xs sm:text-base">{text2}</span>
+                <span className="text-end min-w-[80px] dark:text-[#8c9ab1] text-xs sm:text-base">{text2}</span>
               </div>
             );
           })}

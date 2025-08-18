@@ -3,6 +3,7 @@ import HotArticle from './HotArticle';
 import RandomArticle from './RandomArticle';
 import Comment from './Comment';
 import RunTime from './RunTime';
+import Study from './Study';
 import { getWebConfigDataAPI } from '@/api/config';
 import { Theme } from '@/types/app/config';
 
@@ -25,6 +26,8 @@ export default async () => {
         {sidebar.includes('hotArticle') && <HotArticle />}
         {/* 最新评论 */}
         {sidebar.includes('newComments') && <Comment />}
+        {/* 装饰组件 */}
+        {sidebar.includes('study') && <Study />}
       </div>
     </>
   );

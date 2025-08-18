@@ -26,7 +26,7 @@ export interface Web {
 }
 
 export type ArticleLayout = 'classics' | 'card' | 'waterfall' | ''
-export type RightSidebar = 'author' | 'hotArticle' | 'randomArticle' | 'newComments' | 'runTime'
+export type RightSidebar = 'author' | 'hotArticle' | 'randomArticle' | 'newComments' | 'runTime' | 'study'
 
 // 主题配置
 export interface Theme {

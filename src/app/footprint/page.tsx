@@ -8,8 +8,8 @@ import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
 import dayjs from 'dayjs';
 import Masonry from 'react-masonry-css';
-import './page.scss';
 import { getGaodeMapConfigDataAPI } from '@/api/config';
+import './page.scss';
 
 const breakpointColumnsObj = {
   default: 4,

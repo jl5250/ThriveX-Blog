@@ -14,7 +14,9 @@ import InfoOne from './component/InfoOne';
 
 export default async () => {
   const { data } = (await getPageConfigDataByNameAPI('my')) || { data: {} as Config };
-  const { info_style, info_one, info_two, character, goals, project } = data.value as MyData;
+console.log(data.value.project);
+
+  const { info_style, info_one, info_two, character, goals, project, technology_stack, hometown } = data.value as MyData;
 
   return (
     <>
@@ -24,7 +26,7 @@ export default async () => {
       <div className="bg-white dark:bg-black-a pt-20 bg-cover bg-center bg-fixed" style={{ backgroundImage: `url(${bg.src})` }}>
         <div className="w-[90%] lg:w-[950px] mx-auto">{info_style === 'info_one' ? <InfoOne data={info_one} /> : <InfoTwo data={info_two} />}</div>
 
-        <div className="flex justify-center mt-24 px-10">
+        <div className="flex justify-center mt-24">
           <Calendar />
         </div>
 
@@ -34,8 +36,8 @@ export default async () => {
         </div>
 
         <div className="flex flex-col md:flex-row w-[90%] sm:w-9/12 mt-52 mx-auto">
-          <Map />
-          <Technology />
+          <Map position={hometown}/>
+          <Technology list={technology_stack} />
         </div>
 
         <div className="mt-52">

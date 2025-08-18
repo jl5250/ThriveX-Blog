@@ -31,14 +31,17 @@ export interface Project {
     images: string[];
     description: string;
     front: {
+        name: string;
         technology: string;
         url: string;
     };
     control: {
+        name: string;
         technology: string;
         url: string;
     };
     backend: {
+        name: string;
         technology: string;
         url: string;
     };
@@ -51,4 +54,6 @@ export interface MyData {
     character: Character[],
     goals: Goal[],
     project: Project[]
+    technology_stack: string[],
+    hometown: number[]
 }

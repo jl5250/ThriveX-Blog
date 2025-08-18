@@ -7,7 +7,7 @@ import { getRandomArticleListAPI } from '@/api/article';
 import { useConfigStore } from '@/stores';
 import { Article } from '@/types/app/article';
 import { getRandom } from '@/utils';
-import RandomArticle from '@/assets/svg/other/article.svg';
+import RandomArticleSvg from '@/assets/svg/other/article.svg';
 import './index.scss';
 
 const HotArticle = () => {
@@ -29,7 +29,7 @@ const HotArticle = () => {
     <div className="RandomArticleComponent">
       <div className="flex flex-col p-4 mb-5 bg-white dark:bg-black-b tw_container tw_title">
         <h3 className="w-full tw_title dark:text-white">
-          <Image src={RandomArticle} alt="随机推荐" /> 随机推荐
+          <Image src={RandomArticleSvg} alt="随机推荐" /> 随机推荐
         </h3>
 
         <div className="w-full pt-2.5 mt-2 min-h-[120px] space-y-4">

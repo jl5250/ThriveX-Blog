@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { getCommentPagingAPI } from '@/api/comment';
-import NewComment from '@/assets/svg/other/comments.svg';
+import NewCommentSvg from '@/assets/svg/other/comments.svg';
 import RandomAvatar from '@/components/RandomAvatar';
 import { Comment } from '@/types/app/comment';
 import dayjs from 'dayjs';
@@ -24,7 +24,7 @@ const NewComments = () => {
   return (
     <div className="flex flex-col tw_container bg-white dark:bg-black-b p-4 mb-5 tw_title">
       <div className="tw_title w-full dark:text-white">
-        <Image src={NewComment} alt="最新评论" width={33} height={23} /> 最新评论
+        <Image src={NewCommentSvg} alt="最新评论" width={33} height={23} /> 最新评论
       </div>
 
       <div className="mt-2.5">

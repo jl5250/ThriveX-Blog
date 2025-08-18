@@ -5,9 +5,5 @@ import Resume from './resume';
 export default async () => {
   const { data } = (await getPageConfigDataByNameAPI('resume')) || { data: {} as Config };
 
-  return (
-    <>
-      <Resume data={data.value} />
-    </>
-  );
+  return <Resume data={data.value} />;
 };

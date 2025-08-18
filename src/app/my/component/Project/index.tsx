@@ -17,7 +17,7 @@ export default ({ data }: { data: Project[] }) => {
   return (
     <>
       <div data-aos="zoom-in" className="character pb-20">
-        <div className="text-center text-xl mb-8">我的开源项目</div>
+        <div className="text-center text-xl mb-8">我的作品</div>
 
         <div className="w-[80%] xl:w-[1200px] mx-auto">
           <div className="flex w-full flex-col">
@@ -48,9 +48,9 @@ export default ({ data }: { data: Project[] }) => {
                         <div>
                           <h3 className="text-[18px] mb-4">技术栈：</h3>
                           <div className="text-gray-700 dark:text-[#8c9ab1]">
-                            <p className="text-xs">前端：{item.front.technology}</p>
-                            <p className="text-xs">控制端：{item.control.technology}</p>
-                            <p className="text-xs">后端：{item.backend.technology}</p>
+                            <p className="text-xs">{item.front.name}{item.front.technology}</p>
+                            <p className="text-xs">{item.control.name}{item.control.technology}</p>
+                            <p className="text-xs">{item.backend.name}{item.backend.technology}</p>
                           </div>
                         </div>
 
@@ -58,21 +58,21 @@ export default ({ data }: { data: Project[] }) => {
                           <h3 className="text-[18px] mb-4">GitHub：</h3>
                           <div className="space-y-2">
                             <div>
-                              <span>前端：</span>
+                              <span>{item.front.name}</span>
                               <a href={item.front.url} target="_blank" className="text-xs text-primary" rel="noreferrer">
                                 {item.front.url}
                               </a>
                             </div>
 
                             <div>
-                              <span>控制端：</span>
+                              <span>{item.control.name}</span>
                               <a href={item.control.url} target="_blank" className="text-xs text-primary" rel="noreferrer">
                                 {item.control.url}
                               </a>
                             </div>
 
                             <div>
-                              <span>后端：</span>
+                              <span>{item.backend.name}</span>
                               <a href={item.backend.url} target="_blank" className="text-xs text-primary" rel="noreferrer">
                                 {item.backend.url}
                               </a>

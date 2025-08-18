@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Modal, ModalContent, ModalHeader, ModalBody, UseDisclosureProps, Input } from '@heroui/react';
 import { getArticlePagingAPI } from '@/api/article';
@@ -16,6 +16,7 @@ export default ({ disclosure }: Props) => {
   const { isOpen, onOpenChange } = disclosure;
 
   const [data, setData] = useState<Paginate<Article[]>>();
+  const [searchKey, setSearchKey] = useState(''); // 添加搜索关键词状态
 
   // 获取文章数据
   const getArticleList = async (key: string) => {
@@ -38,8 +39,17 @@ export default ({ disclosure }: Props) => {
   // 根据关键词搜索文章
   const onSearchArticle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const key = e.target.value;
+    setSearchKey(key); // 更新搜索关键词状态
     debouncedFetchArticles(key);
   };
+
+  // 当模态框关闭时，清空搜索结果
+  useEffect(() => {
+    if (!isOpen) {
+      setData(undefined);
+      setSearchKey(''); // 同时清空搜索关键词
+    }
+  }, [isOpen]);
 
   return (
     <>
@@ -59,7 +69,7 @@ export default ({ disclosure }: Props) => {
 
               <ModalBody>
                 <div className="mb-7">
-                  <Input type="text" placeholder="请输入文章关键词" onChange={onSearchArticle} />
+                  <Input type="text" placeholder="请输入文章关键词" value={searchKey} onChange={onSearchArticle} />
 
                   <div className="mt-4">
                     {data?.result

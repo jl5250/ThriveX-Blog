@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useConfigStore } from '@/stores';
 import { motion, useMotionValue, useTransform, animate, useInView } from 'framer-motion';
-import Timer from '@/assets/svg/other/timer.svg';
+import TimerSvg from '@/assets/svg/other/timer.svg';
 
 const AnimatedNumber = ({ value, suffix, onComplete }: { value: number; suffix: string; onComplete?: () => void }) => {
   const ref = useRef(null);
@@ -71,7 +71,7 @@ export default () => {
   return (
     <div className="flex flex-col tw_container bg-white dark:bg-black-b p-4 mb-5 tw_title">
       <div className="tw_title w-full dark:text-white">
-        <Image src={Timer} alt="站点运行时间" width={33} height={23} /> 站点运行时间
+        <Image src={TimerSvg} alt="站点运行时间" width={33} height={23} /> 站点运行时间
       </div>
 
       <div className="mt-2.5">
