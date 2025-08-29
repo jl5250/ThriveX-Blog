@@ -11,6 +11,7 @@ export interface Comment {
     auditStatus?: number,
     children?: Comment[],
     createTime: string,
+    h_captcha_response: string | null,
 }
 
 export interface Info {

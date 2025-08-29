@@ -15,4 +15,5 @@ export interface Wall {
     email: string;
     auditStatus: number;
     createTime: string;
+    h_captcha_response: string;
 }

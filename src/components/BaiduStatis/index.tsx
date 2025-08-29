@@ -1,21 +1,24 @@
 'use client';
 
-import Script from 'next/script';
+import { useEffect } from 'react';
+import { useConfigStore } from '@/stores';
 
-export default () => {
-  return (
-    <Script
-      dangerouslySetInnerHTML={{
-        __html: `
-            var _hmt = _hmt || [];
-            (function() {
-              var hm = document.createElement("script");
-              hm.src = "${process.env.NEXT_PUBLIC_BAIDU_SRC_ID}";
-              var s = document.getElementsByTagName("script")[0]; 
-              s.parentNode.insertBefore(hm, s);
-            })();
-            `
-      }}
-    />
-  )
+export default function BaiduAnalytics() {
+  const other = useConfigStore((state) => state.other);
+
+  useEffect(() => {
+    if (other?.baidu_token) {
+      window._hmt = window._hmt || [];
+      const baiduScript = document.createElement('script');
+      baiduScript.src = `https://hm.baidu.com/hm.js?${other.baidu_token}`;
+      baiduScript.async = true;
+      document.head.appendChild(baiduScript);
+
+      return () => {
+        document.head.removeChild(baiduScript);
+      };
+    }
+  }, [other]);
+
+  return null;
 }

@@ -32,7 +32,7 @@ export default function Encrypt({ id }: Props) {
   // 验证访问密码
   const handleVerifyPassword = async () => {
     const res = await getArticleDataAPI(id, password);
-    
+
     if (res?.code === 200) {
       router.push(`${pathname}?password=${password}`);
     } else {
@@ -71,8 +71,12 @@ export default function Encrypt({ id }: Props) {
               </ModalBody>
 
               <ModalFooter>
-                <Button color="default" onPress={() => router.push('/')}>返回</Button>
-                <Button color="primary" onPress={handleVerifyPassword}>校验</Button>
+                <Button color="default" onPress={() => router.push('/')}>
+                  返回
+                </Button>
+                <Button color="primary" onPress={handleVerifyPassword}>
+                  校验
+                </Button>
               </ModalFooter>
             </>
           )}

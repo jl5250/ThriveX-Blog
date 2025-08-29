@@ -3,9 +3,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { addCommentDataAPI } from '@/api/comment';
-import { ToastContainer, toast } from 'react-toastify';
+import { Bounce, ToastOptions, toast } from 'react-toastify';
 import { Spinner } from '@heroui/react';
+import HCaptchaType from '@hcaptcha/react-hcaptcha';
 import List from './components/List';
+import HCaptcha from '@/components/HCaptcha';
 import 'react-toastify/dist/ReactToastify.css';
 import './index.scss';
 
@@ -22,6 +24,18 @@ interface CommentForm {
   avatar: string;
 }
 
+const toastConfig: ToastOptions = {
+  position: 'top-right',
+  autoClose: 5000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+  theme: 'colored',
+  transition: Bounce,
+};
+
 const CommentForm = ({ articleId }: Props) => {
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const [commentId, setCommentId] = useState(articleId);
@@ -30,6 +44,10 @@ const CommentForm = ({ articleId }: Props) => {
   const [loading, setLoading] = useState(false);
 
   const commentRef = useRef<{ getCommentList: () => void }>(null);
+
+  const captchaRef = useRef<HCaptchaType>(null);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [captchaError, setCaptchaError] = useState<string>('');
 
   const {
     register,
@@ -48,6 +66,11 @@ const CommentForm = ({ articleId }: Props) => {
   }, [setValue]);
 
   const onSubmit = async (data: CommentForm) => {
+    // 清除之前的人机验证错误
+    setCaptchaError('');
+
+    if (!captchaToken) return setCaptchaError('请完成人机验证');
+
     setLoading(true);
 
     // 判断是不是QQ邮箱，如果是就把QQ截取出来，然后用QQ当做头像
@@ -59,10 +82,20 @@ const CommentForm = ({ articleId }: Props) => {
       if (!isNaN(+qq)) data.avatar = `https://q1.qlogo.cn/g?b=qq&nk=${qq}&s=640`;
     }
 
-    const { code, message } = (await addCommentDataAPI({ ...data, articleId, commentId: commentId === articleId ? 0 : commentId, createTime: Date.now().toString() })) || { code: 0, message: '' };
-    if (code !== 200) return alert('发布评论失败：' + message);
+    const { code, message } = (await addCommentDataAPI({
+      ...data,
+      articleId,
+      commentId: commentId === articleId ? 0 : commentId,
+      createTime: Date.now().toString(),
+      h_captcha_response: captchaToken,
+    })) || { code: 0, message: '' };
 
-    toast('🎉 提交成功, 请等待审核!');
+    if (code !== 200) {
+      captchaRef.current?.resetCaptcha();
+      return toast.error('发布评论失败：' + message, toastConfig);
+    }
+
+    toast.success('🎉 提交成功, 请等待审核!', toastConfig);
 
     // 发布成功后初始化表单
     setCommentId(articleId);
@@ -71,8 +104,19 @@ const CommentForm = ({ articleId }: Props) => {
     commentRef.current?.getCommentList();
     setLoading(false);
 
+    // 清除验证相关状态
+    setCaptchaError('');
+    setCaptchaToken(null);
+    captchaRef.current?.resetCaptcha();
+
     // 提交成功后把评论的数据持久化到本地
     localStorage.setItem('comment_data', JSON.stringify(data));
+  };
+
+  // 处理人机验证成功回调
+  const handleCaptchaSuccess = (token: string) => {
+    setCaptchaToken(token);
+    setCaptchaError(''); // 清除错误提示
   };
 
   // 回复评论
@@ -121,6 +165,11 @@ const CommentForm = ({ articleId }: Props) => {
             <span className="text-red-400 text-sm pl-3 mt-1">{errors.url?.message}</span>
           </div>
 
+          <div className="flex flex-col">
+            <HCaptcha ref={captchaRef} setToken={handleCaptchaSuccess} />
+            {captchaError && <span className="text-red-400 text-sm pl-3 mt-1">{captchaError}</span>}
+          </div>
+
           {loading ? (
             <div className="w-full h-10 flex justify-center !mt-4">
               <Spinner />
@@ -134,7 +183,6 @@ const CommentForm = ({ articleId }: Props) => {
 
         <List ref={commentRef} id={articleId} reply={replyComment} />
       </div>
-      <ToastContainer />
     </div>
   );
 };

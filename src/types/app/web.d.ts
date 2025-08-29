@@ -18,4 +18,5 @@ export interface Web {
   type: WebType,
   auditStatus: number,
   createTime?: string
+  h_captcha_response: string
 }

@@ -226,7 +226,7 @@ const ContentMD = ({ data }: Props) => {
 
   return (
     <div className="ContentMdComponent">
-      <ToastContainer theme={isDark ? 'dark' : 'light'} autoClose={1000} hideProgressBar />
+      <ToastContainer autoClose={1000} hideProgressBar />
 
       <PhotoProvider>
         <div className="content markdown-body">

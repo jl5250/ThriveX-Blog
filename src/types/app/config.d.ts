@@ -45,7 +45,8 @@ export interface Theme {
 
 // 其他配置
 export interface Other {
-    email: string
+    baidu_token: string,
+    hcaptcha_key: string,
 }
 
 

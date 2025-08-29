@@ -8,7 +8,7 @@ export default () => {
   return (
     <div className="flex flex-col tw_container bg-white dark:bg-black-b p-4 mb-5 tw_title">
       <div className="tw_title w-full dark:text-white">
-        <Image src={StudySvg} alt="最新评论" width={33} height={23} className="mr-2"/> 学无止境
+        <Image src={StudySvg} alt="最新评论" width={33} height={23} className="mr-2" /> 学无止境
       </div>
 
       <div className="mt-4 flex justify-center w-5/6">

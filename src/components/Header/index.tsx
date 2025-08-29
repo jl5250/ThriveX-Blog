@@ -19,11 +19,11 @@ import { getCateListAPI } from '@/api/cate';
 import { getWebConfigDataAPI } from '@/api/config';
 
 import { useConfigStore } from '@/stores';
-import { Theme, Web } from '@/types/app/config';
+import { Other, Theme, Web } from '@/types/app/config';
 
 const Header = () => {
   // 是否暗黑模式
-  const { isDark, setIsDark, setWeb, theme, setTheme } = useConfigStore();
+  const { isDark, setIsDark, setWeb, theme, setTheme, setOther } = useConfigStore();
 
   // 获取项目配置
   const getConfigData = async () => {
@@ -36,6 +36,11 @@ const Header = () => {
       data: { value: theme },
     } = (await getWebConfigDataAPI<{ value: Theme }>('theme')) || { data: { value: {} as Theme } };
     setTheme(theme);
+
+    const {
+      data: { value: other },
+    } = (await getWebConfigDataAPI<{ value: Other }>('other')) || { data: { value: {} as Other } };
+    setOther(other);
   };
 
   const patchName = usePathname();
@@ -72,15 +77,14 @@ const Header = () => {
 
   // 手动切换主题
   // const toTheme = () => {
-  //   const html = document.querySelector('html');
-  //   if (html) {
-  //     setIsDark(html.classList.toggle('dark'));
-  //   }
+  //   setIsDark(!isDark);
   // };
   // 判断当前主题
   useEffect(() => {
     const html = document.querySelector('html');
-    html?.classList.toggle('dark', isDark);
+    if (html && html.classList) {
+      html?.classList?.toggle('dark', isDark);
+    }
   }, [isDark]);
 
   // 是否打开侧边栏导航
@@ -96,7 +100,7 @@ const Header = () => {
 
           {/* logo */}
           <Link href="/" className="flex items-center p-5 text-[15px]  ">
-            {isDark ? <img src={theme?.dark_logo} alt="Logo" className="w-32 h-10 pr-5 hover:scale-90 transition-transform" /> : <img src={isPathSty || isScrolled ? theme?.light_logo : theme?.dark_logo} alt="Logo" className="w-32 h-10 pr-5 hover:scale-90 transition-transform" />}
+            {isDark ? <img src={theme?.dark_logo} alt="Logo" className="min-w-32 h-10 pr-5 hover:scale-90 transition-transform" /> : <img src={isPathSty || isScrolled ? theme?.light_logo : theme?.dark_logo} alt="Logo" className="min-w-32 h-10 pr-5 hover:scale-90 transition-transform" />}
           </Link>
 
           <ul className="hidden lg:flex items-center h-16 absolute top-0 right-[200px]">
@@ -107,9 +111,10 @@ const Header = () => {
             </li>
 
             {/* 文章分类 */}
-            {cateList?.map(
-              (one) =>
-                one.type === 'cate' && (
+            {cateList?.map((one) => (
+              <>
+                {/* 渲染分类 */}
+                {one.type === 'cate' && (
                   <li key={one.id} className="group/one relative">
                     <Link href={`/cate/${one.id}?name=${one.name}`} className={`flex items-center p-5 text-[15px] group-hover/one:!text-primary   ${isPathSty || isScrolled ? 'text-[#333] dark:text-white' : 'text-white'}`}>
                       {one.icon} {one.name}
@@ -130,32 +135,35 @@ const Header = () => {
                       </ul>
                     </Show>
                   </li>
-                )
-            )}
+                )}
 
-            <li className="group/one relative">
-              <Link href="" className={`flex items-center p-5 px-10 text-[15px] group-hover/one:!text-primary   ${isPathSty || isScrolled ? 'text-[#333] dark:text-white' : 'text-white'}`}>
-                🧩 探索
-                <Show is={true}>
-                  <IoIosArrowDown className="ml-2" />
-                </Show>
-              </Link>
+                {/* 渲染导航 */}
+                {one.type === 'nav' && (
+                  <li className="group/one relative">
+                    <Link href="" className={`flex items-center p-5 px-10 text-[15px] group-hover/one:!text-primary   ${isPathSty || isScrolled ? 'text-[#333] dark:text-white' : 'text-white'}`}>
+                      {one.icon} {one.name}
 
-              <Show is={true}>
-                <ul className="hidden group-hover/one:block overflow-hidden absolute top-[50px] w-full rounded-md backdrop-blur-sm bg-[rgba(255,255,255,0.95)] dark:bg-[rgba(44,51,62,0.95)]" style={{ boxShadow: '0 12px 32px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.08)' }}>
-                  {cateList?.map(
-                    (item) =>
-                      item.type === 'nav' && (
-                        <li key={item.id} className="group/two relative">
-                          <Link href={`${item.url}`} className={`relative inline-block w-full p-2.5 pl-5 text-[15px] box-border text-[#666] dark:text-white hover:!text-primary transition-all after:content-[''] after:absolute after:left-2.5 after:top-1/2 after:-translate-y-1/2 after:w-0 after:h-[3px] after:bg-primary after:transition-width group-hover/two:pl-8 hover:after:w-2.5`}>
-                            {item.icon} {item.name}
-                          </Link>
-                        </li>
-                      )
-                  )}
-                </ul>
-              </Show>
-            </li>
+                      {/* 如果有子分类就显示下拉三角 */}
+                      <Show is={!!one.children?.length}>
+                        <IoIosArrowDown className="ml-2" />
+                      </Show>
+                    </Link>
+
+                    <Show is={!!one.children?.length}>
+                      <ul className="hidden group-hover/one:block overflow-hidden absolute top-[50px] w-full rounded-md backdrop-blur-sm bg-[rgba(255,255,255,0.95)] dark:bg-[rgba(44,51,62,0.95)]" style={{ boxShadow: '0 12px 32px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.08)' }}>
+                        {one.children?.map((item) => (
+                          <li key={item.id} className="group/two relative">
+                            <Link href={`${item.url}`} className={`relative inline-block w-full p-2.5 pl-5 text-[15px] box-border text-[#666] dark:text-white hover:!text-primary transition-all after:content-[''] after:absolute after:left-2.5 after:top-1/2 after:-translate-y-1/2 after:w-0 after:h-[3px] after:bg-primary after:transition-width group-hover/two:pl-8 hover:after:w-2.5`}>
+                              {item.icon} {item.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </Show>
+                  </li>
+                )}
+              </>
+            ))}
           </ul>
 
           {/* 主题切换开关 */}

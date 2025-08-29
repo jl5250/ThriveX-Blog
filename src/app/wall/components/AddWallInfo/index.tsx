@@ -1,11 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Input, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Select, SelectItem, Textarea, RadioGroup, Radio } from '@heroui/react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Wall, Cate } from '@/types/app/wall';
 import { addWallDataAPI, getCateListAPI } from '@/api/wall';
 import { Bounce, toast, ToastContainer, ToastOptions } from 'react-toastify';
+import HCaptchaType from '@hcaptcha/react-hcaptcha';
+import HCaptcha from '@/components/HCaptcha';
 import 'react-toastify/dist/ReactToastify.css';
 import { MdOutlineAdd } from 'react-icons/md';
 import { BsFillChatDotsFill } from 'react-icons/bs';
@@ -24,6 +26,11 @@ const toastConfig: ToastOptions = {
 
 export default () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
+
+  // 人机验证相关
+  const captchaRef = useRef<HCaptchaType>(null);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [captchaError, setCaptchaError] = useState<string>('');
 
   // 获取留言分类列表
   const [cateList, setCateList] = useState<Cate[]>([]);
@@ -49,16 +56,37 @@ export default () => {
     formState: { errors },
     trigger,
   } = useForm<Wall>({ defaultValues });
+  
   const onSubmit: SubmitHandler<Wall> = async (data, event) => {
     event?.preventDefault();
-    const { code, message } = (await addWallDataAPI({ ...data, createTime: Date.now().toString() })) || { code: 0, message: '' };
+    
+    // 清除之前的人机验证错误
+    setCaptchaError('');
 
-    if (code !== 200) return toast.error(message, toastConfig);
+    if (!captchaToken) return setCaptchaError('请完成人机验证');
+    
+    const { code, message } = (await addWallDataAPI({ ...data, createTime: Date.now().toString(), h_captcha_response: captchaToken })) || { code: 0, message: '' };
+
+    if (code !== 200) {
+      captchaRef.current?.resetCaptcha();
+      return toast.error(message, toastConfig);
+    }
+    
+    // 清除验证相关状态
+    setCaptchaError('');
+    setCaptchaToken(null);
+    captchaRef.current?.resetCaptcha();
 
     // 提交成功后存储消息
     localStorage.setItem('toastMessage', '🎉 提交成功, 请等待审核!');
     window.location.reload();
     onOpenChange();
+  };
+
+  // 处理人机验证成功回调
+  const handleCaptchaSuccess = (token: string) => {
+    setCaptchaToken(token);
+    setCaptchaError(''); // 清除错误提示
   };
 
   // 表单样式
@@ -203,6 +231,12 @@ export default () => {
                     </RadioGroup>
                   )}
                 />
+                
+                {/* 人机验证 */}
+                <div className="flex flex-col">
+                  <HCaptcha ref={captchaRef} setToken={handleCaptchaSuccess} />
+                  {captchaError && <span className="text-red-400 text-sm pl-3 mt-1">{captchaError}</span>}
+                </div>
               </ModalBody>
 
               <ModalFooter>

@@ -212,7 +212,7 @@ export default ({ data }: { data: Resume }) => {
                 <div className="space-y-6">
                   {workExperience?.map((job, index) => (
                     <div key={index} className="relative pl-6 pb-6 border-l-2 border-blue-200 dark:border-blue-900">
-                      <div className="absolute left-[-7px] top-0 w-3 h-3 rounded-full bg-blue-500"></div>
+                      <div className="absolute left-[-7px] top-0 w-3 h-3 rounded-full bg-blue-500 ring-4 ring-blue-100 dark:ring-blue-900"></div>
                       <div className="flex flex-wrap justify-between items-start mb-1">
                         <h4 className="text-md font-bold text-gray-900 dark:text-white">{job.company}</h4>
                         <span className="text-xs font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-2 py-1 rounded mt-1 md:mt-0">{job.period}</span>

@@ -14,8 +14,6 @@ import InfoOne from './component/InfoOne';
 
 export default async () => {
   const { data } = (await getPageConfigDataByNameAPI('my')) || { data: {} as Config };
-console.log(data.value.project);
-
   const { info_style, info_one, info_two, character, goals, project, technology_stack, hometown } = data.value as MyData;
 
   return (

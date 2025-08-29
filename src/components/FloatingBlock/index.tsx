@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button, useDisclosure } from '@heroui/react';
 import { BiCog, BiCommand } from 'react-icons/bi';
@@ -13,12 +13,31 @@ import { FaRegSun } from 'react-icons/fa';
 
 const FloatingBlock = () => {
   const [isExpanded, setIsExpanded] = useState(false); // 展开状态的变量
+  const [isDragging, setIsDragging] = useState(false); // 拖拽状态
+  const constraintsRef = useRef(null); // 拖拽约束参考
   const { isDark, setIsDark, web } = useConfigStore();
   const { isOpen: isSearchOpen, onClose: onSearchClose, onOpenChange: onSearchOpenChange } = useDisclosure();
   const { isOpen: isRssOpen, onClose: onRssClose, onOpenChange: onRssOpenChange } = useDisclosure();
 
   const toggleExpanded = () => {
+    // 如果正在拖拽，不触发展开/收起
+    if (isDragging) return;
     setIsExpanded(!isExpanded);
+  };
+
+  // 处理拖拽开始
+  const handleDragStart = () => {
+    setIsDragging(true);
+    // 如果展开状态，先收起
+    if (isExpanded) {
+      setIsExpanded(false);
+    }
+  };
+
+  // 处理拖拽结束
+  const handleDragEnd = () => {
+    // 延迟重置拖拽状态，避免立即触发点击事件
+    setTimeout(() => setIsDragging(false), 100);
   };
 
   // 返回顶部功能
@@ -68,7 +87,21 @@ const FloatingBlock = () => {
   };
 
   return (
-    <div className={`fixed bottom-[180px] right-[60px] z-50`}>
+    <div ref={constraintsRef} className="fixed inset-0 pointer-events-none z-50">
+      <motion.div
+        className="absolute pointer-events-auto"
+        initial={{ bottom: 180, right: 60 }}
+        drag
+        dragConstraints={constraintsRef}
+        dragElastic={0.1}
+        dragMomentum={false}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        whileDrag={{ scale: 1.05, zIndex: 1000 }}
+        style={{
+          cursor: isDragging ? 'grabbing' : 'grab',
+        }}
+      >
       {/* 围绕的功能项 */}
       <AnimatePresence>
         {isExpanded && (
@@ -134,8 +167,21 @@ const FloatingBlock = () => {
       </AnimatePresence>
 
       {/* 主按钮 */}
-      <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} transition={{ duration: 0.2 }} className="relative">
-        <Button isIconOnly size="lg" className="bg-blue-500 hover:bg-blue-600 text-white shadow-lg rounded-full" onPress={toggleExpanded} aria-label={isExpanded ? '收起功能菜单' : '展开功能菜单'} title={isExpanded ? '收起功能菜单' : '展开功能菜单'}>
+      <motion.div 
+        whileHover={{ scale: isDragging ? 1 : 1.1 }} 
+        whileTap={{ scale: isDragging ? 1 : 0.95 }} 
+        transition={{ duration: 0.2 }} 
+        className="relative"
+      >
+        <Button 
+          isIconOnly 
+          size="lg" 
+          className="bg-blue-500 hover:bg-blue-600 text-white shadow-lg rounded-full" 
+          onPress={toggleExpanded} 
+          aria-label={isExpanded ? '收起功能菜单' : '展开功能菜单'} 
+          title={isExpanded ? '收起功能菜单' : '展开功能菜单'}
+          style={{ cursor: isDragging ? 'grabbing' : 'pointer' }}
+        >
           <motion.div animate={{ rotate: isExpanded ? 180 : 0 }} transition={{ duration: 0.3 }}>
             {isExpanded ? <BiCommand className="w-6 h-6" /> : <BiCog className="w-6 h-6" />}
           </motion.div>
@@ -147,6 +193,7 @@ const FloatingBlock = () => {
 
       {/* 查看Rss地址 */}
       <Rss data={web} disclosure={{ isOpen: isRssOpen, onClose: onRssClose, onOpenChange: onRssOpenChange }} />
+      </motion.div>
     </div>
   );
 };
