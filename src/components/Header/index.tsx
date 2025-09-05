@@ -22,6 +22,8 @@ import { useConfigStore } from '@/stores';
 import { Other, Theme, Web } from '@/types/app/config';
 
 const Header = () => {
+  const patchName = usePathname();
+  
   // 是否暗黑模式
   const { isDark, setIsDark, setWeb, theme, setTheme, setOther } = useConfigStore();
 
@@ -43,7 +45,6 @@ const Header = () => {
     setOther(other);
   };
 
-  const patchName = usePathname();
   // 这些路径段不需要改变导航样式
   const isPathSty = ['/my', '/wall', '/record', '/equipment', '/tags', '/resume', '/album', '/fishpond'].some((path) => patchName.includes(path));
   // 是否改变导航样式
@@ -139,10 +140,9 @@ const Header = () => {
 
                 {/* 渲染导航 */}
                 {one.type === 'nav' && (
-                  <li className="group/one relative">
-                    <Link href="" className={`flex items-center p-5 px-10 text-[15px] group-hover/one:!text-primary   ${isPathSty || isScrolled ? 'text-[#333] dark:text-white' : 'text-white'}`}>
+                  <li key={one.id} className="group/one relative">
+                    <Link href={one.url} className={`flex items-center p-5 px-10 text-[15px] group-hover/one:!text-primary ${isPathSty || isScrolled ? 'text-[#333] dark:text-white' : 'text-white'}`}>
                       {one.icon} {one.name}
-
                       {/* 如果有子分类就显示下拉三角 */}
                       <Show is={!!one.children?.length}>
                         <IoIosArrowDown className="ml-2" />
@@ -151,10 +151,10 @@ const Header = () => {
 
                     <Show is={!!one.children?.length}>
                       <ul className="hidden group-hover/one:block overflow-hidden absolute top-[50px] w-full rounded-md backdrop-blur-sm bg-[rgba(255,255,255,0.95)] dark:bg-[rgba(44,51,62,0.95)]" style={{ boxShadow: '0 12px 32px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.08)' }}>
-                        {one.children?.map((item) => (
-                          <li key={item.id} className="group/two relative">
-                            <Link href={`${item.url}`} className={`relative inline-block w-full p-2.5 pl-5 text-[15px] box-border text-[#666] dark:text-white hover:!text-primary transition-all after:content-[''] after:absolute after:left-2.5 after:top-1/2 after:-translate-y-1/2 after:w-0 after:h-[3px] after:bg-primary after:transition-width group-hover/two:pl-8 hover:after:w-2.5`}>
-                              {item.icon} {item.name}
+                        {one.children?.map((two) => (
+                          <li key={two.id} className="group/two relative">
+                            <Link href={two.url} className={`relative inline-block w-full p-2.5 pl-5 text-[15px] box-border text-[#666] dark:text-white hover:!text-primary transition-all after:content-[''] after:absolute after:left-2.5 after:top-1/2 after:-translate-y-1/2 after:w-0 after:h-[3px] after:bg-primary after:transition-width group-hover/two:pl-8 hover:after:w-2.5`}>
+                              {two.icon} {two.name}
                             </Link>
                           </li>
                         ))}
