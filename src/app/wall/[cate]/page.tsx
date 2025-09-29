@@ -36,11 +36,17 @@ export default async (props: Props) => {
       <title>💌 留言墙</title>
       <meta name="description" content="💌 留言墙" />
 
-      <div className="py-16 border-b dark:border-[#4e5969] bg-[linear-gradient(to_right,#fff1eb_0%,#d0edfb_100%)] dark:bg-[linear-gradient(to_right,#232931_0%,#232931_100%)] transition-colors">
-        <div className="flex flex-col items-center pb-3">
-          <h2 className="text-5xl pt-24">留言墙</h2>
-          <p className="text-sm text-gray-600 my-10">留下您的足迹吧~</p>
-          <AddWallInfo />
+      <div className="py-16 border-b dark:border-[#4e5969] bg-[linear-gradient(to_right,#fff1eb_0%,#d0edfb_100%)] dark:bg-[linear-gradient(to_right,#232931_0%,#232931_100%)]  ">
+        <div className="flex flex-col items-center">
+          <h2 className="text-5xl pt-24 mb-10">留言墙</h2>
+          <p className="text-sm text-gray-600 mb-4">有什么想对我说的，来吧</p>
+          {/* <Button color="primary" variant="shadow" onPress={onOpen}>
+            留言
+          </Button> */}
+
+          <div className="mb-10">
+            <AddWallInfo />
+          </div>
         </div>
 
         <ul className="flex flex-row overflow-x-auto whitespace-nowrap justify-start md:justify-center text-xs md:text-sm space-x-2 scrollbar-hide p-2">
@@ -80,9 +86,7 @@ export default async (props: Props) => {
           ))}
         </div>
 
-        {tallList.total && (
-          <Pagination total={tallList.pages} page={page} className="flex justify-center mt-5" />
-        )}
+        {tallList.total && <Pagination total={tallList.pages} page={page} className="flex justify-center mt-5" />}
       </div>
     </>
   )

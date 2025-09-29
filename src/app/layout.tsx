@@ -19,6 +19,7 @@ import '@/styles/index.scss';
 import '@/styles/tailwind.scss';
 import BaiduStatis from '@/components/BaiduStatis';
 import FloatingBlock from '@/components/FloatingBlock';
+import InjectData from '@/components/InjectData';
 
 // 加载本地字体
 const LXGWWenKai = localFont({
@@ -43,7 +44,8 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <title>{`${data?.title} - ${data?.subhead}`}</title>
         <meta name="description" content={data?.description} />
         <meta name="keywords" content={data?.keyword} />
-        <link rel="icon" href={data?.favicon || '/favicon.ico'} />
+        <link rel="icon" type="image/x-icon" href={data?.favicon || '/favicon.ico'} />
+        <link rel="shortcut icon" type="image/x-icon" href={data?.favicon || '/favicon.ico'} />
         {/* 统计鸟 */}
         <script type="text/javascript" src="//api.tongjiniao.com/c?_=793517014552158208" async></script>
 
@@ -55,6 +57,8 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       <RouteChangeHandler />
 
       <body id="root" className={`dark:!bg-black-a`}>
+        {/* 数据注入 */}
+        <InjectData />
         {/* 🎉 礼花效果 */}
         {/* <Confetti /> */}
 
