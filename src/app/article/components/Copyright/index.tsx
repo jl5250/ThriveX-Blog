@@ -2,7 +2,7 @@
 
 import { useAuthorStore } from '@/stores';
 
-const Copyright = async () => {
+const Copyright = () => {
   const author = useAuthorStore((state) => state.author);
 
   return (

@@ -8,6 +8,7 @@ import { addWebDataAPI, getWebTypeListAPI } from '@/api/web';
 import { Bounce, toast, ToastOptions } from 'react-toastify';
 import HCaptchaType from '@hcaptcha/react-hcaptcha';
 import HCaptcha from '@/components/HCaptcha';
+import { useConfigStore } from '@/stores';
 import 'react-toastify/dist/ReactToastify.css';
 
 const toastConfig: ToastOptions = {
@@ -30,6 +31,10 @@ export default () => {
   const captchaRef = useRef<HCaptchaType>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [captchaError, setCaptchaError] = useState<string>('');
+  
+  // 获取HCaptcha配置
+  const config = useConfigStore();
+  const hasHCaptcha = !!config?.other?.hcaptcha_key;
 
   // 获取网站类型列表
   const [typeList, setTypeList] = useState<WebType[]>([]);
@@ -62,7 +67,8 @@ export default () => {
     // 清除之前的人机验证错误
     setCaptchaError('');
 
-    if (!captchaToken) return setCaptchaError('请完成人机验证');
+    // 只有配置了HCaptcha时才需要验证
+    if (hasHCaptcha && !captchaToken) return setCaptchaError('请完成人机验证');
 
     setLoading(true);
     const { code, message } = (await addWebDataAPI({ ...data, createTime: Date.now().toString(), h_captcha_response: captchaToken })) || { code: 0, message: '' };
@@ -210,10 +216,12 @@ export default () => {
                 />
 
                 {/* 人机验证 */}
-                <div className="flex flex-col">
-                  <HCaptcha ref={captchaRef} setToken={handleCaptchaSuccess} />
-                  {captchaError && <span className="text-red-400 text-sm pl-3 mt-1">{captchaError}</span>}
-                </div>
+                {hasHCaptcha && (
+                  <div className="flex flex-col">
+                    <HCaptcha ref={captchaRef} setToken={handleCaptchaSuccess} />
+                    {captchaError && <span className="text-red-400 text-sm pl-3 mt-1">{captchaError}</span>}
+                  </div>
+                )}
               </ModalBody>
 
               <ModalFooter>

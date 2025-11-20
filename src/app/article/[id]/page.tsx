@@ -1,4 +1,7 @@
 import { getArticleDataAPI, recordViewAPI } from '@/api/article';
+import { getWebConfigDataAPI } from '@/api/config';
+import { Web } from '@/types/app/config';
+import { Metadata } from 'next';
 
 import Starry from '@/components/Starry';
 import Slide from '@/components/Slide';
@@ -24,6 +27,58 @@ import NotFound from '@/app/not-found';
 interface Props {
   params: Promise<{ id: number }>;
   searchParams: Promise<{ password: string }>;
+}
+
+// 生成文章页面的metadata
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
+  const id = params.id;
+
+  const { data: article } = (await getArticleDataAPI(id)) || { data: {} as Article };
+  const {
+    data: { value: webConfig },
+  } = (await getWebConfigDataAPI<{ value: Web }>('web')) || { data: { value: {} as Web } };
+
+  const baseUrl = webConfig?.url || 'https://liuyuyang.net';
+
+  if (!article || !article.title) {
+    return {
+      title: '文章未找到',
+    };
+  }
+
+  return {
+    title: article.title,
+    description: article.description || article.title,
+    keywords: article.tagList?.map((tag) => tag.name).join(',') || '',
+    authors: [{ name: webConfig?.title || 'ThriveX' }],
+    openGraph: {
+      type: 'article',
+      locale: 'zh_CN',
+      url: `${baseUrl}/article/${id}`,
+      title: article.title,
+      description: article.description || article.title,
+      siteName: webConfig?.title || 'ThriveX',
+      images: [
+        {
+          url: article.cover || webConfig?.favicon || '/favicon.ico',
+          width: 1200,
+          height: 630,
+          alt: article.title,
+        },
+      ],
+      publishedTime: new Date(+article.createTime).toISOString(),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: article.title,
+      description: article.description || article.title,
+      images: [article.cover || webConfig?.favicon || '/favicon.ico'],
+    },
+    alternates: {
+      canonical: `/article/${id}`,
+    },
+  };
 }
 
 export default async (props: Props) => {

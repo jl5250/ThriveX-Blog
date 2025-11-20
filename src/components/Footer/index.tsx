@@ -5,9 +5,9 @@ import { getAuthorDataAPI } from '@/api/user';
 import { User } from '@/types/app/user';
 import { Web } from '@/types/app/config';
 import Tooltip from './components/Tooltip';
+import ICPBeian from './components/ICPBeian';
 
 import animals from './images/animals.webp';
-import ICP from './images/ICP.png';
 
 export default async () => {
   const { data: user } = (await getAuthorDataAPI()) || { data: {} as User };
@@ -29,10 +29,8 @@ export default async () => {
           <h2 className="w-[90%] xl:w-3/6 text-sm sm:text-base dark:text-[#8c9ab1] line-clamp-4">{web?.footer}</h2>
         </div>
 
-        <div className="group flex justify-center space-x-2 pb-4 cursor-pointer">
-          <Image src={ICP} alt="ICP" width={20} height={22} className="w-5 h-[22px]" />
-          <span className="group-hover:text-primary">{web?.icp}</span>
-        </div>
+        {/* ICP备案（支持普通ICP和萌ICP） */}
+        <ICPBeian icp={web?.icp} />
 
         {/* 
             为了项目的生态越来越强大，作者在这里恳请大家保留 ThriveX 博客系统版权
