@@ -69,7 +69,7 @@ export default () => {
     // 只有配置了HCaptcha时才需要验证
     if (hasHCaptcha && !captchaToken) return setCaptchaError('请完成人机验证');
 
-    const { code, message } = (await addWallDataAPI({ ...data, createTime: Date.now().toString(), h_captcha_response: captchaToken })) || { code: 0, message: '' };
+    const { code, message } = (await addWallDataAPI({ ...data, createTime: Date.now().toString(), h_captcha_response: captchaToken! })) || { code: 0, message: '' };
 
     if (code !== 200) {
       captchaRef.current?.resetCaptcha();
