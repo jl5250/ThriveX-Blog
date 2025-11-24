@@ -1,3 +1,5 @@
+'use client';
+
 import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import Link from 'next/link';
 import Show from '@/components/Show';

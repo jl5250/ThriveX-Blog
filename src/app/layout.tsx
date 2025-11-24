@@ -1,4 +1,5 @@
 import localFont from 'next/font/local';
+import { Metadata } from 'next';
 
 import HeroUIProvider from '@/components/HeroUIProvider';
 import Providers from './providers';
@@ -27,6 +28,72 @@ const LXGWWenKai = localFont({
   display: 'swap',
 });
 
+// 生成动态metadata
+export async function generateMetadata(): Promise<Metadata> {
+  const {
+    data: { value: data },
+  } = (await getWebConfigDataAPI<{ value: Web }>('web')) || { data: { value: {} as Web } };
+
+  return {
+    title: {
+      default: `${data?.title || 'ThriveX'} - ${data?.subhead || '现代化博客管理系统'}`,
+      template: `%s | ${data?.title || 'ThriveX'}`,
+    },
+    description: data?.description || 'ThriveX 现代化博客管理系统',
+    keywords: data?.keyword || 'ThriveX,博客,Blog',
+    authors: [{ name: data?.title || 'ThriveX' }],
+    creator: data?.title || 'ThriveX',
+    publisher: data?.title || 'ThriveX',
+    formatDetection: {
+      email: false,
+      address: false,
+      telephone: false,
+    },
+    metadataBase: new URL(data?.url || 'https://liuyuyang.net'),
+    alternates: {
+      canonical: '/',
+    },
+    openGraph: {
+      type: 'website',
+      locale: 'zh_CN',
+      url: data?.url || 'https://liuyuyang.net',
+      title: `${data?.title || 'ThriveX'} - ${data?.subhead || '现代化博客管理系统'}`,
+      description: data?.description || 'ThriveX 现代化博客管理系统',
+      siteName: data?.title || 'ThriveX',
+      images: [
+        {
+          url: data?.favicon || '/favicon.ico',
+          width: 1200,
+          height: 630,
+          alt: data?.title || 'ThriveX',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${data?.title || 'ThriveX'} - ${data?.subhead || '现代化博客管理系统'}`,
+      description: data?.description || 'ThriveX 现代化博客管理系统',
+      images: [data?.favicon || '/favicon.ico'],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+    icons: {
+      icon: '/favicon.ico',
+      shortcut: '/favicon.ico',
+      apple: '/favicon.ico',
+    },
+  };
+}
+
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const {
     data: { value: data },
@@ -41,14 +108,14 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   return (
     <html lang="zh-CN" className={LXGWWenKai.className}>
       <head>
-        <title>{`${data?.title} - ${data?.subhead}`}</title>
-        <meta name="description" content={data?.description} />
-        <meta name="keywords" content={data?.keyword} />
-        <link rel="icon" type="image/x-icon" href={data?.favicon || '/favicon.ico'} />
-        <link rel="shortcut icon" type="image/x-icon" href={data?.favicon || '/favicon.ico'} />
-        {/* 统计鸟 */}
-        <script type="text/javascript" src="//api.tongjiniao.com/c?_=793517014552158208" async></script>
-
+        {/* 动态favicon */}
+        {data?.favicon && (
+          <>
+            <link rel="icon" type="image/x-icon" href={data.favicon} />
+            <link rel="shortcut icon" type="image/x-icon" href={data.favicon} />
+            <link rel="apple-touch-icon" href={data.favicon} />
+          </>
+        )}
         {/* 百度统计 */}
         <BaiduStatis />
       </head>

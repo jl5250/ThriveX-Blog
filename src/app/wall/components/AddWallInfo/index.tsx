@@ -8,6 +8,7 @@ import { addWallDataAPI, getCateListAPI } from '@/api/wall';
 import { Bounce, toast, ToastContainer, ToastOptions } from 'react-toastify';
 import HCaptchaType from '@hcaptcha/react-hcaptcha';
 import HCaptcha from '@/components/HCaptcha';
+import { useConfigStore } from '@/stores';
 import 'react-toastify/dist/ReactToastify.css';
 
 const toastConfig: ToastOptions = {
@@ -29,6 +30,10 @@ export default () => {
   const captchaRef = useRef<HCaptchaType>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [captchaError, setCaptchaError] = useState<string>('');
+  
+  // 获取HCaptcha配置
+  const config = useConfigStore();
+  const hasHCaptcha = !!config?.other?.hcaptcha_key;
 
   // 获取留言分类列表
   const [cateList, setCateList] = useState<Cate[]>([]);
@@ -61,9 +66,10 @@ export default () => {
     // 清除之前的人机验证错误
     setCaptchaError('');
 
-    if (!captchaToken) return setCaptchaError('请完成人机验证');
+    // 只有配置了HCaptcha时才需要验证
+    if (hasHCaptcha && !captchaToken) return setCaptchaError('请完成人机验证');
 
-    const { code, message } = (await addWallDataAPI({ ...data, createTime: Date.now().toString(), h_captcha_response: captchaToken })) || { code: 0, message: '' };
+    const { code, message } = (await addWallDataAPI({ ...data, createTime: Date.now().toString(), h_captcha_response: captchaToken! })) || { code: 0, message: '' };
 
     if (code !== 200) {
       captchaRef.current?.resetCaptcha();
@@ -211,10 +217,12 @@ export default () => {
                 />
 
                 {/* 人机验证 */}
-                <div className="flex flex-col">
-                  <HCaptcha ref={captchaRef} setToken={handleCaptchaSuccess} />
-                  {captchaError && <span className="text-red-400 text-sm pl-3 mt-1">{captchaError}</span>}
-                </div>
+                {hasHCaptcha && (
+                  <div className="flex flex-col">
+                    <HCaptcha ref={captchaRef} setToken={handleCaptchaSuccess} />
+                    {captchaError && <span className="text-red-400 text-sm pl-3 mt-1">{captchaError}</span>}
+                  </div>
+                )}
               </ModalBody>
 
               <ModalFooter>

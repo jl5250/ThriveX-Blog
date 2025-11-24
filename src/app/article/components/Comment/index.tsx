@@ -9,6 +9,7 @@ import HCaptchaType from '@hcaptcha/react-hcaptcha';
 import List from './components/List';
 import HCaptcha from '@/components/HCaptcha';
 import EmojiBag from '@/components/EmojiBag';
+import { useConfigStore } from '@/stores';
 import 'react-toastify/dist/ReactToastify.css';
 import './index.scss';
 
@@ -50,6 +51,10 @@ const CommentForm = ({ articleId }: Props) => {
   const captchaRef = useRef<HCaptchaType>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [captchaError, setCaptchaError] = useState<string>('');
+  
+  // 获取HCaptcha配置
+  const config = useConfigStore();
+  const hasHCaptcha = !!config?.other?.hcaptcha_key;
 
   const {
     register,
@@ -71,7 +76,8 @@ const CommentForm = ({ articleId }: Props) => {
     // 清除之前的人机验证错误
     setCaptchaError('');
 
-    if (!captchaToken) return setCaptchaError('请完成人机验证');
+    // 只有配置了HCaptcha时才需要验证
+    if (hasHCaptcha && !captchaToken) return setCaptchaError('请完成人机验证');
 
     setLoading(true);
 
@@ -210,10 +216,12 @@ const CommentForm = ({ articleId }: Props) => {
             <span className="text-red-400 text-sm pl-3 mt-1">{errors.url?.message}</span>
           </div>
 
-          <div className="flex flex-col">
-            <HCaptcha ref={captchaRef} setToken={handleCaptchaSuccess} />
-            {captchaError && <span className="text-red-400 text-sm pl-3 mt-1">{captchaError}</span>}
-          </div>
+          {hasHCaptcha && (
+            <div className="flex flex-col">
+              <HCaptcha ref={captchaRef} setToken={handleCaptchaSuccess} />
+              {captchaError && <span className="text-red-400 text-sm pl-3 mt-1">{captchaError}</span>}
+            </div>
+          )}
 
           {loading ? (
             <div className="w-full h-10 flex justify-center !mt-4">
