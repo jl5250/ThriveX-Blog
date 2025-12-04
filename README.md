@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://liuyuyang.net" target="_blank">
-        <img width="100" src="https://bu.dusays.com/2024/11/17/6739adf188f64.png" alt="ThriveX logo" style="width:100px" />
+        <img width="100" src="https://res.liuyuyang.net/thrive/default/6931517ae4b0be1e79cb266a.png" alt="ThriveX logo" style="width:100px" />
     </a>
 </p>
 
@@ -126,7 +126,7 @@
 
 加微信：`liuyuyang2023`   记得说明在哪里看到的 ThriveX 项目
 
-![微信](https://bu.dusays.com/2025/06/03/683e96eb43ad8.jpg)
+![微信](https://res.liuyuyang.net/thrive/default/6931515ee4b0be1e79cb2669.jpg)
 
 
 
