@@ -43,7 +43,7 @@
     "next": "15.1.9",
     "next-nprogress-bar": "^2.3.13",
     "react": "19.0.1",
-    "react-dom": "19.0.0",
+    "react-dom": "19.0.1",
     "react-github-calendar": "^4.5.5",
     "react-hook-form": "^7.53.0",
     "react-icon-cloud": "^4.1.7",
