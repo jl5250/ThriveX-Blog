@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     // 自定义构建输出目录
-    distDir: 'next',
+    // distDir: 'next',
     // 关闭严格模式
     reactStrictMode: false,
     // 配置图片来源
