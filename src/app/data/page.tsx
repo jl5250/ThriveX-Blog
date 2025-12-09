@@ -13,7 +13,7 @@ export default async () => {
       <title>📊 数据统计</title>
       <meta name="description" content="📊 数据统计" />
 
-      <Slide isRipple={false} src="https://bu.dusays.com/2023/11/10/654e2da1d80f8.jpg">
+      <Slide isRipple={false} src="https://bu.dusays.com/2025/12/04/6930fd6cda541.jpg">
         {/* 星空背景组件 */}
         <Starry />
 
