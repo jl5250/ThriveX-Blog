@@ -8,6 +8,58 @@ import { Resume } from '@/types/app/resume';
 export default ({ data }: { data: Resume }) => {
   const { personalInfo, advantages, links, skills, workExperience, projects, education } = data || {};
 
+  const defaultPersonalInfo = {
+    name: '神秘人',
+    title: '前端开发工程师',
+    age: '22岁',
+    location: '中国',
+    avatar: 'https://q1.qlogo.cn/g?b=qq&nk=3311118881&s=640',
+    contact: {
+      phone: '10000000000',
+      email: 'example@example.com',
+      github: 'https://github.com',
+    },
+  };
+
+  const safePersonalInfo = {
+    ...defaultPersonalInfo,
+    ...personalInfo,
+    contact: {
+      ...defaultPersonalInfo.contact,
+      ...personalInfo?.contact,
+    },
+  };
+
+  const defaultLinks = {
+    github: 'https://github.com',
+    csdn: 'https://blog.csdn.net',
+    blog: 'https://example.com',
+  };
+
+  const safeLinks = {
+    ...defaultLinks,
+    ...links,
+  };
+
+  const defaultEducation = {
+    school: '未提供学校',
+    major: '未提供专业',
+    degree: '未提供学历',
+    period: '未提供时间',
+    achievements: ['暂无成就'],
+  };
+
+  const safeEducation = {
+    ...defaultEducation,
+    ...education,
+    achievements: education?.achievements ?? defaultEducation.achievements,
+  };
+
+  const safeSkills = skills ?? ['未填写技能'];
+  const safeAdvantages = advantages ?? ['暂无优势'];
+  const safeWorkExperience = workExperience ?? [];
+  const safeProjects = projects ?? [];
+
   useEffect(() => {
     document.documentElement.style.scrollBehavior = 'smooth';
   }, []);
@@ -36,8 +88,8 @@ export default ({ data }: { data: Resume }) => {
 
   // 技能标签云数据处理
   const getSkillTags = () => {
-    if (!skills || skills.length === 0) return [];
-    return skills.map((skill) => {
+    if (!safeSkills || safeSkills.length === 0) return [];
+    return safeSkills.map((skill) => {
       // 提取技能名称和熟练度（如果有）
       const parts = skill.split('(');
       const name = parts[0].trim();
@@ -56,8 +108,8 @@ export default ({ data }: { data: Resume }) => {
 
   return (
     <>
-      <title>{`${personalInfo?.name ?? ''} - ${personalInfo?.title ?? ''}`}</title>
-      <meta name="description" content={`${personalInfo?.name ?? ''} - ${personalInfo?.title ?? ''} 的个人简历`} />
+      <title>{`${safePersonalInfo.name || '匿名用户'} - ${safePersonalInfo.title || '前端开发工程师'}`}</title>
+      <meta name="description" content={`${safePersonalInfo.name || '匿名用户'} - ${safePersonalInfo.title || '前端开发工程师'} 的个人简历`} />
 
       <div className="min-h-screen py-8 mt-[60px] px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
         <motion.div initial="hidden" animate="visible" variants={containerVariants} className="max-w-5xl mx-auto">
@@ -67,37 +119,37 @@ export default ({ data }: { data: Resume }) => {
               <div className="flex flex-col md:flex-row items-center gap-6">
                 <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }} className="relative flex justify-center items-center w-32 h-32 rounded-full overflow-hidden bg-white shadow-xl border-transparent border-4 dark:border-gray-700">
                   <div className="flex justify-center items-center w-[98%] h-[98%] rounded-full overflow-hidden">
-                    <img src={personalInfo?.avatar} alt={personalInfo?.name} className="object-cover w-full h-full" />
+                    <img src={safePersonalInfo.avatar || defaultPersonalInfo.avatar} alt={safePersonalInfo.name || '匿名用户'} className="object-cover w-full h-full" />
                   </div>
                 </motion.div>
 
                 <div className="flex-1 text-center md:text-left">
-                  <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">{personalInfo?.name}</h1>
-                  <h2 className="font-semibold text-blue-600 dark:text-blue-400 mb-3">{personalInfo?.title}</h2>
+                  <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">{safePersonalInfo.name || '匿名用户'}</h1>
+                  <h2 className="font-semibold text-blue-600 dark:text-blue-400 mb-3">{safePersonalInfo.title || '前端开发工程师'}</h2>
 
                   <div className="flex flex-wrap justify-center md:justify-start gap-4 text-gray-600 dark:text-gray-300 mb-4">
                     <span className="flex items-center text-sm">
                       <span className="font-medium mr-1">年龄:</span>
-                      {personalInfo?.age}
+                      {safePersonalInfo.age || '22岁'}
                     </span>
                     <span className="flex items-center text-sm">
                       <span className="font-medium mr-1">地点:</span>
-                      {personalInfo?.location}
+                      {safePersonalInfo.location || '中国'}
                     </span>
                   </div>
 
                   <div className="flex flex-wrap justify-center md:justify-start gap-4 text-gray-700 dark:text-gray-300">
-                    <a href={`tel:${personalInfo?.contact?.phone}`} className="flex items-center hover:text-blue-600 text-sm">
+                    <a href={`tel:${safePersonalInfo.contact?.phone || defaultPersonalInfo.contact.phone}`} className="flex items-center hover:text-blue-600 text-sm">
                       <FaPhone className="mr-1 text-blue-500" size={16} />
-                      <span>{personalInfo?.contact?.phone}</span>
+                      <span>{safePersonalInfo.contact?.phone || defaultPersonalInfo.contact.phone}</span>
                     </a>
 
-                    <a href={`mailto:${personalInfo?.contact?.email}`} className="flex items-center hover:text-blue-600 text-sm">
+                    <a href={`mailto:${safePersonalInfo.contact?.email || defaultPersonalInfo.contact.email}`} className="flex items-center hover:text-blue-600 text-sm">
                       <FaEnvelope className="mr-1 text-blue-500" size={16} />
-                      <span>{personalInfo?.contact?.email}</span>
+                      <span>{safePersonalInfo.contact?.email || defaultPersonalInfo.contact.email}</span>
                     </a>
 
-                    <a href={personalInfo?.contact?.github} target="_blank" rel="noopener noreferrer" className="flex items-center hover:text-blue-600 text-sm">
+                    <a href={safePersonalInfo.contact?.github || defaultPersonalInfo.contact.github} target="_blank" rel="noopener noreferrer" className="flex items-center hover:text-blue-600 text-sm">
                       <FaGithub className="mr-1 text-blue-500" size={16} />
                       <span>GitHub</span>
                     </a>
@@ -118,7 +170,7 @@ export default ({ data }: { data: Resume }) => {
                 </div>
 
                 <div className="space-y-3 text-gray-600 dark:text-gray-300 text-sm">
-                  {advantages?.map((advantage, index) => (
+                  {safeAdvantages.map((advantage, index) => (
                     <p key={index} className="flex items-center hover:text-blue-600 cursor-pointer">
                       {advantage}
                     </p>
@@ -151,9 +203,9 @@ export default ({ data }: { data: Resume }) => {
 
                 <div className="">
                   <div className="flex justify-between mb-3 pb-1.5 border-b border-gray-100 dark:border-gray-700">
-                    <h4 className="text-md font-bold text-gray-800 dark:text-white mb-1">{education?.school}</h4>
+                    <h4 className="text-md font-bold text-gray-800 dark:text-white mb-1">{safeEducation.school || '未提供学校'}</h4>
                     <p className="text-gray-600 dark:text-gray-300 text-sm mb-1">
-                      {education?.major} | {education?.degree}
+                      {safeEducation.major || '未提供专业'} | {safeEducation.degree || '未提供学历'}
                     </p>
                     {/* <p className="text-gray-500 dark:text-gray-400 text-xs">
                       {education?.period}
@@ -161,7 +213,7 @@ export default ({ data }: { data: Resume }) => {
                   </div>
 
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-1 text-sm">
-                    {education?.achievements?.map((achievement, index) => (
+                    {safeEducation.achievements?.map((achievement, index) => (
                       <li key={index} className="flex items-center">
                         <span className="flex items-center justify-center bg-blue-500 min-w-1.5 min-h-1.5 mr-2 rounded-full"></span>
                         <span>{achievement}</span>
@@ -179,20 +231,20 @@ export default ({ data }: { data: Resume }) => {
                 </div>
 
                 <div className="space-y-3">
-                  {links?.github && (
-                    <a href={links.github} target="_blank" rel="noopener noreferrer" className="flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium transition-colors">
+                  {safeLinks?.github && (
+                    <a href={safeLinks.github || defaultLinks.github} target="_blank" rel="noopener noreferrer" className="flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium transition-colors">
                       <FaGithub className="mr-2" size={16} /> GitHub
                     </a>
                   )}
 
-                  {links?.csdn && (
-                    <a href={links.csdn} target="_blank" rel="noopener noreferrer" className="flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium transition-colors">
+                  {safeLinks?.csdn && (
+                    <a href={safeLinks.csdn || defaultLinks.csdn} target="_blank" rel="noopener noreferrer" className="flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium transition-colors">
                       <FaGlobe className="mr-2" size={16} /> CSDN 技术博客
                     </a>
                   )}
 
-                  {links?.blog && (
-                    <a href={links.blog} target="_blank" rel="noopener noreferrer" className="flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium transition-colors">
+                  {safeLinks?.blog && (
+                    <a href={safeLinks.blog || defaultLinks.blog} target="_blank" rel="noopener noreferrer" className="flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium transition-colors">
                       <FaProjectDiagram className="mr-2" size={16} /> 开源项目作品
                     </a>
                   )}
@@ -210,16 +262,16 @@ export default ({ data }: { data: Resume }) => {
                 </div>
 
                 <div className="space-y-6">
-                  {workExperience?.map((job, index) => (
+                  {safeWorkExperience.map((job, index) => (
                     <div key={index} className="relative pl-6 pb-6 border-l-2 border-blue-200 dark:border-blue-900">
                       <div className="absolute left-[-7px] top-0 w-3 h-3 rounded-full bg-blue-500 ring-4 ring-blue-100 dark:ring-blue-900"></div>
                       <div className="flex flex-wrap justify-between items-start mb-1">
-                        <h4 className="text-md font-bold text-gray-900 dark:text-white">{job.company}</h4>
-                        <span className="text-xs font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-2 py-1 rounded mt-1 md:mt-0">{job.period}</span>
+                        <h4 className="text-md font-bold text-gray-900 dark:text-white">{job.company || '未提供公司'}</h4>
+                        <span className="text-xs font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-2 py-1 rounded mt-1 md:mt-0">{job.period || '未提供时间'}</span>
                       </div>
-                      <p className="text-gray-700 dark:text-gray-300 font-medium text-sm mb-2">{job.position}</p>
+                      <p className="text-gray-700 dark:text-gray-300 font-medium text-sm mb-2">{job.position || '未提供职位'}</p>
                       <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-1 text-sm">
-                        {job.responsibilities?.map((responsibility, index) => (
+                        {(job.responsibilities ?? ['暂无职责']).map((responsibility, index) => (
                           <li key={index} className="flex items-center">
                             <span className="flex items-center justify-center bg-blue-500 min-w-1.5 min-h-1.5 mr-2 rounded-full"></span>
                             <span>{responsibility}</span>
@@ -239,14 +291,14 @@ export default ({ data }: { data: Resume }) => {
                 </div>
 
                 <div className="space-y-6">
-                  {projects?.map((project, index) => (
+                  {safeProjects.map((project, index) => (
                     <div key={index} className="border border-gray-100 dark:border-gray-700 rounded-lg overflow-hidden">
                       <div className="bg-gray-50 dark:bg-gray-700/50 p-4 border-b border-gray-100 dark:border-gray-700">
                         <div className="flex flex-wrap justify-between items-start mb-1">
-                          <h4 className="text-md font-bold text-gray-900 dark:text-white">{project.name}</h4>
-                          <span className="text-xs font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-2 py-1 rounded mt-1 md:mt-0">{project.period}</span>
+                          <h4 className="text-md font-bold text-gray-900 dark:text-white">{project.name || '未命名项目'}</h4>
+                          <span className="text-xs font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-2 py-1 rounded mt-1 md:mt-0">{project.period || '未提供时间'}</span>
                         </div>
-                        <p className="text-gray-700 dark:text-gray-300 font-medium text-sm">{project.role}</p>
+                        <p className="text-gray-700 dark:text-gray-300 font-medium text-sm">{project.role || '未提供角色'}</p>
                       </div>
 
                       <div className="p-4 space-y-3 text-sm">
@@ -268,12 +320,12 @@ export default ({ data }: { data: Resume }) => {
                             <h5 className="font-bold text-gray-800 dark:text-white mb-1 text-sm">技术栈</h5>
                             <div className="text-gray-600 dark:text-gray-300 text-sm flex flex-wrap gap-2">
                               {typeof project.techStack === 'string' ? (
-                                project.techStack
+                                project.techStack || '未提供技术栈'
                               ) : (
                                 <>
-                                  <span className="px-2 py-0.5 rounded text-xs">前端: {project.techStack.frontend}</span>
-                                  <span className="px-2 py-0.5 rounded text-xs">后端: {project.techStack.backend}</span>
-                                  <span className="px-2 py-0.5 rounded text-xs">部署: {project.techStack.deployment}</span>
+                                  <span className="px-2 py-0.5 rounded text-xs">前端: {project.techStack?.frontend || '未提供'}</span>
+                                  <span className="px-2 py-0.5 rounded text-xs">后端: {project.techStack?.backend || '未提供'}</span>
+                                  <span className="px-2 py-0.5 rounded text-xs">部署: {project.techStack?.deployment || '未提供'}</span>
                                 </>
                               )}
                             </div>
@@ -314,9 +366,9 @@ export default ({ data }: { data: Resume }) => {
                             <div className="flex flex-wrap gap-2">
                               {project.repositories?.map((item, index) => (
                                 <div key={index} className="flex items-center">
-                                  <span>{item.name}：</span>
-                                  <a href={item.url as string} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-xs font-medium bg-blue-50 dark:bg-blue-900/30 px-2 py-1 rounded transition-colors">
-                                    {item.url}
+                                  <span>{item.name || '未命名链接'}：</span>
+                                  <a href={(item.url as string) || '#'} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-xs font-medium bg-blue-50 dark:bg-blue-900/30 px-2 py-1 rounded transition-colors">
+                                    {item.url || '未提供链接'}
                                   </a>
                                 </div>
                               ))}

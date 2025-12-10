@@ -9,7 +9,32 @@ interface Equipment {
 
 export default async () => {
   const { data } = (await getPageConfigDataByNameAPI('equipment')) || { data: {} as Config };
-  const { list } = data.value as { list: Equipment[] };
+  const value = (data?.value as { list: Equipment[] }) || { list: [] };
+
+  const defaultItem = {
+    name: '未命名设备',
+    image: '',
+    price: '0',
+    description: '暂无描述',
+    color: '#f5f5f5',
+  };
+
+  const defaultGroup = {
+    category: '未分类',
+    description: '暂无描述',
+    items: [] as Equipment['items'],
+  };
+
+  const safeList: Equipment[] = (value.list || []).map((group) => ({
+    ...defaultGroup,
+    ...group,
+    items: (group?.items || []).map((item) => ({
+      ...defaultItem,
+      ...item,
+      price: `${item.price ?? defaultItem.price}`,
+      color: item.color || defaultItem.color,
+    })),
+  }));
 
   return (
     <>
@@ -18,7 +43,7 @@ export default async () => {
 
       <div className="pt-20 pb-10">
         <div className="w-[90%] lg:w-[1200px] mx-auto mt-10 space-y-20 md:space-y-24">
-          {list.map((group, index) => (
+          {safeList.map((group, index) => (
             <div key={index}>
               <h2 className="text-xl">{group.category}</h2>
               <p className="text-gray-600 mb-6">{group.description}</p>
