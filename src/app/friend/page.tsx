@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import { FaUserCircle } from 'react-icons/fa';
 
 import { getWebListAPI, getWebTypeListAPI } from '@/api/web';
 import { Web as WebLink, WebType } from '@/types/app/web';
