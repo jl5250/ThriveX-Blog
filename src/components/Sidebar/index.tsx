@@ -8,9 +8,8 @@ import { getWebConfigDataAPI } from '@/api/config';
 import { Theme } from '@/types/app/config';
 
 export default async () => {
-  const {
-    data: { value: theme },
-  } = (await getWebConfigDataAPI<{ value: Theme }>('theme')) || { data: { value: {} as Theme } };
+  const themeResponse = await getWebConfigDataAPI<{ value: Theme }>('theme');
+  const theme = themeResponse?.data?.value || ({} as Theme);
   const sidebar = theme?.right_sidebar || [];
 
   return (

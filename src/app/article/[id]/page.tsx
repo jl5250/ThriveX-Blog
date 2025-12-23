@@ -35,9 +35,8 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   const id = params.id;
 
   const { data: article } = (await getArticleDataAPI(id)) || { data: {} as Article };
-  const {
-    data: { value: webConfig },
-  } = (await getWebConfigDataAPI<{ value: Web }>('web')) || { data: { value: {} as Web } };
+  const webResponse = await getWebConfigDataAPI<{ value: Web }>('web');
+  const webConfig = webResponse?.data?.value || ({} as Web);
 
   const baseUrl = webConfig?.url || 'https://liuyuyang.net';
 

@@ -171,7 +171,7 @@ export default function MapContainer() {
           });
         })
         .catch((e) => {
-          console.log(e);
+          console.log('加载地图失败：', e);
         });
 
       return () => {
