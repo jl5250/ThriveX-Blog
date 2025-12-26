@@ -30,9 +30,8 @@ const LXGWWenKai = localFont({
 
 // 生成动态metadata
 export async function generateMetadata(): Promise<Metadata> {
-  const {
-    data: { value: data },
-  } = (await getWebConfigDataAPI<{ value: Web }>('web')) || { data: { value: {} as Web } };
+  const response = await getWebConfigDataAPI<{ value: Web }>('web');
+  const data = response?.data?.value || ({} as Web);
 
   return {
     title: {
@@ -95,15 +94,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const {
-    data: { value: data },
-  } = (await getWebConfigDataAPI<{ value: Web }>('web')) || { data: { value: {} as Web } };
-
-  // 尊重开源，禁止删除此版权信息！！！
-  console.log('🚀 欢迎使用 ThriveX 现代化博客管理系统');
-  console.log('🎉 开源地址：https://github.com/LiuYuYang01/ThriveX-Blog');
-  console.log('🏕 作者主页：https://liuyuyang.net');
-  console.log('🌟 觉得好用的话记得点个 Star 哦 🙏');
+  const response = await getWebConfigDataAPI<{ value: Web }>('web');
+  const data = response?.data?.value || ({} as Web);
 
   return (
     <html lang="zh-CN" className={LXGWWenKai.className}>

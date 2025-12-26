@@ -19,9 +19,8 @@ export default async (props: Props) => {
 
   const { data: user } = (await getAuthorDataAPI()) || { data: {} as User };
   const { data: record } = (await getRecordPagingAPI({ pagination: { page, size: 8 } })) || { data: {} as Paginate<Record[]> };
-  const {
-    data: { value: theme },
-  } = (await getWebConfigDataAPI<{ value: Theme }>('theme')) || { data: { value: {} as Theme } };
+  const themeResponse = await getWebConfigDataAPI<{ value: Theme }>('theme');
+  const theme = themeResponse?.data?.value || ({} as Theme);
 
   return (
     <>

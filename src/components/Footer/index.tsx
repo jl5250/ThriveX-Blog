@@ -11,9 +11,8 @@ import animals from './images/animals.webp';
 
 export default async () => {
   const { data: user } = (await getAuthorDataAPI()) || { data: {} as User };
-  const {
-    data: { value: web },
-  } = (await getWebConfigDataAPI<{ value: Web }>('web')) || { data: { value: {} as Web } };
+  const webResponse = await getWebConfigDataAPI<{ value: Web }>('web');
+  const web = webResponse?.data?.value || ({} as Web);
 
   return (
     <>

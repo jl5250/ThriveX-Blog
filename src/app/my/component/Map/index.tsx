@@ -40,7 +40,7 @@ export default function MapContainer({ position }: { position: number[] }) {
           });
         })
         .catch((e) => {
-          console.log(e);
+          console.log('加载地图失败：', e);
         });
 
       return () => map?.destroy();
