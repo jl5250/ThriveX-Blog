@@ -45,7 +45,7 @@ export default ({ list, open, onClose }: Props) => {
 
                     {one.type === 'nav' && (
                       <li className="group/one relative hover:bg-[#e0e6ec] dark:hover:bg-[#495362] rounded-md  ">
-                        <Link href={one.url} className={`flex justify-between items-center p-3 px-5 text-[15px] group-hover/one:!text-primary   text-[#333] dark:text-white whitespace-nowrap`} onClick={onClose}>
+                        <Link href={one.url} target={`${one.url.startsWith('http') ? '_blank' : '_self'}`} className={`flex justify-between items-center p-3 px-5 text-[15px] group-hover/one:!text-primary   text-[#333] dark:text-white whitespace-nowrap`} onClick={onClose}>
                           {one.icon} {one.name}
                           <Show is={!!one.children.length}>
                             <IoIosArrowDown className="ml-2" />
@@ -56,7 +56,7 @@ export default ({ list, open, onClose }: Props) => {
                           <ul className="overflow-hidden top-[50px] w-full rounded-md">
                             {one.children?.map((two) => (
                               <li key={two.id} className="group/two">
-                                <Link href={two.url} className="inline-block w-full p-2.5 pl-10 text-[15px] box-border text-[#666] dark:text-[#8c9ab1] hover:!text-primary" onClick={onClose}>
+                                <Link href={two.url} target={`${two.url.startsWith('http') ? '_blank' : '_self'}`} className="inline-block w-full p-2.5 pl-10 text-[15px] box-border text-[#666] dark:text-[#8c9ab1] hover:!text-primary" onClick={onClose}>
                                   {two.icon} {two.name}
                                 </Link>
                               </li>
