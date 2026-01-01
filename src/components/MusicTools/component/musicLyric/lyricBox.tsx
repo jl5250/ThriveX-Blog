@@ -21,11 +21,11 @@ const LyricBox = memo(function LyricBox(props: LyricBoxProps) {
   // 使用useMemo优化样式计算，添加currentTime依赖
   const getLyricStyle = useMemo(() => {
     return (index: number) => {
-      const baseClasses = 'text-center text-balance leading-[16px] transition-all duration-300'
+      const baseClasses = 'text-center text-balance leading-[16px] transition-all duration-500'
       const activeClasses =
         currentLyricIndex === index
-          ? 'font-semibold text-cyan-400 scale-110 bg-primary/10 rounded-lg'
-          : 'text-foreground/70'
+          ? 'font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent scale-110 bg-primary/5 rounded-xl px-4 py-2 shadow-lg shadow-primary/10'
+          : 'text-foreground/60'
       return `${baseClasses} ${activeClasses}`
     }
   }, [currentLyricIndex, currentTime]) // 添加 currentTime 依赖

@@ -72,7 +72,7 @@ const MusicHeader = memo(function MusicHeader(props: {
         )}
       </Tabs>
       <Card
-        className={`hidden md:flex w-[550px] h-[500px] bg-white/60 dark:bg-black/60 backdrop-blur-md transition-all duration-300 ${
+        className={`hidden md:flex w-[550px] h-[500px] bg-white/80 dark:bg-neutral-900/80 backdrop-blur-xl border border-neutral-200/50 dark:border-neutral-700/50 shadow-xl transition-all duration-300 ${
           isExpanded ? 'opacity-100' : 'opacity-0'
         }`}
       >

@@ -91,7 +91,7 @@ export default function MusicTools() {
 
       <DynamicMusicRecords active={active} setPanActive={setPanActive} isMusic={isMusic} musicInfo={musicInfo} />
 
-      <Card shadow="lg" isFooterBlurred className={`fixed bottom-[5%] left-[1%] md:top-[68%] md:left-[1%] border-none z-[998] bg-white/40 w-full transition-all duration-500 ease-in-out ${active ? 'translate-x-0 translate-y-0 scale-100 opacity-100' : 'translate-x-[-500px] translate-y-[500px] scale-0 opacity-0'} ${isExpanded ? 'h-[85vh] md:w-[70vw] md:h-[80vh] md:top-[8%]' : 'h-[295px] md:w-[700px] md:h-[200px]'}`}>
+      <Card shadow="lg" isFooterBlurred className={`fixed bottom-[5%] left-[1%] md:top-[68%] md:left-[1%] border-none z-[998] bg-white/80 dark:bg-neutral-900/80 backdrop-blur-xl w-full transition-all duration-500 ease-in-out ${active ? 'translate-x-0 translate-y-0 scale-100 opacity-100' : 'translate-x-[-500px] translate-y-[500px] scale-0 opacity-0'} ${isExpanded ? 'h-[85vh] md:w-[70vw] md:h-[80vh] md:top-[8%]' : 'h-[295px] md:w-[700px] md:h-[200px]'}`}>
         {/* 音乐歌单组件 */}
         <CardHeader musicInfo={musicInfo} lyricInfo={lyricInfo2} audioInfo={audioInfo} isExpanded={isExpanded} />
         <Image removeWrapper src={imgUrl(1236, 794, al?.picUrl)} alt="音乐封面" className="z-0 w-full h-full object-cover" />
@@ -103,36 +103,36 @@ export default function MusicTools() {
           </div>
           <div className={`flex flex-col row-start-3 col-span-8 col-start-5 justify-center ${isExpanded ? 'md:col-start-6 md:col-span-8' : 'md:col-start-7 md:col-span-6'}`}>
             {/* 播放按钮 */}
-            <div className="flex items-end justify-center h-full space-x-2">
-              <Button isIconOnly className="data-[hover]:bg-foreground/10 transition-colors duration-200" radius="full" variant="light" onPress={() => switchMusic('pre', currentOrder)}>
+            <div className="flex items-end justify-center h-full space-x-3">
+              <Button isIconOnly className="data-[hover]:bg-foreground/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/20" radius="full" variant="light" onPress={() => switchMusic('pre', currentOrder)} aria-label="上一首">
                 <FaBackwardStep size={iconSize} />
               </Button>
-              <Button isIconOnly className="data-[hover]:bg-foreground/10 transition-colors duration-200" radius="full" variant="light" onPress={() => switchMusicStaus()}>
+              <Button isIconOnly className="data-[hover]:bg-foreground/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/30" radius="full" variant="light" onPress={() => switchMusicStaus()} aria-label={isMusic ? '暂停' : '播放'}>
                 {isMusic ? <FaPause size={iconSize} /> : <FaPlay size={iconSize} />}
               </Button>
-              <Button isIconOnly className="data-[hover]:bg-foreground/10 transition-colors duration-200" radius="full" variant="light" onPress={() => switchMusic('next', currentOrder)}>
+              <Button isIconOnly className="data-[hover]:bg-foreground/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/20" radius="full" variant="light" onPress={() => switchMusic('next', currentOrder)} aria-label="下一首">
                 <FaForwardStep size={iconSize} />
               </Button>
-              <Button isIconOnly className="data-[hover]:bg-foreground/10 transition-colors duration-200" radius="full" variant="light" onPress={() => audioInfo.switchOrder()} title={`当前模式：${currentOrder === 'cycle' ? '列表循环' : currentOrder === 'single' ? '单曲循环' : '随机播放'}`}>
+              <Button isIconOnly className="data-[hover]:bg-foreground/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/20" radius="full" variant="light" onPress={() => audioInfo.switchOrder()} title={`当前模式：${currentOrder === 'cycle' ? '列表循环' : currentOrder === 'single' ? '单曲循环' : '随机播放'}`} aria-label={`播放模式：${currentOrder === 'cycle' ? '列表循环' : currentOrder === 'single' ? '单曲循环' : '随机播放'}`}>
                 {OrderIcon}
               </Button>
               <div className="flex flex-col group">
-                <Slider className="opacity-0 group-hover:opacity-100 h-14 transition-opacity duration-200" defaultValue={volume} value={volume} maxValue={1} minValue={0} orientation="vertical" size="sm" step={0.02} color="foreground" onChange={(value) => setVolume(value as number)} />
-                <Button isIconOnly className="data-[hover]:bg-foreground/10 transition-colors duration-200" radius="full" variant="light" onPress={() => changeJingyin()}>
+                <Slider className="opacity-0 group-hover:opacity-100 h-14 transition-opacity duration-300" defaultValue={volume} value={volume} maxValue={1} minValue={0} orientation="vertical" size="sm" step={0.02} color="foreground" onChange={(value) => setVolume(value as number)} aria-label="音量" />
+                <Button isIconOnly className="data-[hover]:bg-foreground/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/20" radius="full" variant="light" onPress={() => changeJingyin()} aria-label="静音">
                   {VolumeIcon}
                 </Button>
               </div>
-              <Button isIconOnly className="data-[hover]:bg-foreground/10 transition-colors duration-200" radius="full" variant="light" onPress={toggleExpand}>
+              <Button isIconOnly className="data-[hover]:bg-foreground/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/20" radius="full" variant="light" onPress={toggleExpand} aria-label={isExpanded ? '收起' : '展开'}>
                 <FaBarsStaggered size={iconSize} />
               </Button>
             </div>
             {/* 播放进度 */}
-            <div className="flex flex-col mt-3 gap-1">
+            <div className="flex flex-col mt-4 gap-2">
               <Slider
                 aria-label="Music progress"
                 classNames={{
-                  track: 'bg-default-500/30',
-                  thumb: 'w-2 h-2 after:w-2 after:h-2 after:bg-foreground',
+                  track: 'bg-gradient-to-r from-primary/30 to-accent/30',
+                  thumb: 'w-3 h-3 after:w-3 after:h-3 after:bg-gradient-to-r after:from-primary after:to-accent shadow-lg shadow-primary/30',
                 }}
                 color="foreground"
                 value={tempTime ?? currentTime}
@@ -147,12 +147,12 @@ export default function MusicTools() {
                   showArrow: true,
                   content: formatTime(tempTime ?? currentTime),
                   classNames: {
-                    base: 'bg-black/80 text-white px-2 py-1 rounded-md text-xs',
-                    arrow: 'bg-black/80',
+                    base: 'bg-gradient-to-r from-primary to-accent text-white px-3 py-1.5 rounded-full text-xs font-medium shadow-lg shadow-primary/30',
+                    arrow: 'bg-gradient-to-r from-primary to-accent',
                   },
                 }}
               />
-              <div className="flex justify-between text-sm">
+              <div className="flex justify-between text-sm font-medium">
                 <p className="text-foreground/80">{formatTime(currentTime)}</p>
                 <p className="text-foreground/50">{formatTime(duration)}</p>
               </div>

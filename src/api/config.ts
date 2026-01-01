@@ -11,7 +11,7 @@ export const editWebConfigDataAPI = (name: string, data: object) => Request<Conf
 export const getGaodeMapConfigDataAPI = () => Request('GET', `/env_config/gaode_map`);
 
 // 获取高德地图IP定位API配置
-export const getGaodeIpConfigDataAPI = () => Request('GET', `/env_config/gaode_ip`);
+export const getGaodeIpConfigDataAPI = () => Request('GET', `/env_config/gaode_coordinate`);
 
 // 根据名称获取页面配置
 export const getPageConfigDataByNameAPI = (name: string) => Request<Config>('GET', `/page_config/name/${name}`);

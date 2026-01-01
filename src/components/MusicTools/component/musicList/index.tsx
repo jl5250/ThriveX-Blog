@@ -1,85 +1,72 @@
-'use client'
+'use client';
 
-import { MusicListItem } from '@/types/app/music'
-import type { MusicList as MusicListType } from '@/types/app/music'
-import { useMusicStore } from '@/stores'
-import img from '@/assets/image/playing.gif'
-import Image from 'next/image'
-import { formatTime } from '@/utils/dayFormat'
-import { LIST_NULL_TEXT } from '@/constant'
-import { IAudio } from '@/hooks/useAudio'
-import { useEffect, useState, useCallback } from 'react'
-import { getPlayListTrack, getLike } from '@/api/music'
-import useSwitchCurrentMusic from '@/hooks/useSwitchCurrentMusic'
-import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from '@heroui/react'
-import Loading from '@/components/Loading'
+import { MusicListItem } from '@/types/app/music';
+import type { MusicList as MusicListType } from '@/types/app/music';
+import { useMusicStore } from '@/stores';
+import img from '@/assets/image/playing.gif';
+import Image from 'next/image';
+import { formatTime } from '@/utils/dayFormat';
+import { LIST_NULL_TEXT } from '@/constant';
+import { IAudio } from '@/hooks/useAudio';
+import { useEffect, useState, useCallback } from 'react';
+import { getPlayListTrack, getLike } from '@/api/music';
+import useSwitchCurrentMusic from '@/hooks/useSwitchCurrentMusic';
+import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from '@heroui/react';
+import Loading from '@/components/Loading';
 
 interface Props {
-  id?: number // 传入各个排行版的id
-  type: string // 传入各个排行版的类型
-  audioInfo: IAudio // 传入当前播放的音乐信息
+  id?: number; // 传入各个排行版的id
+  type: string; // 传入各个排行版的类型
+  audioInfo: IAudio; // 传入当前播放的音乐信息
 }
 
-type ColumnKey = 'index' | 'name' | 'arname' | 'dt'
+type ColumnKey = 'index' | 'name' | 'arname' | 'dt';
 
 interface Column {
-  key: ColumnKey
-  label: string
+  key: ColumnKey;
+  label: string;
 }
 
 const columns: Column[] = [
   {
     key: 'index',
-    label: ''
+    label: '',
   },
   {
     key: 'name',
-    label: '歌曲'
+    label: '歌曲',
   },
   {
     key: 'arname',
-    label: '歌手'
+    label: '歌手',
   },
   {
     key: 'dt',
-    label: '时长'
-  }
-]
+    label: '时长',
+  },
+];
 
 export default function MusicList(props: Props) {
-  const { id, type, audioInfo } = props
+  const { id, type, audioInfo } = props;
 
-  const {
-    currentMusic,
-    surgeMusicList,
-    hotMusicList,
-    newMusicList,
-    originalMusicList,
-    dailyMusicList,
-    changeCurrentMusicType,
-    changeSurgeMusicList,
-    changeHotMusicList,
-    changeNewMusicList,
-    changeOriginalMusicList,
-    changeDailyMusicList
-  } = useMusicStore()
+  const { currentMusic, surgeMusicList, hotMusicList, newMusicList, originalMusicList, dailyMusicList, changeCurrentMusicType, changeSurgeMusicList, changeHotMusicList, changeNewMusicList, changeOriginalMusicList, changeDailyMusicList } = useMusicStore();
 
-  const [list, setList] = useState<MusicListItem[]>([])
-  const [loading, setLoading] = useState(true)
-  const [disabledKeys, setDisabledKeys] = useState<string[]>([])
-  const [selectedKeys, setSelectedKeys] = useState(new Set(['']))
+  const [list, setList] = useState<MusicListItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [disabledKeys, setDisabledKeys] = useState<string[]>([]);
+  const [selectedKeys, setSelectedKeys] = useState(new Set(['']));
 
   // 使用useMemo优化当前音乐列表的选择
   useEffect(() => {
     if (currentMusic.id) {
-      setSelectedKeys(new Set([currentMusic.id.toString()]))
+      setSelectedKeys(new Set([currentMusic.id.toString()]));
     }
-  }, [currentMusic.id])
+  }, [currentMusic.id]);
 
   // 使用useMemo优化音乐类型设置
   useEffect(() => {
-    changeCurrentMusicType(type)
-  }, [type, changeCurrentMusicType])
+    changeCurrentMusicType(type);
+  }, [type, changeCurrentMusicType]);
 
   // 使用useCallback优化列表数据处理
   const processList = useCallback((listMap: MusicListItem[]) => {
@@ -87,92 +74,96 @@ export default function MusicList(props: Props) {
       ...item,
       key: item.id?.toString() || '',
       index,
-      arname: item.ar?.[0]?.name || '未知歌手'
-    }))
+      arname: item.ar?.[0]?.name || '未知歌手',
+    }));
 
-    setList(processedList)
+    setList(processedList);
 
-    const vipSongs = processedList
-      .filter((item) => item.fee === 1 || item.fee === 4)
-      .map((item) => item.key)
-    setDisabledKeys(vipSongs)
-  }, [])
+    const vipSongs = processedList.filter((item) => item.fee === 1 || item.fee === 4).map((item) => item.key);
+    setDisabledKeys(vipSongs);
+  }, []);
 
   // 使用useCallback优化数据获取
   const fetchData = useCallback(async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       if (id === undefined && type === 'like') {
-        const res = await getLike()
-        const dailySongs = res?.data.dailySongs || []
-        changeDailyMusicList(dailySongs)
-        processList(dailyMusicList)
+        const res = await getLike();
+        const dailySongs = res?.data.dailySongs || [];
+        changeDailyMusicList(dailySongs);
+        processList(dailyMusicList);
       } else if (id !== undefined) {
-        const { songs } = (await getPlayListTrack(id)) as MusicListType
-        const songsList = songs || []
+        const { songs } = (await getPlayListTrack(id)) as MusicListType;
+        const songsList = songs || [];
 
         switch (type) {
           case 'surge':
-            changeSurgeMusicList(songsList)
-            processList(surgeMusicList)
-            break
+            changeSurgeMusicList(songsList);
+            processList(surgeMusicList);
+            break;
           case 'hot':
-            changeHotMusicList(songsList)
-            processList(hotMusicList)
-            break
+            changeHotMusicList(songsList);
+            processList(hotMusicList);
+            break;
           case 'new':
-            changeNewMusicList(songsList)
-            processList(newMusicList)
-            break
+            changeNewMusicList(songsList);
+            processList(newMusicList);
+            break;
           case 'original':
-            changeOriginalMusicList(songsList)
-            processList(originalMusicList)
-            break
+            changeOriginalMusicList(songsList);
+            processList(originalMusicList);
+            break;
         }
       }
     } catch (error) {
-      console.error('Failed to fetch music list:', error)
+      console.error('Failed to fetch music list:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [id, type, processList])
+  }, [id, type, processList]);
 
   useEffect(() => {
-    fetchData()
-  }, [fetchData])
+    fetchData();
+  }, [fetchData]);
 
   // 使用useCallback优化单元格渲染
   const renderCell = useCallback(
     (item: MusicListItem, key: ColumnKey) => {
       if (key === 'dt') {
-        return formatTime(item[key] || 0)
+        return formatTime(item[key] || 0);
       }
       if (key === 'index') {
-        return currentMusic.id === item.id ? (
-          <Image src={img} alt="正在播放" className="w-4 h-4" />
-        ) : (
-          (item.index || 0) + 1
-        )
+        return currentMusic.id === item.id ? <Image src={img} alt="正在播放" className="w-4 h-4" /> : (item.index || 0) + 1;
       }
-      return item[key] || ''
+      return item[key] || '';
     },
     [currentMusic.id]
-  )
+  );
 
   // 使用useCallback优化行点击处理
   const handleRowClick = useCallback(
     (item: MusicListItem) => {
-      if (currentMusic.id === item.id || item.fee === 1 || item.fee === 4) return // 如果当前点击的歌曲是正在播放的歌曲或者是VIP歌曲，则不执行任何操作
+      if (currentMusic.id === item.id || item.fee === 1 || item.fee === 4) return; // 如果当前点击的歌曲是正在播放的歌曲或者是VIP歌曲，则不执行任何操作
 
       const timer = setTimeout(() => {
-        useSwitchCurrentMusic(item)
-        audioInfo.setIsMusic(true)
-      }, 200)
+        useSwitchCurrentMusic(item);
+        audioInfo.setIsMusic(true);
+      }, 200);
 
-      return () => clearTimeout(timer)
+      return () => clearTimeout(timer);
     },
     [currentMusic.id, audioInfo]
-  )
+  );
+
+  // 使用useCallback优化行样式
+  const getRowClassName = useCallback(
+    (item: MusicListItem) => {
+      const baseClasses = 'cursor-pointer transition-all duration-200';
+      const activeClasses = currentMusic.id === item.id ? 'bg-gradient-to-r from-primary/10 to-accent/10 border-l-4 border-primary' : 'hover:translate-x-1';
+      return `${baseClasses} ${activeClasses}`;
+    },
+    [currentMusic.id]
+  );
 
   return (
     <Table
@@ -186,6 +177,13 @@ export default function MusicList(props: Props) {
       isStriped
       fullWidth
       className="w-[360px] h-[360px] md:h-[500px] md:w-[510px]"
+      classNames={{
+        base: 'bg-white/80 dark:bg-neutral-900/80 backdrop-blur-xl border border-neutral-200/50 dark:border-neutral-700/50 shadow-xl rounded-2xl',
+        th: 'bg-gradient-to-r from-primary/5 to-accent/5 text-foreground font-semibold text-sm',
+        td: 'text-foreground/80 hover:bg-primary/5 transition-colors duration-200',
+        tr: 'hover:shadow-md hover:shadow-primary/10 transition-all duration-200',
+      }}
+      aria-label="音乐列表"
     >
       <TableHeader columns={columns}>
         {(column: Column) => (
@@ -196,17 +194,11 @@ export default function MusicList(props: Props) {
       </TableHeader>
       <TableBody emptyContent={LIST_NULL_TEXT} isLoading={loading} loadingContent={<Loading />}>
         {list.map((item) => (
-          <TableRow
-            key={item.key}
-            onClick={() => handleRowClick(item)}
-            className="hover:cursor-pointer"
-          >
-            {(columnKey) => (
-              <TableCell className="text-sm">{renderCell(item, columnKey as ColumnKey)}</TableCell>
-            )}
+          <TableRow key={item.key} onClick={() => handleRowClick(item)} className={getRowClassName(item)}>
+            {(columnKey) => <TableCell className="text-sm">{renderCell(item, columnKey as ColumnKey)}</TableCell>}
           </TableRow>
         ))}
       </TableBody>
     </Table>
-  )
+  );
 }

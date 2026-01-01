@@ -31,14 +31,14 @@ const MusicRecords = memo(function MusicRecords(props: MusicRecordsProps) {
         cursor-pointer z-[999] 
         rounded-full 
         translate-x-[-50%] 
-        transition-all duration-300 ease-in-out
+        transition-all duration-500 ease-in-out
         transform
         ${
           active
-            ? 'translate-x-[10px] translate-y-[-20px] md:translate-x-[20px] md:translate-y-[-80px] shadow-lg hover:shadow-white/30'
+            ? 'translate-x-[10px] translate-y-[-20px] md:translate-x-[20px] md:translate-y-[-80px] shadow-2xl shadow-primary/30 hover:shadow-primary/50'
             : 'hover:translate-x-0'
         }
-        hover:scale-105
+        hover:scale-110
         active:scale-95
       `}
     >
@@ -51,7 +51,9 @@ const MusicRecords = memo(function MusicRecords(props: MusicRecordsProps) {
           animate-cycle
           ${isMusic ? 'animate-running' : 'animate-paused'}
           hover:brightness-110
-          transition-all duration-300
+          transition-all duration-500
+          ring-4 ring-white/20 dark:ring-neutral-800/20
+          hover:ring-primary/50
         `}
         id="musicTools"
         onClick={handleClick}
