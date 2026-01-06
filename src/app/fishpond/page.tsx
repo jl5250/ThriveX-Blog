@@ -71,14 +71,17 @@ export default function FishpondPage() {
       <meta name="description" content="🐟 鱼塘" />
 
       <div className="w-full pt-20">
-        <h2 className="text-center text-5xl py-8">鱼塘</h2>
+        <div className="relative">
+          <h2 className="text-center text-5xl py-8 mb-7">鱼塘</h2>
+          <div className="absolute left-1/2 transform -translate-x-1/2 bottom-2 w-24 h-1 bg-gradient-to-r from-transparent via-blue-400 to-transparent rounded-full"></div>
+        </div>
 
         <div>
           {rssData && rssData.length > 0 ? (
             <Masonry breakpointCols={breakpointColumnsObj} className="masonry-grid pl-10 pr-4" columnClassName="masonry-grid_column">
               {rssData.map((item, index) => {
                 return (
-                  <div key={`${item.url}-${index}`} className="border border-[#eee] dark:border-black-b rounded-md transition-shadow hover:shadow-[0_2px_8px_rgba(186,186,186,0.15)] bg-white dark:bg-black-b p-5 pb-3 hover:-translate-y-0.5 transition-transform mb-3 break-inside-avoid">
+                  <div key={`${item.url}-${index}`} className="border border-[#eee] dark:border-black-b rounded-md hover:shadow-[0_2px_8px_rgba(186,186,186,0.15)] bg-white dark:bg-black-b p-5 pb-3 hover:-translate-y-0.5 transition-transform mb-3 break-inside-avoid">
                     <div className="flex justify-between items-center mb-3.75">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#eee] dark:border-black-b">{item.image ? <img src={item.image} alt="avatar" className="w-full h-full object-cover" /> : <RandomAvatar className="w-full h-full rounded-full" />}</div>

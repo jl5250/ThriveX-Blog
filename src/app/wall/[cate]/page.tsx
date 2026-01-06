@@ -122,10 +122,11 @@ export default () => {
 
         <div className="relative z-10">
           {/* 头部区域 */}
-          <div className="flex flex-col items-center px-4 pt-12 md:pt-24 pb-8">
-            <div className="text-center mb-6">
-              <h2 className="text-5xl mb-10">留言墙</h2>
+          <div className="flex flex-col items-center px-4 pt-12 md:pt-16 pb-8">
+            <div className="relative text-center mb-10">
+              <h2 className="text-5xl mb-3">留言墙</h2>
               <p className="text-sm text-gray-600 mb-4">有什么想对我说的，来吧</p>
+              <div className="absolute left-1/2 transform -translate-x-1/2 bottom-0 w-24 h-1 bg-gradient-to-r from-transparent via-blue-400 to-transparent rounded-full"></div>
             </div>
 
             <div className="mb-8">
