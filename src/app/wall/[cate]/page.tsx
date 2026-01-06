@@ -1,28 +1,112 @@
+'use client';
+
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
-import Pagination from '@/components/Pagination';
+import { useParams } from 'next/navigation';
 import AddWallInfo from '../components/AddWallInfo';
 import WallMasonry from '../components/WallMasonry';
+import Loading from '@/components/Loading';
 import { getCateListAPI, getCateWallListAPI } from '@/api/wall';
-import { Cate } from '@/types/app/cate';
-import { Wall } from '@/types/app/wall';
+import { Cate, Wall } from '@/types/app/wall';
 
-interface Props {
-  params: Promise<{ cate: string }>;
-  searchParams: Promise<{ page: number }>;
-}
+export default () => {
+  const params = useParams();
+  const cate = params?.cate as string;
 
-export default async (props: Props) => {
-  const searchParams = await props.searchParams;
-  const params = await props.params;
-  const cate = params.cate;
-  const page = searchParams.page || 1;
+  const [cateList, setCateList] = useState<Cate[]>([]);
+  const [walls, setWalls] = useState<Wall[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [initialLoading, setInitialLoading] = useState(true);
+  const currentPageRef = useRef(1);
 
-  const { data: cateList } = (await getCateListAPI()) || { data: [] as Cate[] };
+  // 获取分类列表
+  useEffect(() => {
+    const fetchCateList = async () => {
+      const { data } = (await getCateListAPI()) || { data: [] as Cate[] };
+      const sorted = [...data].sort((a, b) => a.order - b.order);
+      setCateList(sorted);
+    };
+    fetchCateList();
+  }, []);
 
-  const id = cateList.find((item) => item.mark === cate)?.id ?? 0;
-  const { data: tallList } = (await getCateWallListAPI(id, page)) || { data: {} as Paginate<Wall[]> };
+  // 获取留言列表
+  const fetchWallList = useCallback(
+    async (page: number, append: boolean = false) => {
+      const id = cateList.find((item) => item.mark === cate)?.id ?? 0;
+      if (!id) return;
 
-  cateList.sort((a, b) => a.order - b.order);
+      setLoading(true);
+      try {
+        const { data: tallList } = (await getCateWallListAPI(id, page, 8)) || { data: {} as Paginate<Wall[]> };
+
+        if (tallList.result && tallList.result.length > 0) {
+          if (append) {
+            setWalls((prev) => [...prev, ...tallList.result]);
+          } else {
+            setWalls(tallList.result);
+          }
+          setTotalPages(tallList.pages || 1);
+          setHasMore(page < (tallList.pages || 1));
+          currentPageRef.current = page;
+        } else {
+          setHasMore(false);
+        }
+      } catch (error) {
+        console.error('获取留言列表失败:', error);
+        setHasMore(false);
+      } finally {
+        setLoading(false);
+        setInitialLoading(false);
+      }
+    },
+    [cate, cateList]
+  );
+
+  // 初始加载和分类切换时重新加载
+  useEffect(() => {
+    if (cateList.length > 0 && cate) {
+      setWalls([]);
+      setHasMore(true);
+      setInitialLoading(true);
+      currentPageRef.current = 1;
+      fetchWallList(1, false);
+    }
+  }, [cate, cateList, fetchWallList]);
+
+  // 滚动监听
+  useEffect(() => {
+    const handleScroll = () => {
+      // 如果正在加载或没有更多数据，则不处理
+      if (loading || !hasMore) return;
+
+      // 检查是否滚动到底部（距离底部100px时触发）
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+
+      if (scrollTop + windowHeight >= documentHeight - 100) {
+        const nextPage = currentPageRef.current + 1;
+        if (nextPage <= totalPages) {
+          fetchWallList(nextPage, true);
+        }
+      }
+    };
+
+    // 使用防抖优化滚动事件
+    let timeoutId: NodeJS.Timeout;
+    const debouncedHandleScroll = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(handleScroll, 200);
+    };
+
+    window.addEventListener('scroll', debouncedHandleScroll);
+    return () => {
+      window.removeEventListener('scroll', debouncedHandleScroll);
+      clearTimeout(timeoutId);
+    };
+  }, [hasMore, loading, totalPages, fetchWallList]);
 
   return (
     <>
@@ -67,12 +151,30 @@ export default async (props: Props) => {
           </div>
 
           {/* 留言卡片瀑布流 */}
-          <div className="w-[90%] xl:w-[1200px] mx-auto mt-8 pb-12">{tallList.result && tallList.result.length > 0 ? <WallMasonry walls={tallList.result} /> : <div className="text-center py-12 text-gray-500 dark:text-gray-400">暂无留言</div>}</div>
-
-          {/* 分页 */}
-          {tallList.total && (
-            <div className="flex justify-center mt-8 pb-8">
-              <Pagination total={tallList.pages} page={page} className="flex justify-center" />
+          {initialLoading ? (
+            <div className="flex justify-center items-center py-20">
+              <Loading />
+            </div>
+          ) : (
+            <div className="w-[90%] xl:w-[1200px] mx-auto mt-8 pb-12">
+              {walls && walls.length > 0 ? (
+                <>
+                  <WallMasonry walls={walls} />
+                  {/* 加载更多指示器 */}
+                  {loading && (
+                    <div className="flex justify-center items-center py-8">
+                      <div className="text-gray-500 dark:text-gray-400 text-sm">加载中...</div>
+                    </div>
+                  )}
+                  {!hasMore && walls.length > 0 && (
+                    <div className="flex justify-center items-center py-8">
+                      <div className="text-gray-500 dark:text-gray-400 text-sm">没有更多留言了</div>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div className="text-center py-12 text-gray-500 dark:text-gray-400">暂无留言</div>
+              )}
             </div>
           )}
         </div>

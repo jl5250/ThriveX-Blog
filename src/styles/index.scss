@@ -120,19 +120,30 @@ body {
 }
 
 // 留言墙卡片淡入动画
-@keyframes fade-in-up {
+@keyframes fade-in-up-opacity {
     from {
         opacity: 0;
-        transform: translateY(20px);
     }
     to {
         opacity: 1;
+    }
+}
+
+@keyframes fade-in-up-transform {
+    from {
+        transform: translateY(20px);
+    }
+    to {
         transform: translateY(0);
     }
 }
 
 .animate-fade-in-up {
-    animation: fade-in-up 0.6s ease-out forwards;
+    // 只对 opacity 使用 forwards，transform 动画结束后不锁定
+    animation: 
+        fade-in-up-opacity 0.6s ease-out forwards,
+        fade-in-up-transform 0.6s ease-out;
+    // 确保 transform 在动画结束后可以被 hover 覆盖
 }
 
 // 瀑布流布局

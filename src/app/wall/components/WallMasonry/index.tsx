@@ -40,39 +40,36 @@ export default ({ walls }: WallMasonryProps) => {
               ${bgColor}
               backdrop-blur-sm
               border border-white/30 dark:border-gray-700/30
-              transition-all duration-300 ease-out
-              hover:-translate-y-2 hover:scale-125
-              cursor-pointer
-              overflow-hidden
-              mb-3
-              animate-fade-in-up
+              cursor-pointer overflow-hidden mb-3 animate-fade-in-up
+              hover:scale-105 hover:-translate-y-1 transition-transform
+              transform-gpu
             `}
             style={{
               animationDelay: `${index * 50}ms`,
             }}
           >
             {/* 卡片装饰边框 */}
-            <div className="absolute inset-0 rounded-2xl border-2 border-white/20 dark:border-gray-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="absolute inset-0 rounded-2xl border-2 border-white/20 dark:border-gray-600/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
 
             {/* 顶部信息 */}
             <div className="flex justify-between items-center mb-3 pb-3 border-b border-white/20 dark:border-gray-700/30">
               <span className="text-xs text-gray-600 dark:text-gray-400 font-medium">{dayjs(+item.createTime!).format('YYYY-MM-DD HH:mm')}</span>
-              <span className="px-2.5 py-1 text-xs font-semibold backdrop-blur-sm text-gray-700 dark:text-white bg-white/60 dark:bg-gray-800/60 rounded-full">{item.cate.name}</span>
+              <span className="px-2.5 py-1 text-xs font-semibold backdrop-blur-sm text-gray-700 dark:text-white bg-white/60 dark:bg-gray-800/60 rounded-full transition-transform group-hover:scale-105">{item.cate.name}</span>
             </div>
 
             {/* 留言内容 */}
-            <div className="flex-1 hide_sliding overflow-auto min-h-[100px] text-sm md:text-base leading-relaxed text-gray-800 dark:text-gray-200 my-3 px-1">{item.content}</div>
+            <div className="flex-1 hide_sliding overflow-auto min-h-20 text-sm md:text-base leading-relaxed text-gray-800 dark:text-gray-200 my-3 px-1">{item.content}</div>
 
             {/* 底部署名 */}
             <div className="flex justify-end items-center mt-4 pt-3 border-t border-white/20 dark:border-gray-700/30">
               <div className="flex items-center gap-2">
                 <span className="text-xs text-gray-500 dark:text-gray-400">—</span>
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{item.name ? item.name : '匿名'}</span>
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300 transition-transform group-hover:translate-x-[-2px]">{item.name ? item.name : '匿名'}</span>
               </div>
             </div>
 
             {/* Hover 时的光效 */}
-            <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/0 to-white/20 dark:from-transparent dark:via-transparent dark:to-white/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/0 to-white/20 dark:from-transparent dark:via-transparent dark:to-white/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
           </div>
         );
       })}
