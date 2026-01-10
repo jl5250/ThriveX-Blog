@@ -30,6 +30,7 @@ export default defineConfig([
       'no-unused-vars': 'off', // 关闭未使用变量的检查
       'react-refresh/only-export-components': 'off',
       'react/display-name': 'off',
+      'react/prop-types': 'off', // TypeScript 项目不需要 prop-types 验证
       // 约束js使用单引号，允许jsx双引号
       quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }],
       'jsx-quotes': ['error', 'prefer-double'],

@@ -1,43 +1,57 @@
 'use client';
 
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import Link from 'next/link';
 import { LiaTagsSolid } from 'react-icons/lia';
 import { Tag } from '@/types/app/tag';
 import { clsx } from 'clsx';
-import { motion } from 'framer-motion';
 
-const TagItemCard = ({ data, count, index }: { data: Tag; count: number; index: number }) => {
-  const colors = ['bg-blue-400', 'bg-green-400', 'bg-yellow-400', 'bg-red-400', 'bg-indigo-400', 'bg-purple-400', 'bg-pink-400'];
-  const color = colors[index % colors.length];
+interface TagItemCardProps {
+  data: Tag;
+  count: number;
+  index: number;
+}
 
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ type: 'spring', stiffness: 100, mass: 0.8, delay: index * 0.05 }}
-      whileHover={{
-        scale: 1.05,
-        transition: { duration: 0.2 },
-      }}
-    >
+// 颜色数组提取到组件外部，避免重复创建
+const COLORS = ['bg-blue-400', 'bg-green-400', 'bg-yellow-400', 'bg-red-400', 'bg-indigo-400', 'bg-purple-400', 'bg-pink-400'] as const;
+
+const TagItemCard = memo(
+  ({ data, count, index }: TagItemCardProps) => {
+    // 使用 useMemo 缓存颜色计算
+    const color = useMemo(() => COLORS[index % COLORS.length], [index]);
+
+    // 使用 useMemo 缓存链接 URL
+    const href = useMemo(() => `/tag/${data?.id}?name=${encodeURIComponent(data?.name || '')}`, [data?.id, data?.name]);
+
+    return (
       <Link
-        href={`/tag/${data?.id}?name=${data?.name}`}
-        className={clsx('flex h-10 bg-opacity-20 backdrop-blur', color)}
+        href={href}
+        className={clsx('flex h-10 bg-opacity-20 transition-transform duration-200 hover:scale-105', color)}
         style={{
           borderRadius: '0.5rem',
-          backdropFilter: 'blur(10px)',
           margin: '0.5rem',
           padding: '0 1rem',
           alignItems: 'center',
+          contain: 'layout style paint', // CSS containment 隔离渲染
+          transform: 'translateZ(0)', // 启用硬件加速
+          backfaceVisibility: 'hidden', // 优化渲染性能
         }}
+        prefetch={false} // 禁用预取，减少初始加载
       >
-        <LiaTagsSolid className="h-4 w-4 text-gray-400" aria-hidden="true" />
-        <span className="ml-2">{data?.name}</span>
-        <span className="ml-4 text-sm text-gray-400 dark:text-gray-500">{count}</span>
+        <LiaTagsSolid className="h-4 w-4 text-gray-400 flex-shrink-0" aria-hidden="true" />
+        <span className="ml-2 truncate max-w-[200px]" title={data?.name}>
+          {data?.name}
+        </span>
+        <span className="ml-4 text-sm text-gray-400 dark:text-gray-500 flex-shrink-0">{count}</span>
       </Link>
-    </motion.div>
-  );
-};
+    );
+  },
+  (prevProps, nextProps) => {
+    // 自定义比较函数，只有关键属性变化时才重新渲染
+    return prevProps.data?.id === nextProps.data?.id && prevProps.data?.name === nextProps.data?.name && prevProps.count === nextProps.count && prevProps.index === nextProps.index;
+  }
+);
+
+TagItemCard.displayName = 'TagItemCard';
 
 export default TagItemCard;
