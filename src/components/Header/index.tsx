@@ -17,7 +17,7 @@ import { getCateListAPI } from '@/api/cate';
 
 import { useConfigStore } from '@/stores';
 
-const Header = () => {
+export default () => {
   const patchName = usePathname();
 
   const { isDark, setIsDark, theme } = useConfigStore();
@@ -153,5 +153,3 @@ const Header = () => {
     </>
   );
 };
-
-export default Header;

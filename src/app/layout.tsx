@@ -3,12 +3,6 @@ import { Metadata } from 'next';
 
 import HeroUIProvider from '@/components/HeroUIProvider';
 import NProgress from '@/components/NProgress';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import Tools from '@/components/Tools';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import Confetti from '@/components/Confetti';
 import RouteChangeHandler from '@/components/RouteChangeHandler';
 
 import { getWebConfigDataAPI } from '@/api/config';
@@ -117,23 +111,11 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       <body id="root" className={`dark:!bg-black-a`}>
         {/* 数据注入 */}
         <InjectData />
-        {/* 🎉 礼花效果 */}
-        {/* <Confetti /> */}
-
         {/* 进度条组件 */}
         <NProgress />
-        {/* 顶部导航组件 */}
-        <Header />
 
-        {/* 主体内容 */}
-        <HeroUIProvider>
-          <div className="min-h-[calc(100vh-300px)]">{children}</div>
-        </HeroUIProvider>
-
-        {/* 底部组件 */}
-        <Footer />
-        {/* 右侧工具栏组件 */}
-        {/* <Tools /> */}
+        {/* 主体内容：各路由组/页面通过自己的 layout 决定是否包含 Header/Footer */}
+        <HeroUIProvider>{children}</HeroUIProvider>
 
         {/* 悬浮块 */}
         <FloatingBlock />

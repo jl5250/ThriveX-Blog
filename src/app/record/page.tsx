@@ -22,7 +22,6 @@ export default () => {
   const [initialLoading, setInitialLoading] = useState(true);
   const currentPageRef = useRef(1);
 
-  // 获取记录列表
   const fetchRecordList = useCallback(async (page: number, append: boolean = false) => {
     setLoading(true);
     try {
@@ -51,11 +50,9 @@ export default () => {
     }
   }, []);
 
-  // 初始加载：获取用户信息、主题配置和第一页记录
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        // 并行获取用户信息、主题配置和第一页记录
         const [userResponse, themeResponse] = await Promise.all([getAuthorDataAPI(), getWebConfigDataAPI<{ value: Theme }>('theme')]);
 
         if (userResponse?.data) {
@@ -65,7 +62,6 @@ export default () => {
           setTheme(themeResponse.data.value);
         }
 
-        // 获取第一页记录
         setRecords([]);
         setHasMore(true);
         setInitialLoading(true);
@@ -79,13 +75,10 @@ export default () => {
     fetchInitialData();
   }, [fetchRecordList]);
 
-  // 滚动监听
   useEffect(() => {
     const handleScroll = () => {
-      // 如果正在加载或没有更多数据，则不处理
       if (loading || !hasMore) return;
 
-      // 检查是否滚动到底部（距离底部100px时触发）
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
@@ -98,7 +91,6 @@ export default () => {
       }
     };
 
-    // 使用防抖优化滚动事件
     let timeoutId: NodeJS.Timeout;
     const debouncedHandleScroll = () => {
       clearTimeout(timeoutId);
@@ -112,53 +104,79 @@ export default () => {
     };
   }, [hasMore, loading, totalPages, fetchRecordList]);
 
+  const coverImage = (theme as { record_cover?: string })?.record_cover || theme?.covers?.split?.(',')?.[0] || 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80';
+
   return (
     <>
       <title>🏕️ 闪念</title>
       <meta name="description" content="🏕️ 闪念" />
 
-      <div className="bg-[linear-gradient(to_right,#fff1eb_0%,#d0edfb_100%)] dark:bg-[linear-gradient(to_right,#232931_0%,#232931_100%)]">
-        <div className="w-full lg:w-[800px] px-6 lg:px-0 mx-auto pt-24 pb-10">
-          <div className="flex items-center flex-col p-4 mb-10 border dark:border-black-b rounded-lg bg-white dark:bg-black-b bg-[url('https://bu.dusays.com/2025/12/04/6930fe4e06985.jpg')] bg-no-repeat bg-center bg-cover  ">
-            <img src={user?.avatar} alt="作者头像" width={80} height={80} className="w-20 h-20 rounded-full avatar-animation shadow-[5px_11px_30px_20px_rgba(255,255,255,0.3)]" />
-            <h2 className="my-2 text-white">{theme?.record_name}</h2>
-            <h4 className="text-xs text-gray-300">{theme?.record_info}</h4>
-          </div>
-
-          {initialLoading ? (
-            <div className="flex justify-center items-center py-20">
-              <Loading />
+      <div className="bg-gray-100 min-h-screen flex justify-center text-wx-text selection:bg-wx-blue selection:text-white dark:bg-black-a pt-24">
+        <main className="w-full max-w-[430px] bg-white min-h-screen relative shadow-2xl flex flex-col overflow-y-auto dark:bg-black-b">
+          {/* 封面图区域 (Hero) */}
+          <section className="relative mb-16">
+            <div
+              className="h-80 w-full bg-cover bg-center cursor-pointer"
+              style={{ backgroundImage: `url('${coverImage}')` }}
+            />
+            <div className="absolute -bottom-10 right-4 flex items-end space-x-3">
+              <div className="text-white font-bold text-lg mb-4 drop-shadow-md select-none">
+                {theme?.record_name || '闪念'} - {user?.name || ''}
+              </div>
+              <div className="w-20 h-20 rounded-xl overflow-hidden border-2 border-white shadow-sm cursor-pointer active:opacity-80 transition-opacity">
+                <img src={user?.avatar} alt="头像" className="w-full h-full object-cover" width={80} height={80} />
+              </div>
             </div>
-          ) : (
-            <>
-              <div className="space-y-12">
-                {!!records?.length && records.map((item) => <RecordCard key={item.id} id={item.id as any} content={item.content as any} images={item.images as any} createTime={item.createTime as any} user={user as any} />)}
+          </section>
+
+          {/* 内容列表 */}
+          <div className="px-4 pb-10 space-y-8">
+            {initialLoading ? (
+              <div className="flex justify-center items-center py-20">
+                <Loading />
+              </div>
+            ) : (
+              <>
+                {!!records?.length &&
+                  records.map((item, index) => (
+                    <div key={item.id}>
+                      <RecordCard
+                        id={item.id as never}
+                        content={item.content as string}
+                        images={item.images as string[]}
+                        createTime={item.createTime as number}
+                        user={user as User}
+                      />
+                      {index < records.length - 1 && <div className="border-b border-gray-100 dark:border-wx-border mt-8" />}
+                    </div>
+                  ))}
 
                 <Show is={!records?.length}>
                   <Empty info="内容为空~" />
                 </Show>
-              </div>
 
-              {/* 懒加载指示器 */}
-              {loading && records.length > 0 && (
-                <div className="flex justify-center items-center py-8 mt-5 gap-2">
-                  <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-sm">
-                    <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    <span>正在加载...</span>
+                {loading && records.length > 0 && (
+                  <div className="flex justify-center items-center py-8 gap-2">
+                    <div className="flex items-center gap-2 text-wx-light text-sm">
+                      <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      <span>正在加载...</span>
+                    </div>
                   </div>
-                </div>
-              )}
-              {!hasMore && records.length > 0 && (
-                <div className="flex justify-center items-center py-8 mt-5">
-                  <div className="text-gray-500 dark:text-gray-400 text-sm">没有更多内容了</div>
-                </div>
-              )}
-            </>
-          )}
-        </div>
+                )}
+
+                {!hasMore && records.length > 0 && (
+                  <div className="text-center py-6">
+                    <div className="h-px bg-gray-200 dark:bg-wx-border w-full mb-3" />
+                    <span className="text-xs text-wx-light">已显示全部朋友圈</span>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </main>
       </div>
     </>
   );

@@ -16,7 +16,19 @@ const config: Config = {
       colors: {
         primary: '#539dfd', // 添加自定义颜色
         'black-a': '#232931',
-        'black-b': '#2c333e'
+        'black-b': '#2c333e',
+        // 微信朋友圈风格
+        wx: {
+          bg: '#ededed',
+          blue: '#576b95',
+          text: '#111111',
+          gray: '#f7f7f7',
+          light: '#b2b2b2',
+          border: '#e5e5e5',
+        },
+      },
+      boxShadow: {
+        'wx-menu': '0 0 8px rgba(0, 0, 0, 0.15)',
       },
       transitionDuration: {
         'DEFAULT': '300ms', // 添加默认过渡时间为0.3秒
