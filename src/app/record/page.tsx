@@ -111,7 +111,7 @@ export default () => {
       <title>🏕️ 闪念</title>
       <meta name="description" content="🏕️ 闪念" />
 
-      <div className="bg-gray-100 min-h-screen flex justify-center text-wx-text selection:bg-wx-blue selection:text-white dark:bg-black-a pt-24">
+      <div className="bg-gray-100 min-h-screen flex justify-center text-wx-text selection:bg-wx-blue selection:text-white dark:bg-black-a">
         <main className="w-full max-w-[430px] bg-white min-h-screen relative shadow-2xl flex flex-col overflow-y-auto dark:bg-black-b">
           {/* 封面图区域 (Hero) */}
           <section className="relative mb-16">
@@ -119,7 +119,7 @@ export default () => {
               className="h-80 w-full bg-cover bg-center cursor-pointer"
               style={{ backgroundImage: `url('${coverImage}')` }}
             />
-            <div className="absolute -bottom-10 right-4 flex items-end space-x-3">
+            <div className="absolute bottom-4 right-4 flex items-end space-x-3">
               <div className="text-white font-bold text-lg mb-4 drop-shadow-md select-none">
                 {theme?.record_name || '闪念'} - {user?.name || ''}
               </div>
