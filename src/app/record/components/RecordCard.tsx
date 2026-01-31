@@ -20,6 +20,31 @@ const formatMonth = (ts: string | number | Date | undefined) =>
 const formatTime = (ts: string | number | Date | undefined) =>
   ts != null ? dayjs(+ts).format('HH:mm') : '--';
 
+/** 根据与当前时间的差值返回相对时间文案 */
+function getRelativeTimeLabel(ts: string | number | Date | undefined): string {
+  if (ts == null) return '';
+  const now = dayjs();
+  const then = dayjs(+ts);
+  const diffDays = now.startOf('day').diff(then.startOf('day'), 'day');
+  const diffMonths = now.diff(then, 'month', true);
+  const diffYears = now.diff(then, 'year', true);
+
+  if (diffDays === 0) return '今天';
+  if (diffDays === 1) return '昨天';
+  if (diffDays >= 2 && diffDays <= 6) return `${diffDays}天前`;
+  if (diffDays >= 7 && diffDays <= 13) return '一周前';
+  if (diffDays >= 14 && diffDays <= 20) return '两周前';
+  if (diffDays >= 21 && diffDays <= 27) return '三周前';
+  if (diffMonths >= 1 && diffMonths < 2) return '一月前';
+  if (diffMonths >= 2 && diffMonths < 3) return '两月前';
+  if (diffMonths >= 3 && diffMonths < 6) return '三月前';
+  if (diffMonths >= 6 && diffMonths < 12) return '半年前';
+  if (diffYears >= 1 && diffYears < 2) return '一年前';
+  if (diffYears >= 2 && diffYears < 3) return '两年前';
+  if (diffYears >= 3) return `${Math.floor(diffYears)}年前`;
+  return '';
+}
+
 export default function RecordCard({ id, content, images, createTime, user }: RecordItemProps) {
   const imageList: string[] = Array.isArray(images) ? images : JSON.parse((images as string) || '[]');
 
@@ -48,13 +73,17 @@ export default function RecordCard({ id, content, images, createTime, user }: Re
                 alt={user?.name ?? '作者头像'}
                 width={40}
                 height={40}
-                className="w-10 h-10 rounded-full object-cover ring-2 ring-slate-50 dark:ring-slate-800 cursor-pointer"
+                className="w-10 h-10 rounded-full object-cover ring-2 ring-slate-50 dark:ring-slate-800 cursor-pointer transition-transform duration-200 ease-out hover:rotate-6"
               />
               <div>
                 <h3 className="font-bold text-slate-800 dark:text-slate-200 text-sm">{user?.name}</h3>
                 <div className="text-xs text-slate-400 dark:text-slate-500">{formatTime(createTime)}</div>
               </div>
             </div>
+            
+            <span className="flex-shrink-0 text-xs text-slate-400 dark:text-slate-500">
+              {getRelativeTimeLabel(createTime)}
+            </span>
           </div>
 
           {/* Body: 文本内容 */}
