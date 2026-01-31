@@ -100,7 +100,7 @@ export default () => {
   return (
     <>
       <Button color="primary" variant="shadow" onPress={onOpen}>
-        申请加入
+        申请友联
       </Button>
 
       <Modal

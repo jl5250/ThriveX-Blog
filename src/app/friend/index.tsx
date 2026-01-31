@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Web } from '@/types/app/web';
 import { useConfigStore, useAuthorStore } from '@/stores';
+import ApplyForAdd from './components/ApplyForAdd';
 
 const Icons = {
   Copy: () => (
@@ -94,7 +95,7 @@ export default ({ data }: { data: { [string: string]: { order: number; list: Web
       </div>
 
       <div className="min-h-screen bg-gray-50 dark:bg-[#0f172a]">
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 pt-24 relative z-20 space-y-16">
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 pt-28 relative z-20 space-y-16">
 
           <section className="relative group w-full mx-auto">
             {/* 卡片背后的光晕装饰 */}
@@ -102,9 +103,19 @@ export default ({ data }: { data: { [string: string]: { order: number; list: Web
 
             {/* 卡片主体 */}
             <div className="relative bg-white/70 dark:bg-[#1e293b]/60 backdrop-blur-xl border border-white/50 dark:border-gray-700/50 rounded-3xl shadow-2xl overflow-hidden ring-1 ring-gray-900/5">
-              <div className="p-6 md:p-8 lg:p-10">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-                  <div className="lg:col-span-5 flex flex-col justify-center items-center text-center">
+              {/* 角落装饰 */}
+              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-primary/15 to-transparent dark:from-primary/20 rounded-bl-[100px]" />
+              <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-tr from-purple-500/15 to-transparent dark:from-purple-500/20 rounded-tr-[80px]" />
+              <div className="absolute top-4 right-4 w-2 h-2 rounded-full bg-primary/40 dark:bg-primary/50 animate-pulse" />
+              <div className="absolute bottom-6 left-6 w-1.5 h-1.5 rounded-full bg-purple-500/50 dark:bg-purple-400/40" />
+              <div className="absolute top-1/3 right-8 w-1 h-1 rounded-full bg-gray-400/60 dark:bg-gray-500/50" />
+
+              <div className="p-6 md:p-8 lg:p-10 relative">
+                <div className="grid grid-cols-1 lg:grid-cols-12 pt-8 sm:pt-0 lg:gap-12 items-center">
+                  <div className="lg:col-span-5 flex flex-col justify-center items-center text-center relative">
+                    {/* 头像区背景装饰圆 */}
+                    <div className="absolute -top-5 left-1/2 -translate-x-1/2 w-44 h-44 rounded-full border border-dashed border-primary/20 dark:border-primary/30 -z-0" />
+
                     {/* Logo/头像展示区 */}
                     <div
                       className="relative group/avatar cursor-pointer animate-avatar-in"
@@ -121,18 +132,28 @@ export default ({ data }: { data: { [string: string]: { order: number; list: Web
                     </div>
 
                     {/* 标题与描述 */}
-                    <div className="space-y-1">
-                      <h2 className="text-2xl font-bold text-gray-900 dark:text-white text-center">
-                        {web?.title}
-                      </h2>
-                      <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">
+                    <div className="space-y-1 relative mt-8 sm:mt-4">
+                      <div className="flex items-center justify-center gap-2 mb-1">
+                        <span className="w-1 h-6 rounded-full bg-primary/60 dark:bg-primary/50" />
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white text-center">
+                          {web?.title}
+                        </h2>
+                      </div>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 font-medium flex items-center justify-center gap-1.5 mt-2.5">
+                        <span className="inline-block w-1 h-1 rounded-full bg-gray-400/70 dark:bg-gray-500/60" />
                         {web?.description}
+                        <span className="inline-block w-1 h-1 rounded-full bg-gray-400/70 dark:bg-gray-500/60" />
                       </p>
                     </div>
                   </div>
 
-                  <div className="lg:col-span-7 w-full">
-                    <div className="bg-gray-50/80 dark:bg-black/20 rounded-2xl p-6 border border-gray-100 dark:border-gray-700/30">
+                  {/* 中间装饰线（仅大屏） */}
+                  <div className="hidden lg:block absolute left-[41.666%] top-1/2 -translate-y-1/2 w-px h-3/4 border-l border-dashed border-gray-200 dark:border-gray-600/60" />
+                  <div className="hidden lg:block absolute left-[41.666%] top-1/2 -translate-y-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-primary/30 dark:bg-primary/40 ring-4 ring-white dark:ring-[#1e293b]" />
+
+                  <div className="lg:col-span-7 w-full relative">
+                    <div className="rounded-2xl p-6 relative overflow-hidden">
+                      {/* 信息区内部小装饰 */}
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {/* 1. 站点名称 */}
                         <div className="md:col-span-1">
@@ -199,6 +220,11 @@ export default ({ data }: { data: { [string: string]: { order: number; list: Web
                   <span className="absolute bottom-1 left-0 w-full h-3 bg-primary/20 -skew-x-12 rounded-sm"></span>
                 </div>
                 <div className="h-px flex-1 bg-gradient-to-r from-gray-200 to-transparent dark:from-gray-800"></div>
+                {index === 0 && (
+                  <div className="shrink-0">
+                    <ApplyForAdd />
+                  </div>
+                )}
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
