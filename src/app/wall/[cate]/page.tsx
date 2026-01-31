@@ -121,7 +121,7 @@ export default () => {
         <div className="absolute bottom-1/4 left-0 w-80 h-80 rounded-full bg-cyan-400/8 blur-[80px]" />
       </div>
 
-      <div className="py-16 border-b dark:border-[#4e5969] bg-[linear-gradient(to_right,#fff1eb_0%,#d0edfb_100%)] dark:bg-[linear-gradient(to_right,#232931_0%,#232931_100%)]  ">
+      <div className="py-16 border-b dark:border-[#4e5969]">
         <div className="relative z-10">
           {/* 头部区域 */}
           <div className="flex flex-col items-center px-4 pt-12 md:pt-16 pb-8">

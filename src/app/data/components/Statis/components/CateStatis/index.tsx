@@ -32,31 +32,45 @@ export default () => {
       const option = {
         tooltip: {
           trigger: 'item',
+          backgroundColor: 'rgba(255,255,255,0.95)',
+          borderColor: 'rgba(0,0,0,0.08)',
+          borderWidth: 1,
+          textStyle: { color: '#1e293b' },
         },
         legend: {
           show: false,
         },
+        color: ['#0ea5e9', '#8b5cf6', '#10b981', '#f59e0b', '#ef4444', '#6366f1', '#ec4899'],
         series: [
           {
             name: '数量统计',
             type: 'pie',
-            radius: ['5%', '70%'],
+            radius: ['40%', '75%'],
+            center: ['50%', '50%'],
             avoidLabelOverlap: false,
-            padAngle: 5,
+            padAngle: 3,
             itemStyle: {
-              borderRadius: 10,
+              borderRadius: 8,
+              borderColor: 'transparent',
+              borderWidth: 0,
             },
             label: {
-              show: false,
-              position: 'center',
+              show: true,
+              formatter: '{b}\n{d}%',
+              fontSize: 12,
             },
             emphasis: {
-              label: {
-                show: false,
+              itemStyle: {
+                shadowBlur: 12,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.2)',
               },
+              label: { show: true },
             },
             labelLine: {
-              show: false,
+              show: true,
+              length: 8,
+              length2: 6,
             },
             data: list,
           },
@@ -79,12 +93,17 @@ export default () => {
   }, [list]);
 
   return (
-    <div className="flex flex-col items-center mb-5 md:mb-0">
-      <h3 className="flex items-center text-xl mb-5">
-        <Image src={cate.src} alt="分类一览" width={25} height={25} className="mr-3" /> 分类一览
-      </h3>
-
-      <div ref={chartRef} className="min-w-[300px] h-[300px]"></div>
+    <div className="rounded-2xl border border-slate-200 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-800/30 p-6 overflow-hidden">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-emerald-500/10 dark:bg-emerald-500/20">
+          <Image src={cate.src} alt="分类一览" width={22} height={22} className="opacity-90" />
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-100">分类一览</h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400">文章分类占比分布</p>
+        </div>
+      </div>
+      <div ref={chartRef} className="min-w-[260px] h-[280px] w-full" />
     </div>
   );
 };

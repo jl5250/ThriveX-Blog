@@ -41,56 +41,80 @@ export default ({ aTotal }: Props) => {
     getData();
   }, []);
 
+  const statCards = [
+    {
+      title: '文章总计',
+      value: aTotal,
+      icon: article,
+      gradient: 'from-sky-500 to-blue-600',
+      bgLight: 'bg-sky-50 dark:bg-sky-500/10',
+      borderColor: 'border-sky-200 dark:border-sky-500/30',
+      textColor: 'text-sky-600 dark:text-sky-400',
+    },
+    {
+      title: '评论总计',
+      value: commentList.length,
+      icon: comment,
+      gradient: 'from-amber-500 to-orange-500',
+      bgLight: 'bg-amber-50 dark:bg-amber-500/10',
+      borderColor: 'border-amber-200 dark:border-amber-500/30',
+      textColor: 'text-amber-600 dark:text-amber-400',
+    },
+    {
+      title: '分类总计',
+      value: cateList.length,
+      icon: cate,
+      gradient: 'from-emerald-500 to-teal-500',
+      bgLight: 'bg-emerald-50 dark:bg-emerald-500/10',
+      borderColor: 'border-emerald-200 dark:border-emerald-500/30',
+      textColor: 'text-emerald-600 dark:text-emerald-400',
+    },
+    {
+      title: '友联总计',
+      value: linkList.length,
+      icon: friend,
+      gradient: 'from-rose-500 to-red-500',
+      bgLight: 'bg-rose-50 dark:bg-rose-500/10',
+      borderColor: 'border-rose-200 dark:border-rose-500/30',
+      textColor: 'text-rose-600 dark:text-rose-400',
+    },
+  ];
+
   return (
-    <>
-      <h3 className="flex items-center text-2xl mb-3">
-        <Image src={statis.src} alt="统计" width={36} height={36} className="mr-3" /> 数据统计
-      </h3>
-
-      <div className="mb-10 mt-5">
-        <div className="grid grid-cols-1 gap-2 xs:grid-cols-2 md:grid-cols-4 md:gap-4">
-          <div className="flex justify-between items-center px-4 sm:px-5 h-20 sm:h-24 border-2 border-[#0EA5E9] rounded-lg bg-[#F0F9FF]">
-            <Image src={article} alt="文章" />
-
-            <div className="flex flex-col">
-              <h3 className="text-2xl sm:text-3xl font-sans text-[#0EA5E9] text-end">{aTotal}</h3>
-              <p className="text-[#0EA5E9]">文章总计</p>
-            </div>
-          </div>
-
-          <div className="flex justify-between items-center px-4 sm:px-5 h-20 sm:h-24 border-2 border-[#F59E0B] rounded-lg bg-[#FFFBEB]">
-            <Image src={comment} alt="" />
-
-            <div className="flex flex-col">
-              <h3 className="text-2xl sm:text-3xl font-sans text-[#F59E0B] text-end">{commentList.length}</h3>
-              <p className="text-[#F59E0B]">评论总计</p>
-            </div>
-          </div>
-
-          <div className="flex justify-between items-center px-4 sm:px-5 h-20 sm:h-24 border-2 border-[#0E9F6E] rounded-lg bg-[#F3FAF7]">
-            <Image src={cate} alt="分类" />
-
-            <div className="flex flex-col">
-              <h3 className="text-2xl sm:text-3xl font-sans text-[#0E9F6E] text-end">{cateList.length}</h3>
-              <p className="text-[#0E9F6E]">分类总计</p>
-            </div>
-          </div>
-
-          <div className="flex justify-between items-center px-4 sm:px-5 h-20 sm:h-24 border-2 border-[#EC160F] rounded-lg bg-[#FFF0F0]">
-            <Image src={friend} alt="友联" />
-
-            <div className="flex flex-col">
-              <h3 className="text-2xl sm:text-3xl font-sans text-[#EC160F] text-end">{linkList.length}</h3>
-              <p className="text-[#EC160F]">友联总计</p>
-            </div>
-          </div>
+    <section className="space-y-10">
+      <div className="flex items-center gap-3">
+        <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 dark:bg-primary/20">
+          <Image src={statis.src} alt="统计" width={28} height={28} className="opacity-90" />
         </div>
-
-        <div className="flex flex-col md:flex-row justify-between my-14">
-          <CateStatis />
-          <TagStatis />
+        <div>
+          <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100 tracking-tight">数据统计</h2>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">博客核心指标概览</p>
         </div>
       </div>
-    </>
+
+      <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-4">
+        {statCards.map((card, index) => (
+          <div
+            key={index}
+            className={`group relative overflow-hidden rounded-2xl border ${card.borderColor} ${card.bgLight} p-5 transition-[transform,box-shadow] duration-300 hover:shadow-lg hover:-translate-y-0.5 hover:border-opacity-80`}
+          >
+            <div className="relative flex items-center justify-between">
+              <div className="flex items-center justify-center rounded-xl dark:bg-black/20">
+                <Image src={card.icon} alt={card.title} width={48} height={48} />
+              </div>
+              <div className="text-right">
+                <p className={`text-3xl font-bold tabular-nums ${card.textColor}`}>{card.value}</p>
+                <p className={`text-sm font-medium mt-0.5 ${card.textColor} opacity-90`}>{card.title}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-4">
+        <CateStatis />
+        <TagStatis />
+      </div>
+    </section>
   );
 };

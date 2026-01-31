@@ -16,47 +16,36 @@ export default () => {
     getTagData();
   }, []);
 
-  const colors = [
-    {
-      color: '#0d6efd',
-      backgroundColor: 'rgba(13, 110, 253, .2)',
-    },
-    {
-      color: '#6610f2',
-      backgroundColor: 'rgba(102, 16, 242, .2)',
-    },
-    {
-      color: '#20c997',
-      backgroundColor: 'rgba(32, 201, 151, .2)',
-    },
-    {
-      color: '#dc3545',
-      backgroundColor: 'rgba(220, 53, 69, .2)',
-    },
-    {
-      color: '#fd7e14',
-      backgroundColor: 'rgba(253, 126, 20, .2)',
-    },
+  const tagStyles = [
+    'bg-sky-100 text-sky-700 dark:bg-sky-500/20 dark:text-sky-300',
+    'bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-300',
+    'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300',
+    'bg-rose-100 text-rose-700 dark:bg-rose-500/20 dark:text-rose-300',
+    'bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300',
+    'bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300',
   ];
 
   return (
-    <>
-      <div className="flex flex-col items-center">
-        <h3 className="flex items-center text-xl mb-5">
-          <Image src={tag.src} alt="标签墙" width={25} height={25} className="mr-3" /> 标签墙
-        </h3>
-
-        <div className="overflow-auto h-[270px] pr-1 grid grid-cols-6 gap-2 hide_sliding">
-          {list.map((item, index) => {
-            const { color, backgroundColor } = colors[getRandom(0, colors.length - 1)];
-            return (
-              <span key={index} className="flex justify-center items-center px-4 h-8 text-xs rounded-md whitespace-nowrap line-clamp-1" style={{ color, backgroundColor }}>
-                {item.name}
-              </span>
-            );
-          })}
+    <div className="rounded-2xl border border-slate-200 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-800/30 p-6 overflow-hidden">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-violet-500/10 dark:bg-violet-500/20">
+          <Image src={tag.src} alt="标签墙" width={22} height={22} className="opacity-90" />
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-100">标签墙</h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400">文章标签云展示</p>
         </div>
       </div>
-    </>
+      <div className="overflow-auto max-h-[280px] pr-2 grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 gap-2 hide_sliding">
+        {list.map((item, index) => (
+          <span
+            key={index}
+            className={`inline-flex justify-center items-center px-3 py-2 text-sm font-medium rounded-xl whitespace-nowrap transition-[transform,box-shadow] hover:scale-105 hover:shadow-md ${tagStyles[getRandom(0, tagStyles.length - 1)]}`}
+          >
+            {item.name}
+          </span>
+        ))}
+      </div>
+    </div>
   );
 };
