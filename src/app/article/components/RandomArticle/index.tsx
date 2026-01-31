@@ -43,59 +43,56 @@ const RandomArticle = () => {
   if (!list.length) return null;
 
   return (
-    <section className="mt-12 py-6 border-t border-slate-300/20">
-      <div className="flex items-center gap-2 mb-5">
+    <section className="mt-8">
+      <div className="flex items-center gap-2 mb-3">
         <Image src={RandomArticleSvg} alt="随机推荐" width={24} height={24} />
         <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-100">随机推荐</h3>
         <p className="ml-auto text-[0.8125rem] text-slate-500 dark:text-slate-400">发现更多精彩内容</p>
       </div>
 
-      <div
-        className="overflow-x-auto overflow-y-hidden pb-2 scroll-smooth [scrollbar-width:thin] [scrollbar-color:rgb(148_163_184/0.4)_transparent]
+      <div className="overflow-x-auto py-4">
+        <div
+          className="scroll-smooth [scrollbar-width:thin] [scrollbar-color:rgb(148_163_184/0.4)_transparent]
           [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded [&::-webkit-scrollbar-thumb]:bg-slate-400/40 
           [&::-webkit-scrollbar-thumb:hover]:bg-slate-400/60"
-      >
-        <div className="flex gap-4 pb-2 min-w-min">
-          {list.map((item, index) => {
-            const coverUrl = getCoverUrl(item);
-            return (
-              <Link
-                key={item.id}
-                href={`/article/${item.id}`}
-                target="_blank"
-                className="group flex-shrink-0 w-[260px] block rounded-xl overflow-hidden no-underline text-inherit border border-slate-200/80 dark:border-slate-700/50 
-                  hover:border-indigo-400/40 dark:hover:border-indigo-400/40 hover:shadow-lg dark:hover:shadow-[0_12px_24px_-8px_rgba(0,0,0,0.4)]
-                  transition-[transform,box-shadow,border-color] duration-200 ease-out hover:-translate-y-1"
-              >
-                <div
-                  className="relative w-full h-40 bg-cover bg-center bg-no-repeat bg-slate-400 overflow-hidden"
-                  style={coverUrl ? { backgroundImage: `url(${coverUrl})` } : undefined}
+        >
+          <div className="flex gap-4 pb-1 min-w-min">
+            {list.map((item) => {
+              const coverUrl = getCoverUrl(item);
+              return (
+                <Link
+                  key={item.id}
+                  href={`/article/${item.id}`}
+                  target="_blank"
+                  className="group flex-shrink-0 w-[260px] block no-underline text-inherit 
+                  hover:shadow-lg dark:hover:shadow-[0_12px_24px_-8px_rgba(0,0,0,0.4)] transition-[transform,box-shadow,border-color] duration-200 ease-out overflow-hidden rounded-xl hover:-translate-y-1"
                 >
-                  {coverUrl ? (
-                    <Image
-                      src={coverUrl}
-                      alt={item.title}
-                      fill
-                      sizes="(max-width: 768px) 240px, 280px"
-                      className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
-                    />
-                  ) : (
-                    <div className="absolute inset-0 bg-slate-400/50 dark:bg-slate-600/50" />
-                  )}
                   <div
-                    className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none"
-                    aria-hidden
-                  />
-                  <span className="absolute top-2 left-2 min-w-6 h-6 px-1.5 flex items-center justify-center text-xs font-bold text-white bg-black/50 rounded-md backdrop-blur-sm z-[2]">
-                    {index + 1}
-                  </span>
-                  <h4 className="absolute bottom-3 left-3 right-3 text-[0.9375rem] font-semibold text-white m-0 line-clamp-2 overflow-hidden leading-snug [text-shadow:0_1px_2px_rgba(0,0,0,0.5)] z-[2]">
-                    {item.title}
-                  </h4>
-                </div>
-              </Link>
-            );
-          })}
+                    className="relative w-full h-40 bg-cover bg-center bg-no-repeat"
+                    style={coverUrl ? { backgroundImage: `url(${coverUrl})` } : undefined}
+                  >
+                    {coverUrl ? (
+                      <Image
+                        src={coverUrl}
+                        alt={item.title}
+                        fill
+                        className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 bg-slate-400/50 dark:bg-slate-600/50" />
+                    )}
+                    <div
+                      className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none"
+                      aria-hidden
+                    />
+                    <h4 className="absolute bottom-3 left-3 right-3 text-[0.9375rem] font-semibold text-white m-0 line-clamp-2 overflow-hidden leading-snug [text-shadow:0_1px_2px_rgba(0,0,0,0.5)] z-[2]">
+                      {item.title}
+                    </h4>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
