@@ -247,28 +247,49 @@ export default ({ data }: { data: { [string: string]: { order: number; list: Web
 
                 {data[type].list?.map((item: Web) => (
                   <Link key={item.id} href={item.url} target="_blank" className="group block h-full">
-                    <div className="h-full flex items-start p-4 bg-white dark:bg-[#1e293b]/80 backdrop-blur-sm border border-gray-100 dark:border-gray-700/60 rounded-2xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-gray-200/50 dark:hover:shadow-black/30 hover:border-primary/40 dark:hover:border-primary/40 group-hover:bg-white/80 dark:group-hover:bg-[#1e293b]">
-                      <div className="relative shrink-0">
+                    {type === '全站置顶' ? (
+                      <div className="h-full flex items-center p-5 bg-gradient-to-br from-primary/5 to-purple-500/5 dark:from-primary/10 dark:to-purple-500/10 border border-primary/20 dark:border-primary/30 rounded-2xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10 hover:border-primary/50">
                         <img
                           src={item.image}
                           alt={item.title}
-                          className="w-12 h-12 rounded-xl object-cover bg-gray-100 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 transition-transform duration-300 group-hover:scale-110"
+                          className="w-16 h-16 rounded-full border-2 border-white dark:border-gray-700 shadow-md object-cover bg-gray-100 dark:bg-gray-800 group-hover:rotate-6 transition-transform duration-300"
                           onError={(e) => {
                             const el = e.target as HTMLImageElement;
                             if (el.src !== DEFAULT_AVATAR) el.src = DEFAULT_AVATAR;
                           }}
                         />
+                        <div className="ml-4 flex-1 min-w-0">
+                          <h4 className="text-base font-bold text-gray-900 dark:text-white group-hover:text-primary truncate">
+                            {item.title}
+                          </h4>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-2 font-medium">
+                            {item.description || '暂无介绍...'}
+                          </p>
+                        </div>
                       </div>
-
-                      <div className="ml-4 flex-1 min-w-0">
-                        <h4 className="text-sm font-bold text-gray-800 dark:text-gray-100 group-hover:text-primary truncate">
-                          {item.title}
-                        </h4>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1.5 leading-relaxed line-clamp-2 group-hover:text-gray-600 dark:group-hover:text-gray-300">
-                          {item.description || '暂无介绍...'}
-                        </p>
+                    ) : (
+                      <div className="h-full flex items-start p-4 bg-white dark:bg-[#1e293b]/80 backdrop-blur-sm border border-gray-100 dark:border-gray-700/60 rounded-2xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-gray-200/50 dark:hover:shadow-black/30 hover:border-primary/40 dark:hover:border-primary/40 group-hover:bg-white/80 dark:group-hover:bg-[#1e293b]">
+                        <div className="relative shrink-0">
+                          <img
+                            src={item.image}
+                            alt={item.title}
+                            className="w-12 h-12 rounded-xl object-cover bg-gray-100 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 transition-transform duration-300 group-hover:scale-110"
+                            onError={(e) => {
+                              const el = e.target as HTMLImageElement;
+                              if (el.src !== DEFAULT_AVATAR) el.src = DEFAULT_AVATAR;
+                            }}
+                          />
+                        </div>
+                        <div className="ml-4 flex-1 min-w-0">
+                          <h4 className="text-sm font-bold text-gray-800 dark:text-gray-100 group-hover:text-primary truncate">
+                            {item.title}
+                          </h4>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1.5 leading-relaxed line-clamp-1 group-hover:text-gray-600 dark:group-hover:text-gray-300">
+                            {item.description || '暂无介绍...'}
+                          </p>
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </Link>
                 ))}
               </div>
