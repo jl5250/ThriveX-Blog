@@ -23,7 +23,7 @@ export default () => {
   const { isDark, setIsDark, theme } = useConfigStore();
 
   // 这些路径段不需要改变导航样式
-  const isPathSty = ['/my', '/wall', '/record', '/equipment', '/tags', '/resume', '/album', '/fishpond'].some((path) => patchName.includes(path));
+  const isPathSty = ['/my', '/wall', '/record', '/equipment', '/tags', '/resume', '/album', '/fishpond', '/friend'].some((path) => patchName.includes(path));
   // 是否改变导航样式
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -69,7 +69,7 @@ export default () => {
 
   return (
     <>
-      <div className={`header fixed top-0 w-full h-16 backdrop-blur-[5px] z-50 after:content-[''] after:block after:w-full after:h-0 after:bg-[linear-gradient(#fff,transparent_70%)] dark:after:bg-[linear-gradient(#2b333e,transparent_70%)] after:  ${isPathSty || isScrolled ? 'bg-[rgba(255,255,255,0.9)] dark:bg-[rgba(44,51,62,0.9)] border-b dark:border-[#2b333e] after:!h-8 after:transition-height]' : 'border-transparent'} transition-border`}>
+      <div className={`header fixed top-0 w-full h-16 backdrop-blur-[5px] z-50 after:content-[''] after:block after:w-full after:h-0 after:bg-[linear-gradient(#fff,transparent_70%)] dark:after:bg-[linear-gradient(#2b333e,transparent_70%)] after:  ${isPathSty || isScrolled ? 'bg-[rgba(255,255,255,0.7)] dark:bg-[rgba(44,51,62,0.7)] backdrop-blur-md border-b dark:border-[#2b333e] after:!h-8 after:transition-height]' : 'border-transparent'}`}>
         <div className="relative flex justify-center lg:justify-start w-full lg:w-[1500px] h-16 mx-auto">
           <div className={`lg:hidden group absolute top-0 left-0 h-full py-2 px-3 pl-7 ${isPathSty || isScrolled ? 'hover:bg-[#e9edf4] dark:hover:bg-[#455162] rounded-lg' : ''} cursor-pointer  `} onClick={() => setIsOpenSidebarNav(true)}>
             <BsTextIndentLeft className={`group-hover:text-primary h-full text-[30px] ${isPathSty || isScrolled ? 'text-[#333] dark:text-white' : 'text-white'}  `} />
@@ -104,7 +104,7 @@ export default () => {
                       <ul className="hidden group-hover/one:block overflow-hidden absolute top-[50px] w-full rounded-md backdrop-blur-[5px] bg-[rgba(255,255,255,0.95)] dark:bg-[rgba(44,51,62,0.95)]" style={{ boxShadow: '0 12px 32px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.08)' }}>
                         {one.children?.map((two) => (
                           <li key={two.id} className="group/two">
-                            <Link href={`/cate/${two.id}?name=${two.name}`} target={`${two.url.startsWith('http') ? '_blank' : '_self'}`} className="relative inline-block w-full p-2.5 text-[15px] box-border text-[#666] dark:text-white hover:!text-primary transition-all after:content-[''] after:absolute after:left-2.5 after:top-1/2 after:-translate-y-1/2 after:w-0 after:h-[3px] after:bg-primary after:transition-width group-hover/two:bg-[#f2f2f2] dark:group-hover/two:bg-[#323e50] group-hover/two:pl-8 hover:after:w-2.5">
+                            <Link href={`/cate/${two.id}?name=${two.name}`} target={`${two.url.startsWith('http') ? '_blank' : '_self'}`} className="relative inline-block w-full p-2.5 text-[15px] box-border text-[#666] dark:text-white hover:!text-primary transition-[padding] after:content-[''] after:absolute after:left-2.5 after:top-1/2 after:-translate-y-1/2 after:w-0 after:h-[3px] after:bg-primary after:transition-[width] group-hover/two:bg-[#f2f2f2] dark:group-hover/two:bg-[#323e50] group-hover/two:pl-8 hover:after:w-2.5">
                               {two.name}
                             </Link>
                           </li>
@@ -129,7 +129,7 @@ export default () => {
                       <ul className="hidden group-hover/one:block overflow-hidden absolute top-[50px] w-full rounded-md backdrop-blur-sm bg-[rgba(255,255,255,0.95)] dark:bg-[rgba(44,51,62,0.95)]" style={{ boxShadow: '0 12px 32px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.08)' }}>
                         {one.children?.map((two) => (
                           <li key={two.id} className="group/two relative">
-                            <Link href={two.url} className={`relative inline-block w-full p-2.5 pl-5 text-[15px] box-border text-[#666] dark:text-white hover:!text-primary transition-all after:content-[''] after:absolute after:left-2.5 after:top-1/2 after:-translate-y-1/2 after:w-0 after:h-[3px] after:bg-primary after:transition-width group-hover/two:pl-8 hover:after:w-2.5`}>
+                            <Link href={two.url} className={`relative inline-block w-full p-2.5 pl-5 text-[15px] box-border text-[#666] dark:text-white hover:!text-primary transition-[padding] after:content-[''] after:absolute after:left-2.5 after:top-1/2 after:-translate-y-1/2 after:w-0 after:h-[3px] after:bg-primary after:transition-[width] group-hover/two:pl-8 hover:after:w-2.5`}>
                               {two.icon} {two.name}
                             </Link>
                           </li>
@@ -148,7 +148,6 @@ export default () => {
       </div>
 
       {/* 侧边导航：移动端时候显示 */}
-      {/* <SidebarNav list={cateList} open={isOpenSidebarNav} onClose={() => setIsOpenSidebarNav(false)} /> */}
       <SidebarNav list={cateList} open={isOpenSidebarNav} onClose={() => setIsOpenSidebarNav(false)} />
     </>
   );
