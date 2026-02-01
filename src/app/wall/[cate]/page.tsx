@@ -1,35 +1,112 @@
+'use client';
+
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
-import Pagination from '@/components/Pagination';
+import { useParams } from 'next/navigation';
 import AddWallInfo from '../components/AddWallInfo';
+import WallMasonry from '../components/WallMasonry';
+import Loading from '@/components/Loading';
 import { getCateListAPI, getCateWallListAPI } from '@/api/wall';
-import dayjs from 'dayjs';
-import { Cate } from '@/types/app/cate';
-import { Wall } from '@/types/app/wall';
-import { FaTag } from 'react-icons/fa';
+import { Cate, Wall } from '@/types/app/wall';
 
-interface Props {
-  params: Promise<{ cate: string }>;
-  searchParams: Promise<{ page: number }>;
-}
+export default () => {
+  const params = useParams();
+  const cate = params?.cate as string;
 
-export default async (props: Props) => {
-  const searchParams = await props.searchParams;
-  const params = await props.params;
-  const cate = params.cate;
-  const page = searchParams.page || 1;
+  const [cateList, setCateList] = useState<Cate[]>([]);
+  const [walls, setWalls] = useState<Wall[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [initialLoading, setInitialLoading] = useState(true);
+  const currentPageRef = useRef(1);
 
-  const active = '!text-primary !border-primary';
+  // 获取分类列表
+  useEffect(() => {
+    const fetchCateList = async () => {
+      const { data } = (await getCateListAPI()) || { data: [] as Cate[] };
+      const sorted = [...data].sort((a, b) => a.order - b.order);
+      setCateList(sorted);
+    };
+    fetchCateList();
+  }, []);
 
-  // 提前把颜色写好，否则会导致样式丢失
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const colors = ['bg-[#fcafa24d]', 'bg-[#a8ed8a4d]', 'bg-[#caa7f74d]', 'bg-[#ffe3944d]', 'bg-[#92e6f54d]'];
+  // 获取留言列表
+  const fetchWallList = useCallback(
+    async (page: number, append: boolean = false) => {
+      const id = cateList.find((item) => item.mark === cate)?.id ?? 0;
+      if (!id) return;
 
-  const { data: cateList } = (await getCateListAPI()) || { data: [] as Cate[] };
+      setLoading(true);
+      try {
+        const { data: tallList } = (await getCateWallListAPI(id, page, 8)) || { data: {} as Paginate<Wall[]> };
 
-  const id = cateList.find((item) => item.mark === cate)?.id ?? 0;
-  const { data: tallList } = (await getCateWallListAPI(id, page)) || { data: {} as Paginate<Wall[]> };
+        if (tallList.result && tallList.result.length > 0) {
+          if (append) {
+            setWalls((prev) => [...prev, ...tallList.result]);
+          } else {
+            setWalls(tallList.result);
+          }
+          setTotalPages(tallList.pages || 1);
+          setHasMore(page < (tallList.pages || 1));
+          currentPageRef.current = page;
+        } else {
+          setHasMore(false);
+        }
+      } catch (error) {
+        console.error('获取留言列表失败:', error);
+        setHasMore(false);
+      } finally {
+        setLoading(false);
+        setInitialLoading(false);
+      }
+    },
+    [cate, cateList]
+  );
 
-  cateList.sort((a, b) => a.order - b.order);
+  // 初始加载和分类切换时重新加载
+  useEffect(() => {
+    if (cateList.length > 0 && cate) {
+      setWalls([]);
+      setHasMore(true);
+      setInitialLoading(true);
+      currentPageRef.current = 1;
+      fetchWallList(1, false);
+    }
+  }, [cate, cateList, fetchWallList]);
+
+  // 滚动监听
+  useEffect(() => {
+    const handleScroll = () => {
+      // 如果正在加载或没有更多数据，则不处理
+      if (loading || !hasMore) return;
+
+      // 检查是否滚动到底部（距离底部100px时触发）
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+
+      if (scrollTop + windowHeight >= documentHeight - 100) {
+        const nextPage = currentPageRef.current + 1;
+        if (nextPage <= totalPages) {
+          fetchWallList(nextPage, true);
+        }
+      }
+    };
+
+    // 使用防抖优化滚动事件
+    let timeoutId: NodeJS.Timeout;
+    const debouncedHandleScroll = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(handleScroll, 200);
+    };
+
+    window.addEventListener('scroll', debouncedHandleScroll);
+    return () => {
+      window.removeEventListener('scroll', debouncedHandleScroll);
+      clearTimeout(timeoutId);
+    };
+  }, [hasMore, loading, totalPages, fetchWallList]);
 
   return (
     <>
@@ -37,56 +114,71 @@ export default async (props: Props) => {
       <meta name="description" content="💌 留言墙" />
 
       <div className="py-16 border-b dark:border-[#4e5969] bg-[linear-gradient(to_right,#fff1eb_0%,#d0edfb_100%)] dark:bg-[linear-gradient(to_right,#232931_0%,#232931_100%)]  ">
-        <div className="flex flex-col items-center">
-          <h2 className="text-5xl pt-24 mb-10">留言墙</h2>
-          <p className="text-sm text-gray-600 mb-4">有什么想对我说的，来吧</p>
-          {/* <Button color="primary" variant="shadow" onPress={onOpen}>
-            留言
-          </Button> */}
-
-          <div className="mb-10">
-            <AddWallInfo />
-          </div>
+        {/* 背景装饰元素 */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
         </div>
 
-        <ul className="flex flex-row overflow-x-auto whitespace-nowrap justify-start md:justify-center text-xs md:text-sm space-x-2 scrollbar-hide p-2">
-          {cateList?.map((item) => (
-            <li
-              key={item.id}
-              className={`flex items-center px-3 py-2 min-w-fit dark:text-[#8c9ab1] border-2 border-transparent rounded-full hover:!text-primary hover:border-primary transition-all duration-200 cursor-pointer shadow-sm bg-white/60 dark:bg-[#232931]/60 backdrop-blur-md group ${
-                item.mark === cate
-                  ? active + ' shadow-primary/30 ring-2 ring-primary/30 scale-105'
-                  : ''
-              }`}
-            >
-              <Link href={`/wall/${item.mark}`} className="flex items-center w-full">
-                <FaTag className="mr-1 text-xs text-primary/60 group-hover:scale-125 transition-transform" />
+        <div className="relative z-10">
+          {/* 头部区域 */}
+          <div className="flex flex-col items-center px-4 pt-12 md:pt-16 pb-8">
+            <div className="relative text-center mb-10">
+              <h2 className="text-5xl mb-3">留言墙</h2>
+              <p className="text-sm text-gray-600 mb-4">有什么想对我说的，来吧</p>
+              <div className="absolute left-1/2 transform -translate-x-1/2 bottom-0 w-24 h-1 bg-gradient-to-r from-transparent via-blue-400 to-transparent rounded-full"></div>
+            </div>
+
+            <div className="mb-8">
+              <AddWallInfo />
+            </div>
+          </div>
+
+          {/* 分类标签 */}
+          <div className="flex flex-wrap justify-center gap-2 md:gap-3 px-4 mb-8">
+            {cateList?.map((item) => (
+              <Link
+                key={item.id}
+                href={`/wall/${item.mark}`}
+                className={`
+                  relative px-5 py-2.5 text-sm font-medium rounded-full
+                  transition-transform
+                  ${item.mark === cate ? 'text-white bg-primary scale-105' : 'text-gray-700 dark:text-gray-300 bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border dark:border-gray-700/50 hover:text-primary hover:scale-105'}
+                `}
+              >
                 {item.name}
               </Link>
-            </li>
-          ))}
-        </ul>
+            ))}
+          </div>
 
-        <div className="w-[90%] xl:w-[1200px] mx-auto mt-12 grid grid-cols-1 gap-1 xs:grid-cols-2 xs:gap-2 md:grid-cols-3 md:gap-3 lg:grid-cols-4 lg:gap-4">
-          {tallList.result?.map((item) => (
-            <div key={item.id} className={`relative flex flex-col py-2 px-4 bg-[${item.color}] rounded-lg top-0 hover:-top-2 transition-[top]`}>
-              <div className="flex justify-between items-center mt-2 text-xs text-gray-500 dark:text-[#8c9ab1]">
-                <span>{dayjs(+item.createTime!).format('YYYY-MM-DD HH:mm')}</span>
-                <span>{item.cate.name}</span>
-              </div>
-
-              <div className="hide_sliding overflow-auto h-32 text-sm my-4 text-gray-700 dark:text-[#cecece]">
-                {item.content}
-              </div>
-
-              <div className="text-end text-[#5b5b5b] dark:text-[#A0A0A0]">
-                {item.name ? item.name : '匿名'}
-              </div>
+          {/* 留言卡片瀑布流 */}
+          {initialLoading ? (
+            <div className="flex justify-center items-center py-20">
+              <Loading />
             </div>
-          ))}
+          ) : (
+            <div className="w-[90%] xl:w-[1200px] mx-auto mt-8 pb-12">
+              {walls && walls.length > 0 ? (
+                <>
+                  <WallMasonry walls={walls} />
+                  {/* 加载更多指示器 */}
+                  {loading && (
+                    <div className="flex justify-center items-center py-8">
+                      <div className="text-gray-500 dark:text-gray-400 text-sm">加载中...</div>
+                    </div>
+                  )}
+                  {!hasMore && walls.length > 0 && (
+                    <div className="flex justify-center items-center py-8">
+                      <div className="text-gray-500 dark:text-gray-400 text-sm">没有更多留言了</div>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div className="text-center py-12 text-gray-500 dark:text-gray-400">暂无留言</div>
+              )}
+            </div>
+          )}
         </div>
-
-        {tallList.total && <Pagination total={tallList.pages} page={page} className="flex justify-center mt-5" />}
       </div>
     </>
   )
