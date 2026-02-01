@@ -43,7 +43,7 @@ export default function CopyableText({ text, children, className = '' }: Copyabl
   };
 
   return (
-    <span className={`hover:text-primary cursor-pointer transition-colors ${className}`} onClick={handleCopy} title="点击复制">
+    <span className={`hover:text-primary cursor-pointer ${className}`} onClick={handleCopy} title="点击复制">
       {children}
     </span>
   );

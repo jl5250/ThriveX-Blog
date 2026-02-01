@@ -9,6 +9,7 @@ import Slide from '@/components/Slide';
 import Tag from '../components/Tag';
 import Copyright from '../components/Copyright';
 import UpAndDown from '../components/UpAndDown';
+import RandomArticle from '../components/RandomArticle';
 import Comment from '../components/Comment';
 import MD from '../components/MD';
 import Summary from '../components/Summary';
@@ -154,6 +155,7 @@ export default async (props: Props) => {
               <Tag data={data?.tagList} />
 
               <Copyright />
+              <RandomArticle />
               <UpAndDown id={id} prev={data?.prev} next={data?.next} />
               <Comment articleId={id} articleTitle={data.title} />
             </div>

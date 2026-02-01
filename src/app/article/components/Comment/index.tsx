@@ -51,7 +51,7 @@ const CommentForm = ({ articleId }: Props) => {
   const captchaRef = useRef<HCaptchaType>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [captchaError, setCaptchaError] = useState<string>('');
-  
+
   // 获取HCaptcha配置
   const config = useConfigStore();
   const hasHCaptcha = !!config?.other?.hcaptcha_key;
@@ -228,7 +228,7 @@ const CommentForm = ({ articleId }: Props) => {
               <Spinner />
             </div>
           ) : (
-            <button className="w-full h-10 !mt-4 text-white rounded-md bg-primary text-center" type="submit">
+            <button className="w-full h-10 !mt-4 text-white rounded-md bg-primary hover:bg-primary/80 active:bg-primary/90 active:scale-95 transition-transform text-center" type="submit">
               发表评论
             </button>
           )}

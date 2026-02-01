@@ -104,8 +104,8 @@ export default () => {
 
   return (
     <>
-      <Button color="primary" variant="shadow" onPress={onOpen} className="flex items-center gap-2 px-5 py-2 text-base font-semibold shadow-md hover:scale-105 transition-transform">
-        <FaPlus /> 申请加入
+      <Button color="primary" variant="shadow" onPress={onOpen}>
+        申请友联
       </Button>
       <Modal
         size="lg"

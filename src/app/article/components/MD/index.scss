@@ -1,5 +1,5 @@
-@use '@/styles/var' as *;
-@use '@/styles/fun' as *;
+@use "@/styles/var" as *;
+@use "@/styles/fun" as *;
 
 .ContentMdComponent {
   .markdown-body {
@@ -17,7 +17,7 @@
       font-family: inherit;
 
       &::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0.75rem;
         left: 1rem;
@@ -25,7 +25,9 @@
         height: 0.75rem;
         background: #ff5f56;
         border-radius: 50%;
-        box-shadow: 1rem 0 0 #ffbd2e, 2rem 0 0 #27c93f;
+        box-shadow:
+          1rem 0 0 #ffbd2e,
+          2rem 0 0 #27c93f;
         z-index: 2;
       }
 
@@ -69,7 +71,7 @@
         cursor: pointer;
 
         &::after {
-          content: '点击展开代码';
+          content: "点击展开代码";
           position: absolute;
           bottom: 0;
           left: 0;
@@ -118,7 +120,7 @@
   }
 
   img {
-    @apply blur-[20px] rounded-xl hover:scale-105 cursor-pointer transition-all;
+    @apply blur-[20px] rounded-xl hover:scale-105 cursor-pointer transition-transform;
   }
 
   h1,
@@ -179,7 +181,7 @@
     counter-reset: counter;
   }
 
-  ol > li:not([id^='user-content-fn-']) {
+  ol > li:not([id^="user-content-fn-"]) {
     &::before {
       @apply absolute w-4 h-4 mt-1 leading-none left-0 rounded-full text-center text-sm border border-[#11181C] dark:border-gray-400;
       counter-increment: counter;
@@ -188,7 +190,7 @@
 
     & ol > li::before {
       @apply absolute left-7 border-0 text-base mt-0 leading-normal;
-      content: counter(counter) '.';
+      content: counter(counter) ".";
     }
   }
 
@@ -252,7 +254,7 @@
     }
   }
 
-  input[type='checkbox'] {
+  input[type="checkbox"] {
     width: 16px;
     height: 16px;
     border-radius: 4px;
@@ -298,7 +300,7 @@
     font-size: 0.95em;
     font-family: inherit;
   }
-  
+
   .line-content {
     flex: 1;
     word-break: break-all;

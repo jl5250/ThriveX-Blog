@@ -14,6 +14,6 @@
     @apply border rounded-md box-border dark:border-black-b dark:bg-black-b hover:!border-primary outline-none transition-shadow ease-in-out;
 
     &:focus {
-        @apply border-2 border-primary shadow-[0_10px_20px_1px_rgb(83,157,253,.1)]
+        @apply border-2 border-primary shadow-[0_10px_20px_1px_rgb(83,157,253,.1)];
     }
 }
