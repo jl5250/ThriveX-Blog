@@ -25,10 +25,10 @@ export default ({ disclosure }: Props) => {
       return;
     }
 
-    const { data } = (await getArticlePagingAPI({
+    const { data } = await getArticlePagingAPI({
       query: { key },
       pagination: { page: 1 },
-    })) || { data: {} as Paginate<Article[]> };
+    })
 
     setData(data);
   };

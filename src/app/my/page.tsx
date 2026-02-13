@@ -8,13 +8,12 @@ import Project from './component/Project';
 import Calendar from './component/Calendar';
 import InfoTwo from './component/InfoTwo';
 import { getPageConfigDataByNameAPI } from '@/api/config';
-import { Config } from '@/types/app/config';
 import { MyData } from '@/types/app/my';
 import InfoOne from './component/InfoOne';
 
 export default async () => {
-  const { data } = (await getPageConfigDataByNameAPI('my')) || { data: {} as Config };
-  const value = (data?.value as MyData) || ({} as MyData);
+  const { data } = await getPageConfigDataByNameAPI('my');
+  const value = data?.value as MyData;
 
   const defaultInfoOne = {
     name: '未命名',

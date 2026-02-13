@@ -24,8 +24,8 @@ const HotArticle = () => {
   const [list, setList] = useState<Article[]>([]);
 
   const getRandomArticleList = async () => {
-    const { data } = (await getRandomArticleListAPI()) || { data: [] as Article[] };
-    setList(data);
+    const { data } = await getRandomArticleListAPI();
+    setList(data ?? []);
   };
 
   useEffect(() => {

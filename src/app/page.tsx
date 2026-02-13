@@ -16,7 +16,7 @@ export default async (props: Props) => {
   const searchParams = await props.searchParams;
   const page = searchParams.page || 1;
   const response = await getWebConfigDataAPI<{ value: Theme }>('theme');
-  const data = response?.data?.value || ({} as Theme);
+  const data = response?.data?.value as Theme;
 
   return (
     <>

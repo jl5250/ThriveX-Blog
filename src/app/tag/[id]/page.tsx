@@ -2,7 +2,6 @@ import Starry from '@/components/Starry';
 import Slide from '@/components/Slide';
 import Classics from '@/components/ArticleLayout/Classics';
 import Pagination from '@/components/Pagination';
-import { Article } from '@/types/app/article';
 import { getTagArticleListAPI } from '@/api/tag';
 
 interface Props {
@@ -17,7 +16,7 @@ export default async (props: Props) => {
   const page = searchParams.page || 1;
   const name = searchParams.name;
 
-  const { data } = (await getTagArticleListAPI(id, page)) || { data: {} as Paginate<Article[]> };
+  const { data } = await getTagArticleListAPI(id, page);
 
   return (
     <>
@@ -40,7 +39,7 @@ export default async (props: Props) => {
         <div className="md:w-full lg:w-[900px] lg:mx-auto px-4 lg:p-0 my-5">
           <Classics data={data} />
 
-          {data.total && <Pagination total={data?.pages} page={page} path={`?name=${name}`} className="flex justify-center mt-5" />}
+          {data?.total && <Pagination total={data?.pages} page={page} path={`?name=${name}`} className="flex justify-center mt-5" />}
         </div>
       </div>
     </>

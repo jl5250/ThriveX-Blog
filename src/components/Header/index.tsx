@@ -30,8 +30,8 @@ export default () => {
   // 获取分类列表
   const [cateList, setCateList] = useState<Cate[]>([]);
   const getCateList = async () => {
-    const { data } = (await getCateListAPI()) || { data: [] as Cate[] };
-    setCateList(data);
+    const { data } = await getCateListAPI();
+    setCateList(data ?? []);
   };
 
   useEffect(() => {

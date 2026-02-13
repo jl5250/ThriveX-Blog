@@ -8,7 +8,6 @@ import { TooltipComponent, LegendComponent } from 'echarts/components';
 import { PieChart } from 'echarts/charts';
 import { LabelLayout } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
-import { CateArticleCount } from '@/types/app/cate';
 
 echarts.use([TooltipComponent, LegendComponent, PieChart, CanvasRenderer, LabelLayout]);
 
@@ -17,8 +16,8 @@ export default () => {
   const [list, setList] = useState<{ value: number; name: string }[]>([]);
 
   const getCateArticleCount = async () => {
-    const { data } = (await getCateArticleCountAPI()) || { data: [] as CateArticleCount[] };
-    setList(data.map(({ count, name }) => ({ value: count, name })));
+    const { data } = await getCateArticleCountAPI();
+    setList(data?.map(({ count, name }) => ({ value: count, name })) ?? []);
   };
 
   useEffect(() => {

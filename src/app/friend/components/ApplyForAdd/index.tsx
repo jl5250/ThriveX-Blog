@@ -39,8 +39,8 @@ export default () => {
   // 获取网站类型列表
   const [typeList, setTypeList] = useState<WebType[]>([]);
   const getWebTypeList = async () => {
-    const { data } = (await getWebTypeListAPI()) || { data: [] as WebType[] };
-    setTypeList(data.filter((item) => !item.isAdmin));
+    const { data } = await getWebTypeListAPI();
+    setTypeList(data?.filter((item) => !item.isAdmin) ?? []);
   };
 
   useEffect(() => {
@@ -71,7 +71,7 @@ export default () => {
     if (hasHCaptcha && !captchaToken) return setCaptchaError('请完成人机验证');
 
     setLoading(true);
-    const { code, message } = (await addWebDataAPI({ ...data, createTime: Date.now().toString(), h_captcha_response: captchaToken! })) || { code: 0, message: '' };
+    const { code, message } = await addWebDataAPI({ ...data, createTime: Date.now().toString(), h_captcha_response: captchaToken! });
     if (code !== 200) {
       captchaRef.current?.resetCaptcha();
       return toast.error(message, toastConfig);

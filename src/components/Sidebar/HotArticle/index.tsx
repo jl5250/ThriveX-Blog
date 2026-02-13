@@ -9,10 +9,10 @@ import { Article } from '@/types/app/article';
 
 const RandomArticle = async () => {
   const themeResponse = await getWebConfigDataAPI<{ value: Theme }>('theme');
-  const theme = themeResponse?.data?.value || ({} as Theme);
-  const { data: article } = (await getArticleListAPI()) || { data: [] as Article[] };
-  const ids = theme.reco_article.map((item) => Number(item)) || [];
-  const list = article?.filter((item: Article) => ids.includes(item.id as number)) || [];
+  const theme = themeResponse?.data?.value as Theme;
+  const { data: article } = await getArticleListAPI();
+  const ids = theme.reco_article.map((item) => Number(item)) ?? [];
+  const list = article?.filter((item: Article) => ids.includes(item.id as number)) ?? [];
 
   return (
     <div className="hotArticleComponent">

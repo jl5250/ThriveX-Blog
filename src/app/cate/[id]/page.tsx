@@ -3,7 +3,6 @@ import Starry from '@/components/Starry';
 import Slide from '@/components/Slide';
 import Classics from '@/components/ArticleLayout/Classics';
 import Pagination from '@/components/Pagination';
-import { Article } from '@/types/app/article';
 
 interface Props {
   params: Promise<{ id: number }>;
@@ -17,7 +16,7 @@ export default async (props: Props) => {
   const page = searchParams.page || 1;
   const name = searchParams.name;
 
-  const { data } = (await getCateArticleListAPI(id, page)) || { data: {} as Paginate<Article[]> };
+  const { data } = await getCateArticleListAPI(id, page);
 
   return (
     <>

@@ -12,8 +12,8 @@ export default function Dynamic({ className }: { className?: string }) {
   const [list, setList] = useState<Record[]>([]);
 
   const getRecordList = async () => {
-    const { data } = (await getRecordPagingAPI({ pagination: { page: 1, size: 8 } })) || { data: {} as Paginate<Record[]> };
-    setList(data?.result || []);
+    const { data } = await getRecordPagingAPI({ pagination: { page: 1, size: 8 } });
+    setList(data?.result ?? []);
   };
 
   useEffect(() => {

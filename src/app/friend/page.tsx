@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 import { getWebListAPI, getWebTypeListAPI } from '@/api/web';
-import { Web as WebLink, WebType } from '@/types/app/web';
+import { Web as WebLink } from '@/types/app/web';
 
 import Friend from './index';
 

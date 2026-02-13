@@ -26,11 +26,9 @@ export default () => {
   const fetchRecordList = useCallback(async (page: number, append: boolean = false) => {
     setLoading(true);
     try {
-      const { data: recordData } = (await getRecordPagingAPI({ pagination: { page, size: 8 } })) || {
-        data: {} as Paginate<Record[]>,
-      };
+      const { data: recordData } = await getRecordPagingAPI({ pagination: { page, size: 8 } });
 
-      if (recordData.result && recordData.result.length > 0) {
+      if (recordData?.result && recordData?.result?.length > 0) {
         if (append) {
           setRecords((prev) => [...prev, ...recordData.result]);
         } else {
