@@ -24,10 +24,10 @@ export default async () => {
     items: [] as Equipment['items'],
   };
 
-  const safeList: Equipment[] = (value.list || []).map((group) => ({
+  const safeList: Equipment[] = (value.list ?? []).map((group) => ({
     ...defaultGroup,
     ...group,
-    items: (group?.items || []).map((item) => ({
+    items: (group?.items ?? []).map((item) => ({
       ...defaultItem,
       ...item,
       price: `${item.price ?? defaultItem.price}`,

@@ -2,12 +2,12 @@
 
 import { useEffect } from 'react';
 
-import IconCloud from '@/app/my/component/IconCloud';
+import IconCloud from '@/app/my/components/IconCloud';
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
-export default ({ list }: { list: string[] }) => {
+export default ({ list }: { list?: string[] }) => {
   useEffect(() => {
     AOS.init();
   }, []);
@@ -18,7 +18,7 @@ export default ({ list }: { list: string[] }) => {
         <div className="text-center text-xl mb-8">我的技术栈</div>
 
         <div className="flex justify-center w-3/6">
-          <IconCloud iconSlugs={list} />
+          <IconCloud iconSlugs={list ?? []} />
         </div>
       </div>
     </>

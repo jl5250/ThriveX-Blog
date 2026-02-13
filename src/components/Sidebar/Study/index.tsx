@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import IconCloud from '@/app/my/component/IconCloud';
+import IconCloud from '@/app/my/components/IconCloud';
 import StudySvg from '@/assets/svg/other/study.svg';
 import { getPageConfigDataByNameAPI } from '@/api/config';
 import { MyData } from '@/types/app/my';
@@ -14,7 +14,7 @@ export default async () => {
             </div>
 
             <div className="mt-4 flex justify-center w-5/6">
-                <IconCloud iconSlugs={technology_stack} />
+                <IconCloud iconSlugs={technology_stack ?? []} />
             </div>
         </div>
     );

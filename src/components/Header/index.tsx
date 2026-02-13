@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 
 import { Switch } from '@heroui/react';
 import Show from '@/components/Show';
-import SidebarNav from './component/SidebarNav';
+import SidebarNav from './components/SidebarNav';
 
 import { IoIosArrowDown } from 'react-icons/io';
 import { FaRegSun } from 'react-icons/fa';
