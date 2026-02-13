@@ -11,11 +11,10 @@ import Weixin from '@/assets/svg/socializing/Weixin.svg';
 
 import { getAuthorDataAPI } from '@/api/user';
 import { getWebConfigDataAPI } from '@/api/config';
-import { User } from '@/types/app/user';
 import { Social, Theme } from '@/types/app/config';
 
 const Author = async () => {
-  const { data: user } = (await getAuthorDataAPI()) || { data: {} as User };
+  const { data: user } = await getAuthorDataAPI();
   const themeResponse = await getWebConfigDataAPI<{ value: Theme }>('theme');
   const theme = themeResponse?.data?.value || ({} as Theme);
 

@@ -21,7 +21,6 @@ import { AiOutlineComment } from 'react-icons/ai';
 import { LuTimer } from 'react-icons/lu';
 
 import dayjs from 'dayjs';
-import { Article } from '@/types/app/article';
 import Encrypt from '@/components/Encrypt';
 import NotFound from '@/app/not-found';
 
@@ -35,7 +34,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params;
   const id = params.id;
 
-  const { data: article } = (await getArticleDataAPI(id)) || { data: {} as Article };
+  const { data: article } = await getArticleDataAPI(id);
   const webResponse = await getWebConfigDataAPI<{ value: Web }>('web');
   const webConfig = webResponse?.data?.value || ({} as Web);
 
@@ -87,7 +86,7 @@ export default async (props: Props) => {
   const id = params.id;
   const password = searchParams.password;
 
-  const { code, data } = password ? (await getArticleDataAPI(id, password)) || { data: {} as Article } : (await getArticleDataAPI(id)) || { data: {} as Article };
+  const { code, data } = password ? await getArticleDataAPI(id, password) : await getArticleDataAPI(id);
 
   const errorCodes = [400, 404, 611];
 
