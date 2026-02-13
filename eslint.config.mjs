@@ -28,6 +28,7 @@ export default defineConfig([
   nextPlugin.configs.recommended,
   {
     rules: {
+      // 禁止使用 any 类型
       '@typescript-eslint/no-explicit-any': 'warn', // 改为警告，鼓励使用具体类型
       'no-unused-vars': 'warn', // 改为警告，提醒未使用的变量
       'react-refresh/only-export-components': 'off',
@@ -40,8 +41,6 @@ export default defineConfig([
       'react/react-in-jsx-scope': 'off',
       // 约束使用 next/image 组件
       '@next/next/no-img-element': 'off',
-      // 禁止使用 any 类型
-      '@typescript-eslint/no-explicit-any': 'warn'
     },
   },
 ]);
