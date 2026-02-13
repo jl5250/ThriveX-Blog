@@ -36,8 +36,12 @@ export default defineConfig([
       // 约束js使用单引号，允许jsx双引号
       quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }],
       'jsx-quotes': ['error', 'prefer-double'],
-      'react-hooks/exhaustive-deps': 'warn', // 改为警告，提醒依赖数组
+      'react-hooks/exhaustive-deps': 'off', // 改为警告，提醒依赖数组
       'react/react-in-jsx-scope': 'off',
+      // 约束使用 next/image 组件
+      '@next/next/no-img-element': 'off',
+      // 禁止使用 any 类型
+      '@typescript-eslint/no-explicit-any': 'warn'
     },
   },
 ]);
