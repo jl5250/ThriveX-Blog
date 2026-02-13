@@ -5,6 +5,7 @@ import pluginReact from 'eslint-plugin-react';
 import { defineConfig } from 'eslint/config';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
+import nextPlugin from '@next/eslint-plugin-next';
 
 export default defineConfig([
   {
@@ -24,17 +25,18 @@ export default defineConfig([
   },
   tseslint.configs.recommended,
   pluginReact.configs.flat.recommended,
+  nextPlugin.configs.recommended,
   {
     rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
-      'no-unused-vars': 'off', // 关闭未使用变量的检查
+      '@typescript-eslint/no-explicit-any': 'warn', // 改为警告，鼓励使用具体类型
+      'no-unused-vars': 'warn', // 改为警告，提醒未使用的变量
       'react-refresh/only-export-components': 'off',
       'react/display-name': 'off',
       'react/prop-types': 'off', // TypeScript 项目不需要 prop-types 验证
       // 约束js使用单引号，允许jsx双引号
       quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }],
       'jsx-quotes': ['error', 'prefer-double'],
-      'react-hooks/exhaustive-deps': 'off',
+      'react-hooks/exhaustive-deps': 'warn', // 改为警告，提醒依赖数组
       'react/react-in-jsx-scope': 'off',
     },
   },

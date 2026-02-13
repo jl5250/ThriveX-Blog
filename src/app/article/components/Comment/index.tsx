@@ -173,7 +173,7 @@ const CommentForm = ({ articleId }: Props) => {
               className="tw_form w-full p-4 min-h-36"
               ref={(e) => {
                 register('content').ref(e);
-                (contentRef as any).current = e;
+                contentRef.current = e;
               }}
             />
             <span className="text-red-400 text-sm pl-3">{errors.content?.message}</span>

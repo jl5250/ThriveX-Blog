@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { Input, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Select, SelectItem, Textarea, RadioGroup, Radio } from '@heroui/react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { Wall } from '@/types/app/wall';
+import { Cate, Wall } from '@/types/app/wall';
 import { addWallDataAPI, getCateListAPI } from '@/api/wall';
 import { Bounce, toast, ToastContainer, ToastOptions } from 'react-toastify';
 import HCaptchaType from '@hcaptcha/react-hcaptcha';
