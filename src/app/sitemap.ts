@@ -6,9 +6,9 @@ import { Web } from '@/types/app/config';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 获取网站配置
   const webResponse = await getWebConfigDataAPI<{ value: Web }>('web');
-  const webConfig = webResponse?.data?.value || ({} as Web);
+  const webConfig = webResponse?.data?.value as Web;
 
-  const baseUrl = webConfig?.url || 'https://liuyuyang.net';
+  const baseUrl = webConfig?.url ?? 'https://liuyuyang.net';
 
   // 获取所有文章
   const res = await getArticleListAPI();

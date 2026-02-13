@@ -31,9 +31,9 @@ export default ({ aTotal }: Props) => {
 
   const getData = async () => {
     await Promise.all([getCateListAPI(), getCommentListAPI(), getWebListAPI()]).then(([cateList, commentList, linkList]) => {
-      setCateList((cateList as null | { data: Cate[] })?.data || []);
-      setCommentList((commentList as null | { data: Comment[] })?.data || []);
-      setLinkList((linkList as null | { data: Web[] })?.data || []);
+      setCateList((cateList as null | { data: Cate[] })?.data ?? []);
+      setCommentList((commentList as null | { data: Comment[] })?.data ?? []);
+      setLinkList((linkList as null | { data: Web[] })?.data ?? []);
     });
   };
 

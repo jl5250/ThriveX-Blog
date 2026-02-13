@@ -21,15 +21,15 @@ export default () => {
   // 获取项目配置
   const getConfigData = async () => {
     const webResponse = await getWebConfigDataAPI<{ value: Web }>('web');
-    const web = webResponse?.data?.value || ({} as Web);
+    const web = webResponse?.data?.value as Web;
     setWeb(web);
 
     const themeResponse = await getWebConfigDataAPI<{ value: Theme }>('theme');
-    const theme = themeResponse?.data?.value || ({} as Theme);
+    const theme = themeResponse?.data?.value as Theme;
     setTheme(theme);
 
     const otherResponse = await getWebConfigDataAPI<{ value: Other }>('other');
-    const other = otherResponse?.data?.value || ({} as Other);
+    const other = otherResponse?.data?.value as Other;
     setOther(other);
   };
 

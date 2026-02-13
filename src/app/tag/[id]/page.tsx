@@ -13,7 +13,7 @@ export default async (props: Props) => {
   const searchParams = await props.searchParams;
   const params = await props.params;
   const id = params.id;
-  const page = searchParams.page || 1;
+  const page = searchParams.page ?? 1;
   const name = searchParams.name;
 
   const { data } = await getTagArticleListAPI(id, page);

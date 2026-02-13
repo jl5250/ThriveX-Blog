@@ -46,7 +46,7 @@ function getRelativeTimeLabel(ts: string | number | Date | undefined): string {
 }
 
 export default function RecordCard({ id, content, images, createTime, user }: RecordItemProps) {
-  const imageList: string[] = Array.isArray(images) ? images : JSON.parse((images as string) || '[]');
+  const imageList: string[] = Array.isArray(images) ? images : JSON.parse((images as string) ?? '[]');
 
   return (
     <article key={id} className="relative flex gap-6 pb-12 group">

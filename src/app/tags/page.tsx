@@ -9,5 +9,5 @@ export const metadata: Metadata = {
 
 export default async () => {
   const { data } = await getTagListWithArticleCountAPI();
-  return <TagsPageClient tags={data || []} />;
+  return <TagsPageClient tags={data ?? []} />;
 };
