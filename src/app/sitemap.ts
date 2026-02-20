@@ -11,7 +11,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = webConfig?.url || 'https://liuyuyang.net';
 
   // 获取所有文章
-  const { data: articles } = (await getArticleListAPI()) || { data: [] };
+  const res = await getArticleListAPI();
+  const articles = res?.data ?? [];
 
   // 静态页面
   const staticPages: MetadataRoute.Sitemap = [

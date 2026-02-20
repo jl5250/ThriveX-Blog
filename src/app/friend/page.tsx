@@ -11,8 +11,10 @@ export const metadata: Metadata = {
 };
 
 export default async () => {
-  const { data: linkList } = (await getWebListAPI()) || { data: [] as WebLink[] };
-  const { data: typeList } = (await getWebTypeListAPI()) || { data: [] as WebType[] };
+  const linkRes = await getWebListAPI();
+  const typeRes = await getWebTypeListAPI();
+  const linkList = linkRes?.data ?? [];
+  const typeList = typeRes?.data ?? [];
 
   let data: { [string: string]: { order: number; list: WebLink[] } } = {};
 
