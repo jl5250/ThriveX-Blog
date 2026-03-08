@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .tw_container {
-    @apply border dark:border-transparent rounded-md transition-shadow ease-in-out hover:shadow-[0_10px_20px_1px_rgb(83,157,253,.1)];
+    @apply border dark:border-transparent rounded-xl transition-shadow ease-in-out hover:shadow-[0_10px_20px_1px_rgb(83,157,253,.1)];
 }
 
 .tw_title {

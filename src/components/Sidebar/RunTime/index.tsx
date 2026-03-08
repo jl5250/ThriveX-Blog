@@ -69,7 +69,7 @@ export default () => {
   };
 
   return (
-    <div className="flex flex-col tw_container bg-white dark:bg-black-b p-4 mb-5 tw_title">
+    <div className="flex flex-col tw_container bg-white dark:bg-black-b p-4 mb-3 tw_title">
       <div className="tw_title w-full dark:text-white">
         <Image src={TimerSvg} alt="站点运行时间" width={33} height={23} /> 站点运行时间
       </div>
