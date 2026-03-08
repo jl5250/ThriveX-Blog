@@ -40,37 +40,7 @@
 
 
 
-## 🛠️ 技术栈
-
-### 前端技术
-
-| 技术           | 版本     | 说明         |
-| -------------- | -------- | ------------ |
-| React          | 19.2.4   | UI 框架      |
-| Next.js        | 15.x     | 全栈框架     |
-| TypeScript     | 5.x      | 类型安全     |
-| Tailwind CSS   | 4.2.1    | CSS 框架     |
-| Motion React   | 最新版   | 动画库       |
-| Zustand        | 4.5.4    | 状态管理     |
-| React Hook Form| 最新版   | 表单管理     |
-| ECharts        | 5.6.0    | 数据可视化   |
-| Hero UI        | 最新版   | UI 组件库    |
-| Ant Design     | 最新版   | UI 组件库    |
-| SCSS           | 最新版   | 样式预处理器 |
-
-### 后端技术
-
-| 技术         | 版本   | 说明          |
-| ------------ | ------ | ------------- |
-| Spring Boot  | 最新版 | Java 后端框架 |
-| MyBatis-Plus | 最新版 | ORM 框架      |
-| MySQL        | 最新版 | 关系型数据库  |
-| Redis        | 最新版 | 缓存服务      |
-| Docker       | 最新版 | 容器化部署    |
-
-
-
-## 📸 界面预览
+## 📸 项目预览
 
 <div align="center">
     <img src="https://bu.dusays.com/2026/03/08/69ad27c95c51f.jpg" alt="ThriveX Admin Dashboard" style="border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1)" />
@@ -156,6 +126,17 @@ ThriveX-Blog/
 
 
 
+## 💬 交流群
+
+欢迎加入 ThriveX 官方交流群，与开发者和其他用户交流：
+
+<div align="center">
+    <img src="https://bu.dusays.com/2025/06/03/683e96eb43ad8.jpg" alt="WeChat Group" style="width: 300px; border-radius: 8px;" />
+</div>
+**加群方式**：添加微信 `liuyuyang2023`，备注 "ThriveX"
+
+
+
 ## 🙏 鸣谢
 
 感谢所有为 ThriveX 项目做出贡献的开发者和用户！
@@ -165,18 +146,6 @@ ThriveX-Blog/
 - [https://blog.zwying.com/](https://blog.zwying.com/)
 - [https://www.blatr.cn/](https://www.blatr.cn/)
 - [https://poetize.cn/](https://poetize.cn/)
-
-
-
-## 💬 交流群
-
-欢迎加入 ThriveX 官方交流群，与开发者和其他用户交流：
-
-<div align="center">
-    <img src="https://bu.dusays.com/2025/06/03/683e96eb43ad8.jpg" alt="WeChat Group" style="width: 300px; border-radius: 8px;" />
-</div>
-
-**加群方式**：添加微信 `liuyuyang2023`，备注 "ThriveX"
 
 
 
