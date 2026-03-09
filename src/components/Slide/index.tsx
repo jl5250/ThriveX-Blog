@@ -15,9 +15,12 @@ export default ({ src, isRipple = true, children }: Props) => {
   const theme = useConfigStore((state) => state.theme);
   const covers = theme.covers || [];
 
-  const sty = {
-    backgroundImage: `url(${src ? src : covers[getRandom(0, covers.length - 1)]})`,
-  };
+  const isColor = src?.startsWith('#') || src?.startsWith('rgb') || src?.startsWith('rgba') || src?.startsWith('hsl') || src?.startsWith('hsla');
+  const bgValue = src ? src : covers[getRandom(0, covers.length - 1)];
+
+  const sty = isColor
+    ? { backgroundColor: bgValue }
+    : { backgroundImage: `url(${bgValue})` };
 
   return (
     <>
