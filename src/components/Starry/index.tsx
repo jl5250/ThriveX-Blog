@@ -1,17 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import {
-  Scene,
-  OrthographicCamera,
-  WebGLRenderer,
-  PlaneGeometry,
-  Mesh,
-  ShaderMaterial,
-  Vector3,
-  Vector2,
-  Clock
-} from 'three';
+import { Scene, OrthographicCamera, WebGLRenderer, PlaneGeometry, Mesh, ShaderMaterial, Vector3, Vector2, Clock } from 'three';
 
 const vertexShader = `
 precision highp float;
@@ -253,23 +243,7 @@ function hexToVec3(hex: string): Vector3 {
   return new Vector3(r / 255, g / 255, b / 255);
 }
 
-export default function FloatingLines({
-  linesGradient,
-  enabledWaves = ['top', 'middle', 'bottom'],
-  lineCount = [6],
-  lineDistance = [5],
-  topWavePosition,
-  middleWavePosition,
-  bottomWavePosition = { x: 2.0, y: -0.7, rotate: -1 },
-  animationSpeed = 1,
-  interactive = true,
-  bendRadius = 5.0,
-  bendStrength = -0.5,
-  mouseDamping = 0.05,
-  parallax = true,
-  parallaxStrength = 0.2,
-  mixBlendMode = 'screen'
-}: FloatingLinesProps) {
+export default function FloatingLines({ linesGradient, enabledWaves = ['top', 'middle', 'bottom'], lineCount = [6], lineDistance = [5], topWavePosition, middleWavePosition, bottomWavePosition = { x: 7.0, y: -0.7, rotate: -1 }, animationSpeed = 1, interactive = true, bendRadius = 5.0, bendStrength = -0.5, mouseDamping = 0.05, parallax = true, parallaxStrength = 0.2, mixBlendMode = 'screen' }: FloatingLinesProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const targetMouseRef = useRef<Vector2>(new Vector2(-1000, -1000));
   const currentMouseRef = useRef<Vector2>(new Vector2(-1000, -1000));
@@ -332,21 +306,13 @@ export default function FloatingLines({
       bottomLineDistance: { value: bottomLineDistance },
 
       topWavePosition: {
-        value: new Vector3(topWavePosition?.x ?? 10.0, topWavePosition?.y ?? 0.5, topWavePosition?.rotate ?? -0.4)
+        value: new Vector3(topWavePosition?.x ?? 10.0, topWavePosition?.y ?? 0.5, topWavePosition?.rotate ?? -0.4),
       },
       middleWavePosition: {
-        value: new Vector3(
-          middleWavePosition?.x ?? 5.0,
-          middleWavePosition?.y ?? 0.0,
-          middleWavePosition?.rotate ?? 0.2
-        )
+        value: new Vector3(middleWavePosition?.x ?? 5.0, middleWavePosition?.y ?? 0.0, middleWavePosition?.rotate ?? 0.2),
       },
       bottomWavePosition: {
-        value: new Vector3(
-          bottomWavePosition?.x ?? 2.0,
-          bottomWavePosition?.y ?? -0.7,
-          bottomWavePosition?.rotate ?? 0.4
-        )
+        value: new Vector3(bottomWavePosition?.x ?? 2.0, bottomWavePosition?.y ?? -0.7, bottomWavePosition?.rotate ?? 0.4),
       },
 
       iMouse: { value: new Vector2(-1000, -1000) },
@@ -360,9 +326,9 @@ export default function FloatingLines({
       parallaxOffset: { value: new Vector2(0, 0) },
 
       lineGradient: {
-        value: Array.from({ length: MAX_GRADIENT_STOPS }, () => new Vector3(1, 1, 1))
+        value: Array.from({ length: MAX_GRADIENT_STOPS }, () => new Vector3(1, 1, 1)),
       },
-      lineGradientCount: { value: 0 }
+      lineGradientCount: { value: 0 },
     };
 
     if (linesGradient && linesGradient.length > 0) {
@@ -378,7 +344,7 @@ export default function FloatingLines({
     const material = new ShaderMaterial({
       uniforms,
       vertexShader,
-      fragmentShader
+      fragmentShader,
     });
 
     const geometry = new PlaneGeometry(2, 2);
@@ -474,29 +440,14 @@ export default function FloatingLines({
         renderer.domElement.parentElement.removeChild(renderer.domElement);
       }
     };
-  }, [
-    linesGradient,
-    enabledWaves,
-    lineCount,
-    lineDistance,
-    topWavePosition,
-    middleWavePosition,
-    bottomWavePosition,
-    animationSpeed,
-    interactive,
-    bendRadius,
-    bendStrength,
-    mouseDamping,
-    parallax,
-    parallaxStrength
-  ]);
+  }, [linesGradient, enabledWaves, lineCount, lineDistance, topWavePosition, middleWavePosition, bottomWavePosition, animationSpeed, interactive, bendRadius, bendStrength, mouseDamping, parallax, parallaxStrength]);
 
   return (
     <div
       ref={containerRef}
       className="w-full h-full relative overflow-hidden floating-lines-container"
       style={{
-        mixBlendMode: mixBlendMode
+        mixBlendMode: mixBlendMode,
       }}
     />
   );

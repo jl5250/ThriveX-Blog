@@ -23,7 +23,7 @@ export default async (props: Props) => {
       {/* <Lantern data={['新', '春', '快', '乐']} /> */}
 
       <Slide src="#000" isRipple={false}>
-        {/* 星空背景组件 */}
+        {/* 背景组件 */}
         <Starry
           enabledWaves={['top', 'middle', 'bottom']}
           // Array - specify line count per wave; Number - same count for all waves

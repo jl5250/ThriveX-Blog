@@ -25,7 +25,7 @@ export default async (props: Props) => {
       <meta name="description" content={name} />
 
       <div>
-        <Slide isRipple={false}>
+        <Slide src="#000" isRipple={false}>
           {/* 星空背景组件 */}
           <Starry />
 

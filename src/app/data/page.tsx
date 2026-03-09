@@ -21,7 +21,7 @@ export default async () => {
         <div className="absolute bottom-1/4 left-0 w-80 h-80 rounded-full bg-cyan-400/8 blur-[80px]" />
       </div>
 
-      <Slide isRipple={false} src="https://bu.dusays.com/2025/12/04/6930fd6cda541.jpg">
+      <Slide isRipple={false} src="#000">
         {/* 星空背景组件 */}
         <Starry />
 
@@ -33,7 +33,7 @@ export default async () => {
         </div>
       </Slide>
 
-      <div className="w-[92%] max-w-6xl mx-auto -mt-8 sm:-mt-12 relative z-10 mb-16">
+      <div className="w-[92%] max-w-6xl mx-auto relative z-10 mb-14">
         <div className="rounded-2xl shadow-xl overflow-hidden bg-white dark:bg-black-b/95 backdrop-blur-sm border border-slate-200/80 dark:border-slate-700/50">
           <div className="p-6 sm:p-10 lg:p-12 space-y-12">
             <Statis aTotal={data?.length} />
