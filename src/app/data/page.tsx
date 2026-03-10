@@ -26,9 +26,7 @@ export default async () => {
         <Starry />
 
         <div className="absolute top-[45%] left-1/2 -translate-x-1/2 flex flex-col items-center">
-          <h1 className="text-white text-2xl xs:text-3xl sm:text-4xl font-bold tracking-wide whitespace-nowrap custom_text_shadow drop-shadow-lg">
-            数据统计
-          </h1>
+          <h1 className="text-white text-2xl xs:text-3xl sm:text-4xl font-bold tracking-wide whitespace-nowrap custom_text_shadow drop-shadow-lg">数据统计</h1>
           <p className="mt-2 text-white/90 text-sm sm:text-base custom_text_shadow">博客运营数据一览</p>
         </div>
       </Slide>
@@ -36,7 +34,7 @@ export default async () => {
       <div className="w-[92%] max-w-6xl mx-auto relative z-10 mb-14">
         <div className="rounded-2xl shadow-xl overflow-hidden bg-white dark:bg-black-b/95 backdrop-blur-sm border border-slate-200/80 dark:border-slate-700/50">
           <div className="p-6 sm:p-10 lg:p-12 space-y-12">
-            <Statis aTotal={data?.length} />
+            <Statis textAutoHide={true} enableStars={false} enableSpotlight enableBorderGlow={true} enableTilt={false} enableMagnetism={false} clickEffect spotlightRadius={400} particleCount={12} glowColor="132, 0, 255" disableAnimations={false} />
             <Archiving list={data} />
           </div>
         </div>

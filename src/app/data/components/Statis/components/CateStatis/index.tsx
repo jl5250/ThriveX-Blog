@@ -93,8 +93,8 @@ export default () => {
   }, [list]);
 
   return (
-    <div className="rounded-2xl border border-slate-200 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-800/30 p-6 overflow-hidden">
-      <div className="flex items-center gap-3 mb-6">
+    <div className="rounded-2xl border-slate-200 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-800/30 p-6 overflow-hidden">
+      <div className="flex items-center gap-3">
         <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-emerald-500/10 dark:bg-emerald-500/20">
           <Image src={cate.src} alt="分类一览" width={22} height={22} className="opacity-90" />
         </div>
