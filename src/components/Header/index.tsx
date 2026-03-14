@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 // import { Switch } from '@heroui/react';
 import Switch from './component/Switch';
 import Show from '@/components/Show';
-import SidebarNav from './component/SidebarNav';
+import SidebarNav from './components/SidebarNav';
 
 import { IoIosArrowDown } from 'react-icons/io';
 // import { FaRegSun } from 'react-icons/fa';
@@ -32,8 +32,8 @@ export default () => {
   // 获取分类列表
   const [cateList, setCateList] = useState<Cate[]>([]);
   const getCateList = async () => {
-    const { data } = (await getCateListAPI()) || { data: [] as Cate[] };
-    setCateList(data);
+    const { data } = await getCateListAPI();
+    setCateList(data ?? []);
   };
 
   useEffect(() => {

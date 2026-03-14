@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { Input, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Select, SelectItem, Textarea, RadioGroup, Radio } from '@heroui/react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { Wall, Cate } from '@/types/app/wall';
+import { Cate, Wall } from '@/types/app/wall';
 import { addWallDataAPI, getCateListAPI } from '@/api/wall';
 import { Bounce, toast, ToastContainer, ToastOptions } from 'react-toastify';
 import HCaptchaType from '@hcaptcha/react-hcaptcha';
@@ -38,7 +38,7 @@ export default () => {
   // 获取留言分类列表
   const [cateList, setCateList] = useState<Cate[]>([]);
   const getCateList = async () => {
-    const { data } = (await getCateListAPI()) || { data: [] as Cate[] };
+    const { data } = await getCateListAPI();
     setCateList(data?.filter((item) => item.id !== 1));
   };
   useEffect(() => {
@@ -69,7 +69,7 @@ export default () => {
     // 只有配置了HCaptcha时才需要验证
     if (hasHCaptcha && !captchaToken) return setCaptchaError('请完成人机验证');
 
-    const { code, message } = (await addWallDataAPI({ ...data, createTime: Date.now().toString(), h_captcha_response: captchaToken! })) || { code: 0, message: '' };
+    const { code, message } = await addWallDataAPI({ ...data, createTime: Date.now().toString(), h_captcha_response: captchaToken! });
 
     if (code !== 200) {
       captchaRef.current?.resetCaptcha();

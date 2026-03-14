@@ -21,7 +21,6 @@ import { AiOutlineComment } from 'react-icons/ai';
 import { LuTimer } from 'react-icons/lu';
 
 import dayjs from 'dayjs';
-import { Article } from '@/types/app/article';
 import Encrypt from '@/components/Encrypt';
 import NotFound from '@/app/not-found';
 
@@ -35,13 +34,13 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params;
   const id = params.id;
 
-  const { data: article } = (await getArticleDataAPI(id)) || { data: {} as Article };
+  const { data: article } = await getArticleDataAPI(id);
   const webResponse = await getWebConfigDataAPI<{ value: Web }>('web');
-  const webConfig = webResponse?.data?.value || ({} as Web);
+  const webConfig = webResponse?.data?.value as Web;
 
-  const baseUrl = webConfig?.url || 'https://liuyuyang.net';
+  const baseUrl = webConfig?.url ?? 'https://liuyuyang.net';
 
-  if (!article || !article.title) {
+  if (!article?.title) {
     return {
       title: '文章未找到',
     };
@@ -49,19 +48,19 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
   return {
     title: article.title,
-    description: article.description || article.title,
-    keywords: article.tagList?.map((tag) => tag.name).join(',') || '',
-    authors: [{ name: webConfig?.title || 'ThriveX' }],
+    description: article.description ?? article.title,
+    keywords: article.tagList?.map((tag) => tag.name).join(',') ?? '',
+    authors: [{ name: webConfig?.title ?? 'ThriveX' }],
     openGraph: {
       type: 'article',
       locale: 'zh_CN',
       url: `${baseUrl}/article/${id}`,
       title: article.title,
-      description: article.description || article.title,
-      siteName: webConfig?.title || 'ThriveX',
+      description: article.description ?? article.title,
+      siteName: webConfig?.title ?? 'ThriveX',
       images: [
         {
-          url: article.cover || webConfig?.favicon || '/favicon.ico',
+          url: article.cover ?? webConfig?.favicon ?? '/favicon.ico',
           width: 1200,
           height: 630,
           alt: article.title,
@@ -72,8 +71,8 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     twitter: {
       card: 'summary_large_image',
       title: article.title,
-      description: article.description || article.title,
-      images: [article.cover || webConfig?.favicon || '/favicon.ico'],
+      description: article.description ?? article.title,
+      images: [article.cover ?? webConfig?.favicon ?? '/favicon.ico'],
     },
     alternates: {
       canonical: `/article/${id}`,
@@ -87,7 +86,7 @@ export default async (props: Props) => {
   const id = params.id;
   const password = searchParams.password;
 
-  const { code, data } = password ? (await getArticleDataAPI(id, password)) || { data: {} as Article } : (await getArticleDataAPI(id)) || { data: {} as Article };
+  const { code, data } = password ? await getArticleDataAPI(id, password) : await getArticleDataAPI(id);
 
   const errorCodes = [400, 404, 611];
 
@@ -101,7 +100,8 @@ export default async (props: Props) => {
   // 图标样式
   const iconSty = 'flex justify-center items-center w-5 h-5 rounded-full text-xs mr-1';
 
-  if ((data && data.config.isEncrypt !== 1) || (password && data.config.isEncrypt === 1)) {
+  // 如果文章没有加密或者密码正确，则显示文章
+  if ((data?.config?.isEncrypt !== 1) || (password && data?.config?.isEncrypt === 1)) {
     return (
       <>
         <title>{data.title}</title>

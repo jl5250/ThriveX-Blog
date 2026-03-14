@@ -88,7 +88,7 @@ export default ({ data }: { data: Resume }) => {
 
   // 技能标签云数据处理
   const getSkillTags = () => {
-    if (!safeSkills || safeSkills.length === 0) return [];
+    if (!safeSkills?.length) return [];
     return safeSkills.map((skill) => {
       // 提取技能名称和熟练度（如果有）
       const parts = skill.split('(');

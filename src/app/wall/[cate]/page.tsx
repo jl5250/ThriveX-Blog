@@ -24,7 +24,7 @@ export default () => {
   // 获取分类列表
   useEffect(() => {
     const fetchCateList = async () => {
-      const { data } = (await getCateListAPI()) || { data: [] as Cate[] };
+      const { data } = await getCateListAPI();
       const sorted = [...data].sort((a, b) => a.order - b.order);
       setCateList(sorted);
     };
@@ -39,13 +39,13 @@ export default () => {
 
       setLoading(true);
       try {
-        const { data: tallList } = (await getCateWallListAPI(id, page, 8)) || { data: {} as Paginate<Wall[]> };
+        const { data: tallList } = await getCateWallListAPI(id, page, 8);
 
-        if (tallList.result && tallList.result.length > 0) {
+        if (tallList?.result && tallList?.result?.length > 0) {
           if (append) {
             setWalls((prev) => [...prev, ...tallList.result]);
           } else {
-            setWalls(tallList.result);
+            setWalls(tallList?.result);
           }
           setTotalPages(tallList.pages || 1);
           setHasMore(page < (tallList.pages || 1));

@@ -17,5 +17,6 @@ export default async <T>(method: string, api: string, data?: any, caching = true
         return res?.json() as Promise<ResponseData<T>>;
     } catch (error) {
         console.log('捕获到异常：', error);
+        return { code: 500, message: 'Request failed', data: {} as T };
     }
 }

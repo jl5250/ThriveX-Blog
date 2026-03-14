@@ -19,13 +19,13 @@ const RANKING_COLORS = [
 
 const HotArticle = () => {
   const { theme } = useConfigStore();
-  const covers = theme.covers || [];
+  const covers = theme.covers ?? [];
 
   const [list, setList] = useState<Article[]>([]);
 
   const getRandomArticleList = async () => {
-    const { data } = (await getRandomArticleListAPI()) || { data: [] as Article[] };
-    setList(data);
+    const { data } = await getRandomArticleListAPI();
+    setList(data ?? []);
   };
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const HotArticle = () => {
           <div
             key={index}
             className="relative h-32 bg-no-repeat bg-center rounded-md bg-[length:100%] hover:bg-[length:105%] transition-[background-size] duration-300 ease-out after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-12 after:transition-opacity after:rounded-md after:bg-[linear-gradient(transparent,#000)]"
-            style={{ backgroundImage: `url(${item.cover || covers[getRandom(0, covers.length - 1)]})` }}
+            style={{ backgroundImage: `url(${item.cover ?? covers[getRandom(0, covers.length - 1)]})` }}
           >
             <Link href={`/article/${item.id}`} target="_blank" className="inline-block w-full h-full">
               <h4 className="absolute bottom-2.5 w-[95%] px-2.5 text-white text-[15px] font-normal line-clamp-1 z-10">{item.title}</h4>

@@ -1,20 +1,19 @@
 import bg from '@/assets/image/bg.png';
 
-import Goals from './component/Goals';
-import Character from './component/Character';
-import Map from './component/Map';
-import Technology from './component/Technology';
-import Project from './component/Project';
-import Calendar from './component/Calendar';
-import InfoTwo from './component/InfoTwo';
+import Goals from './components/Goals';
+import Character from './components/Character';
+import Map from './components/Map';
+import Technology from './components/Technology';
+import Project from './components/Project';
+import Calendar from './components/Calendar';
+import InfoTwo from './components/InfoTwo';
+import InfoOne from './components/InfoOne';
 import { getPageConfigDataByNameAPI } from '@/api/config';
-import { Config } from '@/types/app/config';
 import { MyData } from '@/types/app/my';
-import InfoOne from './component/InfoOne';
 
 export default async () => {
-  const { data } = (await getPageConfigDataByNameAPI('my')) || { data: {} as Config };
-  const value = (data?.value as MyData) || ({} as MyData);
+  const { data } = await getPageConfigDataByNameAPI('my');
+  const value = data?.value as MyData;
 
   const defaultInfoOne = {
     name: '未命名',

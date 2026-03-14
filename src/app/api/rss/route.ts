@@ -2,9 +2,6 @@ import { Feed } from 'feed';
 import { NextResponse } from 'next/server';
 
 import { Web } from '@/types/app/config';
-import { User } from '@/types/app/user';
-import { Article } from '@/types/app/article';
-import { Record } from '@/types/app/record';
 
 import { getArticlePagingAPI } from '@/api/article';
 import { getWebConfigDataAPI } from '@/api/config';
@@ -13,13 +10,13 @@ import { getRecordPagingAPI } from '@/api/record';
 
 export async function GET() {
   const webResponse = await getWebConfigDataAPI<{ value: Web }>('web');
-  const web = webResponse?.data?.value || ({} as Web);
-  const { data: user } = (await getAuthorDataAPI()) || { data: {} as User };
-  const { data: article } = (await getArticlePagingAPI({ pagination: { page: 1, size: 8 } })) || { data: {} as Paginate<Article[]> };
-  const { data: record } = (await getRecordPagingAPI({ pagination: { page: 1, size: 8 } })) || { data: {} as Paginate<Record[]> };
+  const web = webResponse?.data?.value as Web;
+  const { data: user } = await getAuthorDataAPI();
+  const { data: article } = await getArticlePagingAPI({ pagination: { page: 1, size: 8 } });
+  const { data: record } = await getRecordPagingAPI({ pagination: { page: 1, size: 8 } });
 
-  const articleList = article?.result || [];
-  const recordList = record?.result || [];
+  const articleList = article?.result ?? [];
+  const recordList = record?.result ?? [];
 
   // 合并文章和说说，并根据时间排序
   const list = [...articleList, ...recordList].sort((a, b) => {

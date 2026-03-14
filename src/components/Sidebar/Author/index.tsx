@@ -78,7 +78,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({ theme, avatarUrl, ic
   const enterTimerRef = useRef<number | null>(null);
   const leaveRafRef = useRef<number | null>(null);
 
-  const socialList = theme?.social || [];
+  const socialList = theme?.social ?? [];
 
   // 图标列表
   const images: { [string: string]: string } = {

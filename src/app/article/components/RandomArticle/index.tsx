@@ -28,8 +28,8 @@ const RandomArticle = () => {
   const [list, setList] = useState<Article[]>([]);
 
   const getRandomArticleList = async () => {
-    const { data } = (await getRandomArticleListAPI()) || { data: [] as Article[] };
-    setList(data || []);
+    const { data } = await getRandomArticleListAPI();
+    setList(data ?? []);
   };
 
   useEffect(() => {
@@ -85,7 +85,7 @@ const RandomArticle = () => {
                       className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none"
                       aria-hidden
                     />
-                    <h4 className="absolute bottom-3 left-3 right-3 text-[0.9375rem] font-semibold text-white m-0 line-clamp-2 overflow-hidden leading-snug [text-shadow:0_1px_2px_rgba(0,0,0,0.5)] z-[2]">
+                    <h4 className="absolute bottom-3 left-3 right-3 text-[0.9375rem] font-semibold text-white m-0 line-clamp-2 overflow-hidden leading-snug [text-shadow:0_1px_2px_rgba(0,0,0,0.5)] z-[2] group-hover:text-primary transition-colors">
                       {item.title}
                     </h4>
                   </div>

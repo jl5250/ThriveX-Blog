@@ -90,13 +90,13 @@ const CommentForm = ({ articleId }: Props) => {
       if (!isNaN(+qq)) data.avatar = `https://q1.qlogo.cn/g?b=qq&nk=${qq}&s=640`;
     }
 
-    const { code, message } = (await addCommentDataAPI({
+    const { code, message } = await addCommentDataAPI({
       ...data,
       articleId,
       commentId: commentId === articleId ? 0 : commentId,
       createTime: Date.now().toString(),
       h_captcha_response: captchaToken,
-    })) || { code: 0, message: '' };
+    });
 
     if (code !== 200) {
       captchaRef.current?.resetCaptcha();
@@ -173,7 +173,7 @@ const CommentForm = ({ articleId }: Props) => {
               className="tw_form w-full p-4 min-h-36"
               ref={(e) => {
                 register('content').ref(e);
-                (contentRef as any).current = e;
+                contentRef.current = e;
               }}
             />
             <span className="text-red-400 text-sm pl-3">{errors.content?.message}</span>

@@ -11,6 +11,18 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
+                hostname: 'res.liuyuyang.net',
+            },
+            {
+                protocol: 'https',
+                hostname: '**.liuyuyang.net',
+            },
+            {
+                protocol: 'https',
+                hostname: 'liuyuyang.net',
+            },
+            {
+                protocol: 'https',
                 hostname: '**',
             },
             {

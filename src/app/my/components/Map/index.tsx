@@ -15,7 +15,7 @@ export default function MapContainer({ position }: { position: number[] }) {
 
     // 确保代码仅在客户端执行
     import('@amap/amap-jsapi-loader').then(async (AMapLoader) => {
-      const { data } = (await getGaodeMapConfigDataAPI()) || { data: {} };
+      const { data } = await getGaodeMapConfigDataAPI();
       const { key_code, security_code } = data as { key_code: string; security_code: string };
 
       (window as any)._AMapSecurityConfig = {
