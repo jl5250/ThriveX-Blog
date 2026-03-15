@@ -4,7 +4,7 @@ import Request from '@/utils/request'
 
 // 获取分类列表
 export const getCateListAPI = async () => {
-    return await Request<Cate[]>('POST', '/cate/list')
+    return await Request<Cate[]>('GET', '/cate?pattern=tree')
 }
 
 // 获取指定分类中的所有文章
