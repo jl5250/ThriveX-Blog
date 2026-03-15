@@ -26,8 +26,9 @@ export default ({ disclosure }: Props) => {
     }
 
     const { data } = await getArticlePagingAPI({
-      query: { key },
-      pagination: { page: 1 },
+      key,
+      page: 1,
+      size: 10,
     })
 
     setData(data);

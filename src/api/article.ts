@@ -8,12 +8,13 @@ export const getArticleDataAPI = async (id: number, password?: string) => {
 
 // 获取文章列表
 export const getArticleListAPI = async () => {
-    return await Request<Article[]>('POST', `/article/list`);
+    return await Request<Article[]>('GET', `/article?page=1&size=9999999999`,);
 }
 
 // 分页获取文章数据
-export const getArticlePagingAPI = async (data: QueryData) => {
-    return await Request<Paginate<Article[]>>('POST', `/article/paging?page=${data.pagination?.page}&size=${data.pagination?.size ? data.pagination?.size : 8}`, data.query);
+export const getArticlePagingAPI = async (data: { page: number, size: number, key?: string }) => {
+    // 搜索暂时，晚点修复，先上线
+    return await Request<Paginate<Article[]>>('GET', `/article?page=${data.page}&size=${data.size}`);
 }
 
 // 获取随机文章列表

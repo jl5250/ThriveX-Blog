@@ -12,7 +12,7 @@ export async function GET() {
   const webResponse = await getWebConfigDataAPI<{ value: Web }>('web');
   const web = webResponse?.data?.value as Web;
   const { data: user } = await getAuthorDataAPI();
-  const { data: article } = await getArticlePagingAPI({ pagination: { page: 1, size: 8 } });
+  const { data: article } = await getArticlePagingAPI({ page: 1, size: 8 });
   const { data: record } = await getRecordPagingAPI({ pagination: { page: 1, size: 8 } });
 
   const articleList = article?.result ?? [];

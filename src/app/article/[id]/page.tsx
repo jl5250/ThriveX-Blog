@@ -156,7 +156,7 @@ export default async (props: Props) => {
 
               <Copyright />
               <RandomArticle />
-              <UpAndDown id={id} prev={data?.prev} next={data?.next} />
+              <UpAndDown currentId={id} prev={data?.prev} next={data?.next} />
               <Comment articleId={id} articleTitle={data.title} />
             </div>
           </div>
