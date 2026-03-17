@@ -33,7 +33,7 @@ export default () => {
   const [cateList, setCateList] = useState<Cate[]>([]);
   const getCateList = async () => {
     const { data } = await getCateListAPI();
-    setCateList(data ?? []);
+    setCateList(data?.result ?? []);
   };
 
   useEffect(() => {
